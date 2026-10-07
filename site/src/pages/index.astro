@@ -1,0 +1,31 @@
+---
+import Base from "../layouts/Base.astro";
+import { formatDate, getPosts, url } from "../lib";
+
+const posts = await getPosts();
+---
+
+<Base>
+  <section class="hero">
+    <img src={url("hayate-header.png")} alt="Hayate slicing a web page into Sports, Travel and Tech tags" width="1200" height="800" />
+    <h1>Hayate <span class="kanji">疾風</span></h1>
+    <p>Distilling a big LLM into a web-page categorizer that answers in under a millisecond, one weekend at a time.</p>
+    <p class="tagline">One glance, one cut. Your page is tagged before you blink.</p>
+  </section>
+
+  <h2 class="section-title">Progress log</h2>
+  {posts.length === 0 && <p class="empty">No posts yet. Hayate is still warming up.</p>}
+  {
+    posts.map((post) => (
+      <a class="post-card" href={url(`posts/${post.id}/`)}>
+        <div class="meta">
+          {formatDate(post.data.pubDate)}
+          {post.data.weekend !== undefined && <span class="chip">Weekend {post.data.weekend}</span>}
+          {post.data.draft && <span class="chip draft">draft</span>}
+        </div>
+        <h2>{post.data.title}</h2>
+        <p>{post.data.description}</p>
+      </a>
+    ))
+  }
+</Base>

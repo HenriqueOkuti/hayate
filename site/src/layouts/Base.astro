@@ -1,0 +1,57 @@
+---
+import "../styles/global.css";
+import { url } from "../lib";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const siteTitle = "Hayate 疾風";
+const { title, description = "Progress notes from Hayate, a weekend project distilling an LLM into a sub-millisecond web-page categorizer." } = Astro.props;
+const fullTitle = title ? `${title} · Hayate` : siteTitle;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/png" href={url("hayate-avatar.png")} />
+    <link rel="alternate" type="application/rss+xml" title="Hayate" href={url("rss.xml")} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL(url("hayate-header.png"), Astro.site)} />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="brand" href={url()}>
+          <img src={url("hayate-avatar.png")} alt="" width="40" height="40" />
+          <strong>Hayate</strong><span>疾風</span>
+        </a>
+        <nav>
+          <a href={url()}>Posts</a>
+          <a href={url("about/")}>About</a>
+          <a href={url("rss.xml")}>RSS</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="wrap">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <img src={url("hayate-chibi.png")} alt="Chibi Hayate" />
+        <div>
+          A weekend research project. Public data only.<br />
+          Hayate has no patience for slow models.
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

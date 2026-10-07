@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 190" width="960" height="190" role="img" aria-labelledby="t d">
+  <title id="t">Hayate pipeline</title>
+  <desc id="d">Public web pages are labeled by a big LLM teacher; tiny student models learn to imitate it; each is measured for accuracy, speed and cost, giving a trade-off curve.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#94A3B8"/>
+    </marker>
+    <style>
+      .box { rx: 16; }
+      .step { font: 600 13px system-ui, -apple-system, "Segoe UI", sans-serif; fill: #ffffff; opacity: .8; letter-spacing: .08em; }
+      .title { font: 700 19px system-ui, -apple-system, "Segoe UI", sans-serif; fill: #ffffff; }
+      .sub { font: 400 14px system-ui, -apple-system, "Segoe UI", sans-serif; fill: #ffffff; opacity: .92; }
+      .line { stroke: #94A3B8; stroke-width: 2.5; fill: none; }
+    </style>
+  </defs>
+
+  <g transform="translate(10,25)">
+    <rect class="box" width="200" height="140" fill="#0E7490"/>
+    <text class="step" x="20" y="34">STEP 1</text>
+    <text class="title" x="20" y="66">Public pages</text>
+    <text class="sub" x="20" y="94">Common Crawl</text>
+    <text class="sub" x="20" y="116">PT + EN first</text>
+  </g>
+  <path class="line" d="M214 95 H246" marker-end="url(#arrow)"/>
+
+  <g transform="translate(252,25)">
+    <rect class="box" width="200" height="140" fill="#0F766E"/>
+    <text class="step" x="20" y="34">STEP 2 · TEACHER</text>
+    <text class="title" x="20" y="66">Big LLM labels</text>
+    <text class="sub" x="20" y="94">IAB categories,</text>
+    <text class="sub" x="20" y="116">with confidence</text>
+  </g>
+  <path class="line" d="M456 95 H488" marker-end="url(#arrow)"/>
+
+  <g transform="translate(494,25)">
+    <rect class="box" width="200" height="140" fill="#C2410C"/>
+    <text class="step" x="20" y="34">STEP 3 · STUDENTS</text>
+    <text class="title" x="20" y="66">Tiny models</text>
+    <text class="sub" x="20" y="94">learn to imitate,</text>
+    <text class="sub" x="20" y="116">3 sizes, CPU only</text>
+  </g>
+  <path class="line" d="M698 95 H730" marker-end="url(#arrow)"/>
+
+  <g transform="translate(736,25)">
+    <rect class="box" width="214" height="140" fill="#EA580C"/>
+    <text class="step" x="20" y="34">STEP 4</text>
+    <text class="title" x="20" y="66">The curve</text>
+    <text class="sub" x="20" y="94">accuracy vs speed</text>
+    <text class="sub" x="20" y="116">vs cost per 1M pages</text>
+  </g>
+</svg>
