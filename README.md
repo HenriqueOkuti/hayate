@@ -19,32 +19,32 @@
 </p>
 
 <p align="center">
-  <a href="#-what-she-does">What she does</a> ·
-  <a href="#-how-it-works">How it works</a> ·
-  <a href="#-progress">Progress</a> ·
-  <a href="#-getting-started">Getting started</a> ·
-  <a href="#-docs">Docs</a> ·
+  <a href="#what-she-does">What she does</a> ·
+  <a href="#how-it-works">How it works</a> ·
+  <a href="#progress">Progress</a> ·
+  <a href="#getting-started">Getting started</a> ·
+  <a href="#docs">Docs</a> ·
   <a href="https://henriqueokuti.github.io/hayate/">Blog</a>
 </p>
 
 ---
 
-## ⚡ What she does
+## What she does
 
 Give Hayate a web page and she tells you what it's about:
 
 | Page | Hayate says |
 | :--- | :--- |
-| *"16-week marathon plan for beginners"* | 🏃 **Sports › Running** |
-| *"Hotel review: a week in Alfama, Lisbon"* | ✈️ **Travel › Hotels** |
-| *"Benchmarking int8 inference on ARM laptops"* | 💻 **Technology & Computing** |
+| *"16-week marathon plan for beginners"* | **Sports › Running** |
+| *"Hotel review: a week in Alfama, Lisbon"* | **Travel › Hotels** |
+| *"Benchmarking int8 inference on ARM laptops"* | **Technology & Computing** |
 
 The catch is that she has to do it **in under a millisecond, on a plain CPU,
 for almost no money**. This weekend research project finds out how small and
 fast a page categorizer can get before it stops being accurate. The answer is
 a **trade-off curve**, not one model.
 
-## 🌀 How it works
+## How it works
 
 <p align="center">
   <img src="docs/assets/pipeline.svg" alt="Pipeline: public pages, then a big LLM labels them, then tiny models learn to imitate it, then accuracy, speed and cost are measured" width="900">
@@ -55,9 +55,9 @@ small models learn to copy it. There are three student sizes:
 
 | Student | What it is | Expected speed | Role |
 | :--- | :--- | :---: | :--- |
-| 🥉 **Tier 1** | Hashed word patterns + a linear layer | ≪ 1 ms | The speed floor |
-| 🥈 **Tier 2** | Fixed word vectors + a linear layer | ~1 ms | The main bet: fast *and* good |
-| 🥇 **Tier 3** | A compact transformer, int8 on CPU | a few ms | The accuracy ceiling |
+| **Tier 1** | Hashed word patterns + a linear layer | ≪ 1 ms | The speed floor |
+| **Tier 2** | Fixed word vectors + a linear layer | ~1 ms | The main bet: fast *and* good |
+| **Tier 3** | A compact transformer, int8 on CPU | a few ms | The accuracy ceiling |
 
 Each one is scored on **quality** (against the LLM *and* against human
 checks), **latency** (p50/p99) and **cost per million pages**.
@@ -66,19 +66,19 @@ checks), **latency** (p50/p99) and **cost per million pages**.
 > answer, so serving it is just a lookup. At web scale every millisecond is
 > money, and a near-free model can cover the pages the cache missed.
 
-## 🗺️ Progress
+## Progress
 
-| | Phase | Target | Goal |
-| :---: | :--- | :--- | :--- |
-| 🔄 | **0 · Plan** | Oct 2026 | Research, docs, stack, scaffolding |
-| ⬜ | **1 · First curve** | Dec 2026 | Three students on one accuracy vs speed plot, measured locally |
-| ⬜ | **2 · Realism** | Feb 2027 | End-to-end request latency, a URL-only fast path, noisy-label effects |
-| ⬜ | **3 · Open questions** | 2027 → | Topic drift; Indonesian, Vietnamese and Thai |
+| Phase | Status | Target | Goal |
+| :--- | :--- | :--- | :--- |
+| **0 · Plan** | In progress | Oct 2026 | Research, docs, stack, scaffolding |
+| **1 · First curve** | Next | Dec 2026 | Three students on one accuracy vs speed plot, measured locally |
+| **2 · Realism** | Later | Feb 2027 | End-to-end request latency, a URL-only fast path, noisy-label effects |
+| **3 · Open questions** | Later | 2027 → | Topic drift; Indonesian, Vietnamese and Thai |
 
 Weekend-by-weekend plan: [docs/timeline.md](docs/timeline.md). Progress
 notes go on the [blog](https://henriqueokuti.github.io/hayate/).
 
-## 🚀 Getting started
+## Getting started
 
 There's no pipeline code yet. These commands set up the dev environment:
 
@@ -92,25 +92,25 @@ New to the ML side? [docs/stack.md](docs/stack.md) maps the jargon to
 everyday programming ideas: a tokenizer is a lexer, ONNX is roughly "WASM for
 models", and so on.
 
-## 📚 Docs
+## Docs
 
 | Doc | What's inside |
 | :--- | :--- |
-| 🗓️ [Timeline](docs/timeline.md) | The weekend-by-weekend plan |
-| 🧰 [Stack](docs/stack.md) | Tools, libraries, how to run things |
-| 🏷️ [Labels](docs/labels.md) | The IAB taxonomy and the teacher LLM |
-| 🌐 [Data](docs/data.md) | Where pages come from, text extraction |
-| 🧠 [Models](docs/models.md) | The three student tiers |
-| ⏱️ [Measurement](docs/measurement.md) | Quality, speed, cost, local setup |
-| ⚖️ [Decisions](docs/decisions/README.md) | What's settled, what's pending |
+| [Timeline](docs/timeline.md) | The weekend-by-weekend plan |
+| [Stack](docs/stack.md) | Tools, libraries, how to run things |
+| [Labels](docs/labels.md) | The IAB taxonomy and the teacher LLM |
+| [Data](docs/data.md) | Where pages come from, text extraction |
+| [Models](docs/models.md) | The three student tiers |
+| [Measurement](docs/measurement.md) | Quality, speed, cost, local setup |
+| [Decisions](docs/decisions/README.md) | What's settled, what's pending |
 
-## 🤝 Ground rules
+## Ground rules
 
 - **Public data and public models only.** No private or proprietary data, ever.
 - An independent personal project, not affiliated with any company.
 - Categorizes **pages, not people**. No user tracking or profiling.
 
-## 📄 License
+## License
 
 [MIT](LICENSE), covering the code, docs and mascot art (generated with OpenAI
 image generation). The IAB taxonomy and crawled pages are not part of this

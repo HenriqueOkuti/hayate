@@ -48,6 +48,8 @@ committed).
 - Stack and how to run things: [docs/stack.md](docs/stack.md).
 - Record decisions in [docs/decisions/](docs/decisions/README.md).
 - Run `make lint` before finishing; Markdown and Python must both pass.
+- **No emojis anywhere:** docs, code, blog posts, commit messages, PR text.
+  `make lint` and the edit hook enforce it (`.claude/hooks/no-emoji.sh`).
 - Never commit page text, the IAB taxonomy file, data or model artifacts;
   `.gitignore` covers them.
 - Don't commit or push unless asked.

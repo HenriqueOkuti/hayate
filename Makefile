@@ -3,6 +3,7 @@
 # Markdown (markdownlint-cli2 via npm) + Python (ruff via uvx, no install needed)
 lint:
 	npm run -s lint:md
+	.claude/hooks/no-emoji.sh
 	uvx ruff@0.16.10 check .
 	uvx ruff@0.16.10 format --check .
 

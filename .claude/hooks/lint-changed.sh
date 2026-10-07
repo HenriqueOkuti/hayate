@@ -15,6 +15,11 @@ case "$rel" in
   node_modules/*|*/node_modules/*|docs/research/*|.venv/*) exit 0 ;;
 esac
 
+if ! out=$("$root"/.claude/hooks/no-emoji.sh "$rel" 2>&1); then
+  printf '%s\n' "$out" >&2
+  exit 2
+fi
+
 case "$rel" in
   *.md)
     out=$(npx --no-install markdownlint-cli2 --no-globs "$rel" 2>&1) || {
