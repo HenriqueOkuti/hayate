@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+dist/
+
+# Data and artifacts are never committed (page text must not be republished;
+# the IAB taxonomy is downloaded at a pinned SHA, not vendored)
+/data/
+/artifacts/
+*.warc.gz
+*.parquet
+*.onnx
+*.bin
+*.ftz
+
+# Secrets
+.env
+*.key
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+
+# Node (dev tooling only)
+node_modules/
+
+# Site build output
+.astro/
+
+# Claude Code personal overrides
+.claude/settings.local.json
+
+# Private agent notes
+CLAUDE.local.md

@@ -1,0 +1,26 @@
+---
+import { render } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import { formatDate, getPosts, url } from "../../lib";
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<Base title={post.data.title} description={post.data.description}>
+  <article>
+    <div class="meta">
+      {formatDate(post.data.pubDate)}
+      {post.data.weekend !== undefined && <span class="chip">Weekend {post.data.weekend}</span>}
+      {post.data.draft && <span class="chip draft">draft</span>}
+    </div>
+    <h1>{post.data.title}</h1>
+    <Content />
+  </article>
+  <a class="back" href={url()}>← All posts</a>
+</Base>

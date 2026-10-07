@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Bash(make lint)",
+      "Bash(make fix)",
+      "Bash(make site-build)",
+      "Bash(uv sync)",
+      "Bash(uv run *)",
+      "Bash(uvx ruff*)",
+      "Bash(npm run lint:md)",
+      "Bash(npm run fix:md)",
+      "Bash(npm run build)",
+      "Bash(git status*)",
+      "Bash(git diff*)",
+      "Bash(git log*)",
+      "WebSearch",
+      "WebFetch"
+    ],
+    "ask": [
+      "Bash(git commit*)",
+      "Bash(git push*)",
+      "Bash(gh *)",
+      "mcp__github",
+      "mcp__github-write"
+    ],
+    "deny": [
+      "mcp__aws-mcp",
+      "mcp__plugin_aws-startup-advisor_aws-mcp",
+      "mcp__cloudflare-api",
+      "Bash(aws *)",
+      "Bash(gcloud *)",
+      "Read(.env)",
+      "Read(.env.*)"
+    ]
+  },
+  "enabledPlugins": {
+    "aws-startup-advisor@claude-plugins-official": false
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/lint-changed.sh",
+            "timeout": 60,
+            "statusMessage": "Linting changed file"
+          }
+        ]
+      }
+    ]
+  }
+}

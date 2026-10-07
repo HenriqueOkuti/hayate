@@ -1,0 +1,26 @@
+---
+import Base from "../layouts/Base.astro";
+import { url } from "../lib";
+---
+
+<Base title="About" description="What Hayate is and how the project works.">
+  <article>
+    <h1>About</h1>
+    <p>
+      Give Hayate a web page and she tells you what it's about: a marathon plan becomes
+      <strong>Sports › Running</strong>, a Lisbon hotel review becomes <strong>Travel › Hotels</strong>.
+      The catch is that she has to do it in <strong>under a millisecond</strong>, on a plain CPU, for almost no money.
+    </p>
+    <img src={url("pipeline.svg")} alt="Pipeline: public pages, a big LLM labels them, tiny models learn to imitate it, then accuracy, speed and cost are measured" />
+    <p>
+      A big LLM (the <em>teacher</em>) labels public web pages once, using the IAB content categories. Small
+      models (the <em>students</em>) learn to copy those labels, from hashed word patterns to a compact transformer.
+      Each is measured for quality, latency and cost per million pages. The result is a trade-off curve, not a
+      single model.
+    </p>
+    <p>
+      It's a personal weekend project that uses only public data and public models. It categorizes pages,
+      not people.
+    </p>
+  </article>
+</Base>

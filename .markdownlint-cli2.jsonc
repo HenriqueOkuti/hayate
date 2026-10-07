@@ -1,0 +1,16 @@
+{
+  "config": {
+    "default": true,
+    // Tables and URLs make hard line limits impractical.
+    "MD013": false,
+    // Allow repeated headings in different sections (e.g. "Notes").
+    "MD024": { "siblings_only": true },
+    // README opens with the mascot header image before the H1.
+    "MD041": false,
+    // Allow <img>/<p align> for the mascot and badges.
+    "MD033": { "allowed_elements": ["img", "p", "h1", "em", "strong", "a", "br", "sub", "sup", "details", "summary"] }
+  },
+  // Dated research notes are kept as written.
+  "ignores": ["**/node_modules/**", "docs/research/**", ".venv/**"],
+  "globs": ["**/*.md", ".claude/**/*.md"]
+}
