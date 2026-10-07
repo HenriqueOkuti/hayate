@@ -29,5 +29,5 @@ problems yourself. Report everything else.
    commit, hardware and taxonomy SHA. If they weren't reviewed yet, suggest
    the `ml-reviewer` agent.
 
-Reply with a checklist (✅ / ❌ and one line each). If everything passes, say
+Reply with a checklist (PASS / FAIL and one line each). If everything passes, say
 so in one line. Never commit or push as part of this skill.
