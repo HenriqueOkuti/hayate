@@ -5,8 +5,7 @@
 
 ## Context
 
-What question had to be answered, and what constraints applied (latency
-target, cost, languages, licensing, the public-data boundary).
+What question had to be answered, and what constraints applied (latency target, cost, languages, licensing, the public-data boundary).
 
 ## Options considered
 

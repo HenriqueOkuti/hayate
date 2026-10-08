@@ -1,16 +1,12 @@
 # Timeline
 
-Weekend cadence. The plan assumes **about one working day per weekend**
-(~6–8 h). Each weekend has a single "done when" outcome. If a weekend is
-missed, everything shifts by one; the dates are not deadlines. Buffer weekends
-absorb slips.
+Weekend cadence. The plan assumes **about one working day per weekend** (~6–8 h). Each weekend has a single "done when" outcome. If a weekend is missed, everything shifts by one; the dates are not deadlines. Buffer weekends absorb slips.
 
 Status keys: `todo` · `doing` · `done` · `skipped`.
 
 ## Phase 1: first trade-off curve (PT + EN)
 
-Goal by mid-December 2026: three students on one accuracy vs latency plot,
-measured locally.
+Goal by mid-December 2026: three students on one accuracy vs latency plot, measured locally.
 
 | # | Weekend | Work | Done when | Status |
 | --- | --- | --- | --- | --- |
@@ -31,33 +27,22 @@ measured locally.
 
 Rough order. Each item takes one or two weekends.
 
-- **End-to-end request benchmark:** offline → local replay with `tc netem` →
-  polite live fetch.
-- **Fast path:** a URL + title + meta-description-only model as the cache-miss
-  fallback, checked against Curlie URL labels.
-- **Scale and noise:** 100k → 1M teacher labels; hard vs soft labels;
-  stronger-teacher subset; candidate-set labels. Answers "how much does
-  teacher noise limit the student?"
+- **End-to-end request benchmark:** offline → local replay with `tc netem` → polite live fetch.
+- **Fast path:** a URL + title + meta-description-only model as the cache-miss fallback, checked against Curlie URL labels.
+- **Scale and noise:** 100k → 1M teacher labels; hard vs soft labels; stronger-teacher subset; candidate-set labels. Answers "how much does teacher noise limit the student?"
 - **Knee of the curve:** sweep student size and input length.
 - **Calibration and per-category thresholds.**
 - Optional cloud calibration run (personal account) to fix the cost axis.
 
 ## Phase 3: open questions (Mar 2027 →)
 
-- **Drift:** relabel a newer CC crawl, measure decay, and try incremental
-  updates (online linear models, refreshed head) against full retraining.
-- **Southeast Asian languages:** Indonesian, Vietnamese and Thai with little
-  data. Zero-shot transfer first (SIB-200 for checks), then small teacher-
-  labeled sets.
-- **Coverage/freshness simulation:** URL/domain cache hit rates over a crawl
-  timeline.
+- **Drift:** relabel a newer CC crawl, measure decay, and try incremental updates (online linear models, refreshed head) against full retraining.
+- **Southeast Asian languages:** Indonesian, Vietnamese and Thai with little data. Zero-shot transfer first (SIB-200 for checks), then small teacher- labeled sets.
+- **Coverage/freshness simulation:** URL/domain cache hit rates over a crawl timeline.
 
 ## Rules of thumb
 
-- End each weekend with a short blog post in `site/src/content/blog/` (copy
-  the previous one; set `weekend:` and `draft: false` when ready).
-- Start each weekend by updating this table and reading the last decision
-  record. End it with the "done when" artifact committed, even if partial.
-- Spend money only after a pilot measures the real cost. Keep each paid run
-  under a budget written in the decision record.
+- End each weekend with a short blog post in `site/src/content/blog/` (copy the previous one; set `weekend:` and `draft: false` when ready).
+- Start each weekend by updating this table and reading the last decision record. End it with the "done when" artifact committed, even if partial.
+- Spend money only after a pilot measures the real cost. Keep each paid run under a budget written in the decision record.
 - Prefer finishing a thin end-to-end slice over polishing one stage.

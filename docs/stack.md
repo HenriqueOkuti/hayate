@@ -1,16 +1,10 @@
 # Stack
 
-What the project uses, why, and how to run it. The decision itself is recorded
-in [decisions/0001-stack.md](decisions/0001-stack.md).
+What the project uses, why, and how to run it. The decision itself is recorded in [decisions/0001-stack.md](decisions/0001-stack.md).
 
 ## In one paragraph
 
-**Python** does all the ML work: data, teacher labeling, training, evaluation
-and micro-benchmarks. Training libraries, model formats and research code all
-live there, and fighting that would cost more weekends than it saves. Python
-code stays **plain**: functions, dataclasses, type hints and small scripts.
-No frameworks, so it reads like Go. **TypeScript/JavaScript and Go** come in
-where they fit naturally and match what you know:
+**Python** does all the ML work: data, teacher labeling, training, evaluation and micro-benchmarks. Training libraries, model formats and research code all live there, and fighting that would cost more weekends than it saves. Python code stays **plain**: functions, dataclasses, type hints and small scripts. No frameworks, so it reads like Go. **TypeScript/JavaScript and Go** come in where they fit naturally and match what you know:
 
 - k6 load tests (JS);
 - a possible small review UI (TS);
@@ -64,29 +58,22 @@ These are added to `pyproject.toml` when first used, not up front.
 
 **Not used, on purpose:**
 
-- **Experiment trackers (MLflow, W&B):** for one person on weekends, results
-  as JSON in `results/`, tagged with the git commit and config, are enough.
-- **Notebooks in the pipeline:** every step is a script with a config, so it
-  can be rerun.
+- **Experiment trackers (MLflow, W&B):** for one person on weekends, results as JSON in `results/`, tagged with the git commit and config, are enough.
+- **Notebooks in the pipeline:** every step is a script with a config, so it can be rerun.
 - **pandas:** DuckDB SQL + pyarrow cover it.
 - **LangChain-style frameworks:** the teacher is one HTTP call with a schema.
 
 ## Conventions
 
-- **One script per pipeline step** in `scripts/`. Each takes `--config
-  configs/<name>.toml` and writes outputs under `data/` (large, ignored) or
-  `results/` (small, committed). Logic lives in `src/hayate/`; scripts
-  stay thin.
+- **One script per pipeline step** in `scripts/`. Each takes `--config configs/<name>.toml` and writes outputs under `data/` (large, ignored) or `results/` (small, committed). Logic lives in `src/hayate/`; scripts stay thin.
 - **Data formats:**
   - **Parquet** for tables (pages, labels, splits, timings).
   - **JSONL** for raw teacher responses (append-only and easy to inspect).
   - Every file records the config and code version that produced it.
 - **Configs are TOML** (read with the stdlib `tomllib`).
-- **Model artifacts** go to `artifacts/<student>/<run-id>/` in a portable
-  format:
+- **Model artifacts** go to `artifacts/<student>/<run-id>/` in a portable format:
   - ONNX for neural students;
-  - plain weight arrays plus a JSON hash spec for tier 1, so Go can reimplement
-    it in a few lines.
+  - plain weight arrays plus a JSON hash spec for tier 1, so Go can reimplement it in a few lines.
 
 ## How to run
 
