@@ -37,6 +37,7 @@ This is an independent personal project, not affiliated with any company. Privat
 - Follow [CONTRIBUTING.md](CONTRIBUTING.md): one branch and PR per issue (branch `<issue>-<slug>`, PR body starts with `Closes #N`), PR title as a plain imperative commit subject of 72 characters or fewer, squash merge only. `main` is protected with no bypass, so never try to push to it directly.
 - New work gets an issue from a template in `.github/ISSUE_TEMPLATE/` (task, research question, decision), a milestone (`W01`...`W10`, `Phase 2`, `Phase 3`), an area label and a phase label, and goes on the board.
 - Issues and PR bodies follow the same writing rules as docs: no emojis, no hard wrapping.
+- **Remaining steps go on GitHub, not just in the terminal.** Anything left for Henrique (manual UI steps, decisions, follow-ups) is posted as a checklist comment on the PR, or on the issue if there is no PR, and the final reply links that comment.
 
 ## Working conventions
 
