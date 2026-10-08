@@ -49,3 +49,7 @@ Commit and PR bodies say what changed and why, one line per paragraph or list it
 | `conventions` | Every PR | Branch name, PR title, `Closes #N`, no emojis or Claude attribution in the title, body or commits (`.github/scripts/check-pr.sh`) |
 
 Run `make lint` locally before pushing; `make fix` repairs most failures.
+
+## Dependencies
+
+Dependabot (`.github/dependabot.yml`) opens a weekly grouped PR for GitHub Actions and one for npm (root tooling and `site/`). Those PRs skip the branch-name and `Closes #N` checks but must pass everything else. Use the latest major version of an action when adding a new one.
