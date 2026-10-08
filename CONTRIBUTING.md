@@ -1,0 +1,50 @@
+# Contributing
+
+Hayate is a one-person project, but every change follows the same path so the history stays readable and the checks stay meaningful. These rules apply to Henrique and to any agent working in the repo.
+
+## Flow
+
+1. **Issue first.** Every change starts from an issue made with a template in `.github/ISSUE_TEMPLATE/` (task, research question or decision). Give it a milestone (`W01`...`W10`, `Phase 2`, `Phase 3`), one area label and one phase label, and put it on the [Hayate roadmap board](https://github.com/users/HenriqueOkuti/projects/2).
+2. **Branch.** Create a branch from `main` named `<issue>-<slug>`: the issue number, then a few lowercase words joined by hyphens. Example: `2-taxonomy-fetch`.
+3. **Commit.** Commit as often as you like on the branch; the commits are squashed on merge.
+4. **Pull request.** Open a PR into `main` using the template. The body starts with `Closes #N`.
+5. **Merge.** Squash-merge once the checks pass. The branch is deleted automatically and the issue closes.
+
+## Branch rules on `main`
+
+A repository ruleset protects `main`, with no bypass for anyone:
+
+- Changes land only through a pull request. No direct pushes.
+- The `lint` and `conventions` checks must pass, on a branch that is up to date with `main`.
+- Squash merge only, so history is linear: one commit per PR.
+- No force pushes and no deletion.
+- Approvals are set to 0, since GitHub does not let the author approve their own PR.
+
+## Commit messages and PR titles
+
+The PR title becomes the commit subject on `main`, with `(#N)` appended by GitHub. Write it as a plain imperative sentence:
+
+- Starts with a capital letter and a verb: `Add`, `Fix`, `Remove`, `Use`, `Record`.
+- 72 characters or fewer, no trailing period.
+- No type prefix such as `feat:` or `docs:`; the issue's labels carry the area.
+
+Good: `Add taxonomy fetch script with SHA-256 check`. Bad: `feat(data): added the taxonomy script.`
+
+Commit and PR bodies say what changed and why, one line per paragraph or list item. Branch commit messages end up in the squash commit body, so keep them clean too.
+
+## Never in commits or PRs
+
+- Emojis.
+- Hard-wrapped prose.
+- Claude attribution: no `Co-Authored-By: Claude` trailer and no "Generated with Claude Code" line.
+- Page text, the IAB taxonomy file, data or model artifacts (`.gitignore` covers them).
+- Anything from an employer or other private source (see the hard boundary in [CLAUDE.md](CLAUDE.md)).
+
+## Checks
+
+| Check | Runs | What it enforces |
+| --- | --- | --- |
+| `lint` | Every PR and push to `main` | `make lint`: markdownlint, ruff, no emojis, no hard wrapping |
+| `conventions` | Every PR | Branch name, PR title, `Closes #N`, no emojis or Claude attribution in the title, body or commits (`.github/scripts/check-pr.sh`) |
+
+Run `make lint` locally before pushing; `make fix` repairs most failures.
