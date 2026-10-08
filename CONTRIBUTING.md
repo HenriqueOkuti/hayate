@@ -4,7 +4,7 @@ Hayate is a one-person project, but every change follows the same path so the hi
 
 ## Flow
 
-1. **Issue first.** Every change starts from an issue made with a template in `.github/ISSUE_TEMPLATE/` (task, research question or decision). Give it a milestone (`W01`...`W10`, `Phase 2`, `Phase 3`), one area label and one phase label, and put it on the [Hayate roadmap board](https://github.com/users/HenriqueOkuti/projects/2).
+1. **Issue first.** Every change starts from an issue made with a template in `.github/ISSUE_TEMPLATE/` (task, research question or decision). Put it on the [Hayate roadmap board](https://github.com/users/HenriqueOkuti/projects/2) (new issues are added automatically). Phase work gets a milestone (`W01`...`W10`, `Phase 2`, `Phase 3`), one area label, one phase label (`phase-1`...`phase-3`) and the matching **Phase** on the board. Work outside the research phases (repo, process, tooling) is **Housekeeping**: the `housekeeping` label, Phase set to Housekeeping, no milestone. Fill in the board's Start and Target dates too.
 2. **Branch.** Create a branch from `main` named `<issue>-<slug>`: the issue number, then a few lowercase words joined by hyphens. Example: `2-taxonomy-fetch`.
 3. **Commit.** Commit as often as you like on the branch; the commits are squashed on merge.
 4. **Pull request.** Open a PR into `main` using the template. The body starts with `Closes #N`.
