@@ -31,6 +31,13 @@ This is an independent personal project, not affiliated with any company. Privat
 - Workflows spawn several agents, so run them only when Henrique asks.
 - Personal overrides go in `.claude/settings.local.json` (git-ignored).
 
+## Roadmap and issues
+
+- The plan is [docs/timeline.md](docs/timeline.md); status lives on the [Hayate roadmap board](https://github.com/users/HenriqueOkuti/projects/2) (Todo, Doing, Done, Skipped; the Order field is the sequence). Each timeline step links its issue.
+- One branch and PR per issue: branch `<issue>-<slug>`, PR body starts with `Closes #N` (see `.github/pull_request_template.md`).
+- New work gets an issue from a template in `.github/ISSUE_TEMPLATE/` (task, research question, decision), a milestone (`W01`...`W10`, `Phase 2`, `Phase 3`), an area label and a phase label, and goes on the board.
+- Issues and PR bodies follow the same writing rules as docs: no emojis, no hard wrapping.
+
 ## Working conventions
 
 - Stack and how to run things: [docs/stack.md](docs/stack.md).
