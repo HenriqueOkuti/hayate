@@ -6,23 +6,19 @@ disable-model-invocation: true
 
 # Weekend start
 
-Hayate is worked on in roughly one day per weekend. Get the user productive
-fast.
+Hayate is worked on in roughly one day per weekend. Get the user productive fast.
 
 1. **Where things stand.** Read:
    - `docs/timeline.md`: find the first row that isn't `done`;
    - `docs/decisions/README.md`: what is pending and due this weekend;
    - the newest post in `site/src/content/blog/`: what was last reported;
    - `git log --oneline -15` and `git status`, if the repo is under git.
-2. **Today's date.** Compare it with the row's planned weekend. If the plan has
-   slipped, say by how much. Don't treat the dates as deadlines.
+2. **Today's date.** Compare it with the row's planned weekend. If the plan has slipped, say by how much. Don't treat the dates as deadlines.
 3. **Propose the session plan** in five lines or fewer:
    - the goal: the row's "Done when";
    - 3–6 concrete steps, small enough to finish in one day;
    - any decision that must be made first (offer `/new-decision`);
-   - anything that will cost money (API calls, cloud), with an estimate.
-     Spend nothing until the user confirms.
-4. **On the user's go-ahead**, set that row's status to `doing` in
-   `docs/timeline.md`.
+   - anything that will cost money (API calls, cloud), with an estimate. Spend nothing until the user confirms.
+4. **On the user's go-ahead**, set that row's status to `doing` in `docs/timeline.md`.
 
 Keep the reply short. The user wants to start working, not read a report.

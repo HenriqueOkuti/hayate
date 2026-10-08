@@ -65,7 +65,7 @@ const results = await pipeline(
       `Research for Hayate, a personal project distilling an LLM into a tiny, fast web-page categorizer (see README.md and docs/).\n` +
         `Overall question: ${A.question || '(none given)'}\nYour sub-question: ${topic}\n\n${RULES}\n\n` +
         `Return: a short summary; the 3-6 claims that matter most for a decision, each with its source URL; anything you could not confirm on a primary source under "unverified"; ` +
-        `and notes_markdown, a complete Markdown section for this sub-question (tables welcome, inline source links, dates on prices and versions).`,
+        `and notes_markdown, a complete Markdown section for this sub-question (tables welcome, inline source links, dates on prices and versions, one line per paragraph or list item with no hard wrapping).`,
       { label: `research: ${topic.slice(0, 40)}`, phase: 'Research', schema: FINDINGS },
     ),
   (found, topic) =>
