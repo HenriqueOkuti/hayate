@@ -54,3 +54,5 @@ Run `make lint` locally before pushing; `make fix` repairs most failures.
 ## Dependencies
 
 Dependabot (`.github/dependabot.yml`) opens a weekly grouped PR for GitHub Actions and one for npm (root tooling and `site/`). Those PRs skip the branch-name, PR title and `Closes #N` checks (their titles are generated) but must pass everything else. Use the latest major version of an action when adding a new one.
+
+When a security alert sits in a transitive dependency that its parent pins, force the patched version with `overrides` in the root `package.json` (currently `smol-toml` and `katex`, both under `markdownlint-cli2`). Remove an override once the parent package ships the fix.

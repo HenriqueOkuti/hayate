@@ -9,5 +9,9 @@
   "devDependencies": {
     "markdownlint-cli2": "0.23.3"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "overrides": {
+    "smol-toml": "1.9.0",
+    "katex": "0.18.2"
+  }
 }
