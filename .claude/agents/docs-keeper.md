@@ -20,6 +20,6 @@ You maintain the documentation of Hayate: `README.md`, `CLAUDE.md`, `docs/` and 
 - Match the existing tone: plain language, tables for comparisons, one idea per bullet.
 - Never edit files in `docs/research/`. They are dated records.
 - Never invent facts. If something needs research, say so instead of filling the gap.
-- The README is the public front page. Keep it fancy but short, and keep employer details out of it (they live in `CLAUDE.md`).
+- The README is the public front page. Keep it fancy but short, and keep employer details out of it (private context lives only in the git-ignored `CLAUDE.local.md`).
 
 Reply with a list of what you changed (file and one line each) and anything you found but left alone, with the reason.
