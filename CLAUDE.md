@@ -9,6 +9,7 @@ This is an independent personal project, not affiliated with any company. Privat
 - Never use, request or reference any employer's or other private data, code, repositories, infrastructure, credentials or internal documents.
 - Use only public data (Common Crawl and other openly licensed corpora) and public models. Industry knowledge must come from public sources.
 - Don't use connected-account tools (cloud MCP servers, logged-in CLIs) to gather information, even read-only. It may not be clear whose account they belong to. Use public web pages, and ask Henrique if an account is really needed.
+- One exception: the `gh` CLI, for this repo (`HenriqueOkuti/hayate`) and its roadmap board only, to manage issues, PRs, Actions, settings and the board. Check that `gh auth status` shows the account `HenriqueOkuti` first. Not for research, and not the GitHub MCP servers (their account is not clear).
 
 ## Project Claude setup (`.claude/`)
 

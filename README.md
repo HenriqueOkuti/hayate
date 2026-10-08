@@ -70,7 +70,7 @@ Each one is scored on **quality** (against the LLM *and* against human checks), 
 | **2 · Realism** | Later | Feb 2027 | End-to-end request latency, a URL-only fast path, noisy-label effects |
 | **3 · Open questions** | Later | 2027 → | Topic drift; Indonesian, Vietnamese and Thai |
 
-Weekend-by-weekend plan: [docs/timeline.md](docs/timeline.md). Progress notes go on the [blog](https://henriqueokuti.github.io/hayate/).
+Weekend-by-weekend plan: [docs/timeline.md](docs/timeline.md). Live status: the [roadmap board](https://github.com/users/HenriqueOkuti/projects/2). Progress notes go on the [blog](https://henriqueokuti.github.io/hayate/).
 
 ## Getting started
 
@@ -95,6 +95,7 @@ New to the ML side? [docs/stack.md](docs/stack.md) maps the jargon to everyday p
 | [Models](docs/models.md) | The three student tiers |
 | [Measurement](docs/measurement.md) | Quality, speed, cost, local setup |
 | [Decisions](docs/decisions/README.md) | What's settled, what's pending |
+| [Contributing](CONTRIBUTING.md) | Issues, branches, PRs, commit conventions and checks |
 
 ## Ground rules
 
