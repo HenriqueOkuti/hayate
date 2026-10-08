@@ -16,7 +16,7 @@ Hayate is a one-person project, but every change follows the same path so the hi
 A repository ruleset protects `main`, with no bypass for anyone:
 
 - Changes land only through a pull request. No direct pushes.
-- The `lint` and `conventions` checks must pass, on a branch that is up to date with `main`.
+- The `lint`, `site` and `conventions` checks must pass, on a branch that is up to date with `main`.
 - Squash merge only, so history is linear: one commit per PR.
 - No force pushes and no deletion.
 - Approvals are set to 0, since GitHub does not let the author approve their own PR.
@@ -46,6 +46,7 @@ Commit and PR bodies say what changed and why, one line per paragraph or list it
 | Check | Runs | What it enforces |
 | --- | --- | --- |
 | `lint` | Every PR and push to `main` | `make lint`: markdownlint, ruff, no emojis, no hard wrapping |
+| `site` | Every PR and push to `main` | The blog in `site/` builds (`npm ci && npm run build`) |
 | `conventions` | Every PR | Branch name, PR title, `Closes #N`, no emojis or Claude attribution in the title, body or commits (`.github/scripts/check-pr.sh`) |
 
 Run `make lint` locally before pushing; `make fix` repairs most failures.

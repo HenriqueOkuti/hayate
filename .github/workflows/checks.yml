@@ -22,6 +22,21 @@ jobs:
       - run: npm ci
       - run: make lint
 
+  site:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: site
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+      - run: npm ci
+      - run: npm run build
+
   conventions:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
