@@ -1,0 +1,31 @@
+name: Task
+description: One step on the roadmap, with a clear "done when".
+body:
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal
+      description: What this step is for, in a sentence or two.
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: Checklist of the work. One line per item.
+      value: |
+        - [ ] 
+    validations:
+      required: true
+  - type: textarea
+    id: done
+    attributes:
+      label: Done when
+      description: The artifact or result that closes this issue.
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: Links to docs, decisions, research notes or blocking issues.

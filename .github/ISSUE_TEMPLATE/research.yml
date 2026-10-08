@@ -1,0 +1,23 @@
+name: Research question
+description: A question to answer from public sources, filed as a dated note in docs/research/.
+labels: ["research"]
+body:
+  - type: textarea
+    id: question
+    attributes:
+      label: Question
+      description: The question, and the decision or doc it feeds.
+    validations:
+      required: true
+  - type: textarea
+    id: subquestions
+    attributes:
+      label: Sub-questions
+      description: Up to four. More than one may suit the research-fanout workflow.
+  - type: textarea
+    id: done
+    attributes:
+      label: Done when
+      value: A dated note in docs/research/ with sources and an unverified list.
+    validations:
+      required: true

@@ -22,6 +22,10 @@ fi
 
 case "$rel" in
   *.md)
+    out=$(python3 .claude/hooks/no-hard-wrap.py "$rel" 2>&1) || {
+      printf '%s\n' "$out" >&2
+      exit 2
+    }
     out=$(npx --no-install markdownlint-cli2 --no-globs "$rel" 2>&1) || {
       printf 'markdownlint failed for %s (run `make fix` or fix by hand):\n%s\n' "$rel" "$out" >&2
       exit 2

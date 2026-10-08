@@ -1,0 +1,28 @@
+name: Decision
+description: A choice to make and record as a numbered file in docs/decisions/.
+labels: ["decision"]
+body:
+  - type: textarea
+    id: choice
+    attributes:
+      label: Choice to make
+      description: What is being decided and why now.
+    validations:
+      required: true
+  - type: textarea
+    id: options
+    attributes:
+      label: Options
+      description: The options on the table, one line each.
+  - type: textarea
+    id: inputs
+    attributes:
+      label: Inputs needed
+      description: Pilots, research notes or measurements the decision depends on.
+  - type: textarea
+    id: done
+    attributes:
+      label: Done when
+      value: Decision record NNNN merged in docs/decisions/ and the pending list updated.
+    validations:
+      required: true

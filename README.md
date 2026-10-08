@@ -39,10 +39,7 @@ Give Hayate a web page and she tells you what it's about:
 | *"Hotel review: a week in Alfama, Lisbon"* | **Travel › Hotels** |
 | *"Benchmarking int8 inference on ARM laptops"* | **Technology & Computing** |
 
-The catch is that she has to do it **in under a millisecond, on a plain CPU,
-for almost no money**. This weekend research project finds out how small and
-fast a page categorizer can get before it stops being accurate. The answer is
-a **trade-off curve**, not one model.
+The catch is that she has to do it **in under a millisecond, on a plain CPU, for almost no money**. This weekend research project finds out how small and fast a page categorizer can get before it stops being accurate. The answer is a **trade-off curve**, not one model.
 
 ## How it works
 
@@ -50,8 +47,7 @@ a **trade-off curve**, not one model.
   <img src="docs/assets/pipeline.svg" alt="Pipeline: public pages, then a big LLM labels them, then tiny models learn to imitate it, then accuracy, speed and cost are measured" width="900">
 </p>
 
-A big LLM is accurate but slow and costly. It labels the pages **once**, and
-small models learn to copy it. There are three student sizes:
+A big LLM is accurate but slow and costly. It labels the pages **once**, and small models learn to copy it. There are three student sizes:
 
 | Student | What it is | Expected speed | Role |
 | :--- | :--- | :---: | :--- |
@@ -59,8 +55,7 @@ small models learn to copy it. There are three student sizes:
 | **Tier 2** | Fixed word vectors + a linear layer | ~1 ms | The main bet: fast *and* good |
 | **Tier 3** | A compact transformer, int8 on CPU | a few ms | The accuracy ceiling |
 
-Each one is scored on **quality** (against the LLM *and* against human
-checks), **latency** (p50/p99) and **cost per million pages**.
+Each one is scored on **quality** (against the LLM *and* against human checks), **latency** (p50/p99) and **cost per million pages**.
 
 > **Why so fast?** Ad platforms categorize pages ahead of time and cache the
 > answer, so serving it is just a lookup. At web scale every millisecond is
@@ -75,8 +70,7 @@ checks), **latency** (p50/p99) and **cost per million pages**.
 | **2 · Realism** | Later | Feb 2027 | End-to-end request latency, a URL-only fast path, noisy-label effects |
 | **3 · Open questions** | Later | 2027 → | Topic drift; Indonesian, Vietnamese and Thai |
 
-Weekend-by-weekend plan: [docs/timeline.md](docs/timeline.md). Progress
-notes go on the [blog](https://henriqueokuti.github.io/hayate/).
+Weekend-by-weekend plan: [docs/timeline.md](docs/timeline.md). Progress notes go on the [blog](https://henriqueokuti.github.io/hayate/).
 
 ## Getting started
 
@@ -88,9 +82,7 @@ uv sync         # Python 3.12 environment
 make lint       # markdownlint + ruff
 ```
 
-New to the ML side? [docs/stack.md](docs/stack.md) maps the jargon to
-everyday programming ideas: a tokenizer is a lexer, ONNX is roughly "WASM for
-models", and so on.
+New to the ML side? [docs/stack.md](docs/stack.md) maps the jargon to everyday programming ideas: a tokenizer is a lexer, ONNX is roughly "WASM for models", and so on.
 
 ## Docs
 
@@ -112,6 +104,4 @@ models", and so on.
 
 ## License
 
-[MIT](LICENSE), covering the code, docs and mascot art (generated with OpenAI
-image generation). The IAB taxonomy and crawled pages are not part of this
-repo and keep their own terms.
+[MIT](LICENSE), covering the code, docs and mascot art (generated with OpenAI image generation). The IAB taxonomy and crawled pages are not part of this repo and keep their own terms.

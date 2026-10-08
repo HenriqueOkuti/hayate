@@ -1,8 +1,6 @@
 # Decisions
 
-One file per decision, `NNNN-short-title.md`, copied from
-[0000-template.md](0000-template.md). The timeline
-([../timeline.md](../timeline.md)) says when each one is due.
+One file per decision, `NNNN-short-title.md`, copied from [0000-template.md](0000-template.md). The timeline ([../timeline.md](../timeline.md)) says when each one is due.
 
 ## Accepted
 

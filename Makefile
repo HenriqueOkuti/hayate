@@ -4,10 +4,12 @@
 lint:
 	npm run -s lint:md
 	.claude/hooks/no-emoji.sh
+	.claude/hooks/no-hard-wrap.py
 	uvx ruff@0.16.10 check .
 	uvx ruff@0.16.10 format --check .
 
 fix:
+	.claude/hooks/no-hard-wrap.py --fix
 	npm run -s fix:md
 	uvx ruff@0.16.10 check --fix .
 	uvx ruff@0.16.10 format .
