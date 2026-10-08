@@ -8,7 +8,8 @@ Hayate is a one-person project, but every change follows the same path so the hi
 2. **Branch.** Create a branch from `main` named `<issue>-<slug>`: the issue number, then a few lowercase words joined by hyphens. Example: `2-taxonomy-fetch`.
 3. **Commit.** Commit as often as you like on the branch; the commits are squashed on merge.
 4. **Pull request.** Open a PR into `main` using the template. The body starts with `Closes #N`.
-5. **Merge.** Squash-merge once the checks pass. The branch is deleted automatically and the issue closes.
+5. **Merge.** Squash-merge once the checks pass. The issue closes.
+6. **Clean up.** Merged branches never stay around. GitHub deletes the remote branch on merge (repo setting "Automatically delete head branches"); delete the local copy with `git switch main && git pull && git fetch --prune && git branch -d <branch>`. If a merged branch is still on GitHub for any reason, delete it with `git push origin --delete <branch>`.
 
 ## Branch rules on `main`
 

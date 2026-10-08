@@ -11,7 +11,7 @@ disable-model-invocation: true
 3. **Decisions.** Any choice made this session that isn't recorded yet gets a record (follow `/new-decision`). Update `docs/decisions/README.md`.
 4. **Docs.** If facts changed (versions, numbers, approach), update the topic doc. Delegate a broader sweep to the `docs-keeper` agent.
 5. **Blog post.** Draft the weekend's post with `/blog-post` (`draft: true`), in the user's voice, from what actually happened. Include real numbers only if they passed the `ml-reviewer` agent's checks.
-6. **Preflight.** Run `/preflight`.
+6. **Preflight.** Run `/preflight`. Then delete any merged branches, local and remote (`git fetch --prune`, `git branch --merged main`); never an unmerged one.
 7. **Hand-off.** Reply with:
    - three lines on where things stand;
    - the first step for next weekend;
