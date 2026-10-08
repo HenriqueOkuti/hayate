@@ -7,7 +7,7 @@ EMOJI='[\x{1F000}-\x{1FAFF}\x{2600}-\x{27BF}\x{2B00}-\x{2BFF}\x{2300}-\x{23FF}\x
 fail=0
 err() { printf 'FAIL: %s\n' "$1" >&2; fail=1; }
 
-# Dependabot PRs have no issue: skip the branch-name and Closes #N checks for them.
+# Dependabot PRs have no issue and generated titles: skip the branch-name, title and Closes #N checks for them.
 bot=0
 [ "${AUTHOR:-}" = "dependabot[bot]" ] && bot=1
 
@@ -15,10 +15,12 @@ bot=0
 [ "$bot" -eq 1 ] || [[ "$BRANCH" =~ ^[0-9]+-[a-z0-9]+(-[a-z0-9]+)*$ ]] || err "branch '$BRANCH' must be <issue>-<slug>, e.g. 2-taxonomy-fetch"
 
 # PR title becomes the squash commit subject: plain imperative, capitalized, <= 72 chars, no period.
-[ "${#TITLE}" -le 72 ] || err "PR title is ${#TITLE} chars; keep it to 72 or fewer"
-[[ "$TITLE" =~ ^[A-Z] ]] || err "PR title must start with a capital letter (imperative: 'Add ...', 'Fix ...')"
-[[ "$TITLE" =~ \.$ ]] && err "PR title must not end with a period"
-[[ "$TITLE" =~ ^[a-zA-Z]+(\([^\)]*\))?!?:\  ]] && err "PR title must not use a type prefix like 'feat:'; labels carry the area"
+if [ "$bot" -eq 0 ]; then
+  [ "${#TITLE}" -le 72 ] || err "PR title is ${#TITLE} chars; keep it to 72 or fewer"
+  [[ "$TITLE" =~ ^[A-Z] ]] || err "PR title must start with a capital letter (imperative: 'Add ...', 'Fix ...')"
+  [[ "$TITLE" =~ \.$ ]] && err "PR title must not end with a period"
+  [[ "$TITLE" =~ ^[a-zA-Z]+(\([^\)]*\))?!?:\  ]] && err "PR title must not use a type prefix like 'feat:'; labels carry the area"
+fi
 
 # PR body links its issue.
 [ "$bot" -eq 1 ] || grep -qiE '^(closes|fixes|resolves) #[0-9]+' <<<"$BODY" || err "PR body must start a line with 'Closes #N'"
