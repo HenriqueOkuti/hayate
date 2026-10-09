@@ -74,12 +74,13 @@ Weekend-by-weekend plan: [docs/timeline.md](docs/timeline.md). Live status: the 
 
 ## Getting started
 
-There's no pipeline code yet. These commands set up the dev environment:
+These commands set up the dev environment and run the first pipeline step:
 
 ```bash
 npm install     # Markdown linter (dev tooling)
 uv sync         # Python 3.12 environment
 make lint       # markdownlint + ruff
+uv run python scripts/fetch_taxonomy.py --config configs/taxonomy.toml   # pinned IAB taxonomy -> data/taxonomy/
 ```
 
 New to the ML side? [docs/stack.md](docs/stack.md) maps the jargon to everyday programming ideas: a tokenizer is a lexer, ONNX is roughly "WASM for models", and so on.
