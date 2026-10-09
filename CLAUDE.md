@@ -44,10 +44,12 @@ This is an independent personal project, not affiliated with any company. Privat
 ## Working conventions
 
 - Stack and how to run things: [docs/stack.md](docs/stack.md).
-- Record decisions in [docs/decisions/](docs/decisions/README.md).
+- Record decisions in [docs/decisions/](docs/decisions/README.md). For a routine open choice inside an issue, pick the sensible default yourself and list the weighed alternatives under "Options considered" ([0005](docs/decisions/0005-page-sample.md) is the model). Ask Henrique before spending money (a paid run needs a budget in its decision record) or changing scope.
 - Run `make lint` before finishing; Markdown and Python must both pass.
 - **No emojis anywhere:** docs, code, blog posts, commit messages, PR text. `make lint` and the edit hook enforce it (`.claude/hooks/no-emoji.sh`).
 - **No hard-wrapped prose:** write each paragraph and list item as one line, in Markdown files, issue and PR bodies, templates and commit message bodies. Never wrap at a fixed width, even next to old wrapped text. `make lint` and the edit hook enforce it for Markdown (`.claude/hooks/no-hard-wrap.py`); `make fix` unwraps.
 - Never commit page text, the IAB taxonomy file, data or model artifacts; `.gitignore` covers them.
+- **Common Crawl is rate-limited.** Keep `data.commoncrawl.org` under about 4 requests per second (`max_rps` in `configs/pages.toml`). A CloudFront 403 means this IP is blocked (about 12 minutes on 2026-10-09): stop, don't retry, probe once every ten minutes and resume. Details in [docs/data.md](docs/data.md).
+- **Long data steps run in the background** with `PYTHONUNBUFFERED=1`, progress per shard or batch and resumable output. Tell Henrique the expected finish time and a `!` command to check progress, and re-estimate from the measured rate.
 - **No Claude attribution:** commits and PRs never carry a `Co-Authored-By: Claude` trailer, a "Generated with Claude Code" line or any other Claude signature.
 - Don't commit or push unless asked.
