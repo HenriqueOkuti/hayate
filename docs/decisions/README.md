@@ -5,12 +5,12 @@ One file per decision, `NNNN-short-title.md`, copied from [0000-template.md](000
 ## Accepted
 
 - [0001: Stack](0001-stack.md): Python for ML, TS/Go at the edges.
+- [0002: Label depth and scope](0002-label-depth.md): Tiers 1-2 (330 labels), Genres excluded, SCD nodes kept and flagged.
 
 ## Pending
 
 | # | Question | Due | Inputs |
 | --- | --- | --- | --- |
-| 0002 | Label depth and scope: Tier 1 or Tiers 1–2; exclude Genres; handling of SCD nodes | Weekend 1 | [labels.md](../labels.md) |
 | 0003 | Teacher: local open-weight (publishable) vs API, and the reference teacher | Weekend 3 | Pilot results |
 | 0004 | Taxonomy prompting: single cached pass vs hierarchical | Weekend 3 | Pilot results |
 | 0005 | Page sample: raw CC vs FineWeb/FineWeb-2; PT/EN split; per-domain cap | Weekend 2 | [data.md](../data.md) |

@@ -5,8 +5,9 @@ Snapshot 2026-10-07. Sources and details are in [research/2026-10-07-taxonomy-te
 ## Taxonomy: IAB Tech Lab Content Taxonomy 3.1
 
 - **Current version:** 3.1 (Dec 2024). Source: [InteractiveAdvertisingBureau/Taxonomies](https://github.com/InteractiveAdvertisingBureau/Taxonomies), file `Content Taxonomies/Content Taxonomy 3.1.tsv` (TSV only).
-- **Pin by commit SHA and sha256**, not by version name. The file was edited 8 times after release without a version bump. sha256 at repo HEAD `de757836` (2025-09-23): `7212cdc496ba347a03e703b1932bdcdd4fd29089b058f4edeb4d3da1f1222ea7`.
-- **Size:** 704 nodes: Tier 1 has 37 (really 36; row `80DV8O` looks misfiled), Tier 2 has 323, Tier 3 has 275, Tier 4 has 69. Tiers 1–2 together give about 360 labels.
+- **Pin by commit SHA and sha256**, not by version name. The file was edited 8 times after release without a version bump. Pinned at `6dc67c74` (2025-07-22, the last commit that touched the file) with sha256 `7212cdc496ba347a03e703b1932bdcdd4fd29089b058f4edeb4d3da1f1222ea7`, in [configs/taxonomy.toml](../configs/taxonomy.toml). `scripts/fetch_taxonomy.py` downloads and verifies it.
+- **Size:** 704 nodes: Tier 1 has 37 (really 36; row `80DV8O` looks misfiled), Tier 2 has 323, Tier 3 has 275, Tier 4 has 69. Tiers 1–2 together give 360 nodes.
+- **Label set ([decision 0002](decisions/0002-label-depth.md)):** Tiers 1–2 without the Genres subtree, 330 labels (36 Tier 1, 294 Tier 2). SCD nodes stay, flagged. Metrics are reported at Tier 2 and rolled up to Tier 1.
 - **IDs are strings** (e.g. `80DV8O`).
 - **Flags and subtrees:**
   - `Extension=SCD` marks 63 sensitive nodes.

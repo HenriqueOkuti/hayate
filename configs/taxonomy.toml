@@ -1,0 +1,15 @@
+# IAB Tech Lab Content Taxonomy 3.1, pinned by commit and sha256 (see docs/labels.md).
+# Label depth and scope follow decision 0002.
+
+[source]
+repo = "InteractiveAdvertisingBureau/Taxonomies"
+commit = "6dc67c743572e856c7fa86d310cfa844c9fcda85"  # last commit touching the file, 2025-07-22
+path = "Content Taxonomies/Content Taxonomy 3.1.tsv"
+sha256 = "7212cdc496ba347a03e703b1932bdcdd4fd29089b058f4edeb4d3da1f1222ea7"
+
+[labels]
+max_tier = 2
+exclude_tier1 = ["Genres"]  # CTV/podcast genres, not page topics
+
+[output]
+dir = "data/taxonomy"

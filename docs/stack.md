@@ -86,6 +86,12 @@ make fix                     # auto-fix what can be fixed
 npm install                  # once, for the Markdown linter
 ```
 
+First-time setup: install [uv](https://docs.astral.sh/uv/getting-started/installation/), then `uv sync` installs Python 3.12 (from `.python-version`) and the locked dependencies from `uv.lock` into `.venv/`. Add a library with `uv add <pkg>` (or `uv add --dev <pkg>` for tooling such as pytest) when a step first needs it, and commit `pyproject.toml` and `uv.lock` together.
+
+| Step | Script | Config | Output |
+| --- | --- | --- | --- |
+| Taxonomy fetch and label set | `scripts/fetch_taxonomy.py` | `configs/taxonomy.toml` | `data/taxonomy/`: the pinned TSV (sha256-checked) and `labels.json` ([decision 0002](decisions/0002-label-depth.md)) |
+
 ## Where TS and Go fit
 
 | Where | Language | When | Notes |
