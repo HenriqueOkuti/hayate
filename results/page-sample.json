@@ -1,0 +1,134 @@
+{
+  "step": "extract_text",
+  "commit": "469cd4669402362a9c2fce7ed30be4403e98b64e",
+  "created": "2026-10-09T22:01:34+00:00",
+  "config": {
+    "crawl": {
+      "id": "CC-MAIN-2026-39",
+      "base_url": "https://data.commoncrawl.org/"
+    },
+    "sample": {
+      "languages": [
+        "por",
+        "eng"
+      ],
+      "pages_per_language": 10000,
+      "oversample": 1.3,
+      "clusters_per_language": 120,
+      "domain_cap": 3,
+      "seed": 20261009
+    },
+    "fetch": {
+      "workers": 4,
+      "max_rps": 4,
+      "retries": 8,
+      "shard_size": 1000
+    },
+    "extract": {
+      "workers": 12,
+      "min_chars": 200
+    },
+    "output": {
+      "dir": "data/pages",
+      "summary": "results/page-sample.json"
+    }
+  },
+  "languages": {
+    "por": {
+      "candidates": 12919,
+      "fetched": 12919,
+      "extraction_errors": 0,
+      "usable": 12401,
+      "kept": 10000,
+      "domains": 8344,
+      "top_tlds": [
+        [
+          "br",
+          8226
+        ],
+        [
+          "pt",
+          1143
+        ],
+        [
+          "com",
+          467
+        ],
+        [
+          "co",
+          63
+        ],
+        [
+          "ai",
+          39
+        ],
+        [
+          "net",
+          39
+        ],
+        [
+          "org",
+          18
+        ],
+        [
+          "pro",
+          4
+        ],
+        [
+          "it",
+          1
+        ]
+      ]
+    },
+    "eng": {
+      "candidates": 12902,
+      "fetched": 12902,
+      "extraction_errors": 0,
+      "usable": 11483,
+      "kept": 10000,
+      "domains": 9122,
+      "top_tlds": [
+        [
+          "com",
+          6519
+        ],
+        [
+          "org",
+          1072
+        ],
+        [
+          "uk",
+          792
+        ],
+        [
+          "net",
+          411
+        ],
+        [
+          "au",
+          193
+        ],
+        [
+          "news",
+          101
+        ],
+        [
+          "in",
+          94
+        ],
+        [
+          "nz",
+          92
+        ],
+        [
+          "io",
+          89
+        ],
+        [
+          "edu",
+          82
+        ]
+      ]
+    }
+  }
+}
