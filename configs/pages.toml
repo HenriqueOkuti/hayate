@@ -1,0 +1,30 @@
+# Page sample from Common Crawl (decision 0005). Used by the three page steps:
+#   scripts/sample_pages.py   -> census.parquet, candidates.parquet
+#   scripts/fetch_records.py  -> records/part-*.parquet
+#   scripts/extract_text.py   -> extracted.parquet, pages.parquet, results/page-sample.json
+
+[crawl]
+id = "CC-MAIN-2026-39"
+base_url = "https://data.commoncrawl.org/"
+
+[sample]
+languages = ["por", "eng"]  # primary CLD2 language in content_languages
+pages_per_language = 10000  # final sample, after extraction
+oversample = 1.3  # candidates per final page, to absorb fetch and extraction failures
+clusters_per_language = 120  # row groups drawn per language, proportional to page count
+domain_cap = 3  # max pages per registered domain
+seed = 20261009
+
+[fetch]
+workers = 4
+max_rps = 4  # data.commoncrawl.org blocks fast clients with a 403 (seen at ~16 req/s)
+retries = 8
+shard_size = 1000
+
+[extract]
+workers = 12
+min_chars = 200  # a page is kept if either extractor gives at least this many characters
+
+[output]
+dir = "data/pages"
+summary = "results/page-sample.json"  # counts only, committed

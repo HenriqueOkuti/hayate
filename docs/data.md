@@ -28,6 +28,14 @@ Avoid:
 
 The quality filters in cleaned corpora drop product and listing pages, which shifts the topic mix.
 
+## The page sample (decision 0005)
+
+[Decision 0005](decisions/0005-page-sample.md) fixes the Phase 1 sample: raw Common Crawl CC-MAIN-2026-39, 10,000 Portuguese and 10,000 English pages (primary CLD2 language), at most 3 per registered domain, kept only if an extractor gives at least 200 characters.
+
+- **Census, then sample.** A census reads only the cheap columns of the whole index (about 1 GB) and counts eligible pages per row group. Row groups are then drawn in proportion to those counts, and pages uniformly inside them, so every eligible page is equally likely and only a few GB of the 150 GB index are read.
+- **Records are kept raw.** Each page's gzipped WARC record is stored byte for byte, so the extractors can be rerun and the latency replay has the original HTTP response.
+- **Common Crawl throttles, then blocks.** `data.commoncrawl.org` answers 503 when busy, and CloudFront blocks a client that sends too much with a 403 for everything, even single requests. On 2026-10-09 a block followed a few GB of index reads plus WARC fetches at about 16 requests per second. Every request retries 503s with backoff; the fetch step is capped at 4 requests per second (`max_rps`), stops on the first 403 without writing the shard, and resumes from its last finished shard.
+
 ## Text extraction
 
 | Extractor | Quality (SIGIR'23 mean F1) | Speed |

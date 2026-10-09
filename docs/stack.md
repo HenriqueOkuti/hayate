@@ -91,6 +91,9 @@ First-time setup: install [uv](https://docs.astral.sh/uv/getting-started/install
 | Step | Script | Config | Output |
 | --- | --- | --- | --- |
 | Taxonomy fetch and label set | `scripts/fetch_taxonomy.py` | `configs/taxonomy.toml` | `data/taxonomy/`: the pinned TSV (sha256-checked) and `labels.json` ([decision 0002](decisions/0002-label-depth.md)) |
+| Page sample: index census and candidates | `scripts/sample_pages.py` | `configs/pages.toml` | `data/pages/census.parquet`, `candidates.parquet` ([decision 0005](decisions/0005-page-sample.md)) |
+| Page sample: WARC records | `scripts/fetch_records.py` | `configs/pages.toml` | `data/pages/records/part-*.parquet` (resumable) |
+| Page sample: text extraction | `scripts/extract_text.py` | `configs/pages.toml` | `data/pages/extracted.parquet`, `pages.parquet` (the sample) |
 
 ## Where TS and Go fit
 
