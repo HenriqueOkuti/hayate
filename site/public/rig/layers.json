@@ -1,0 +1,22 @@
+{
+  "width": 404,
+  "height": 1296,
+  "order": [
+    "back-hair",
+    "footwear",
+    "legwear",
+    "arm-far",
+    "topwear",
+    "arm-near",
+    "eyebrow",
+    "neck",
+    "ears",
+    "face",
+    "mouth",
+    "neckwear",
+    "eyelash",
+    "eyewhite",
+    "irides",
+    "front-hair"
+  ]
+}
