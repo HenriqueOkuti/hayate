@@ -7,6 +7,7 @@ One file per decision, `NNNN-short-title.md`, copied from [0000-template.md](000
 - [0001: Stack](0001-stack.md): Python for ML, TS/Go at the edges.
 - [0002: Label depth and scope](0002-label-depth.md): Tiers 1-2 (330 labels), Genres excluded, SCD nodes kept and flagged.
 - [0005: Page sample](0005-page-sample.md): raw Common Crawl 2026-39, 10k pt + 10k en, max 3 per domain, two-stage sampling proportional to size.
+- [0009: Mascot rig tool](0009-mascot-rig.md): layered WebP with CSS keyframes and a tiny JS blink; no runtime, all MIT.
 
 ## Pending
 
