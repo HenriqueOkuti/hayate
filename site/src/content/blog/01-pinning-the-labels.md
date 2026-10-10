@@ -4,7 +4,7 @@ description: "Setting up the repo, downloading a taxonomy that keeps changing un
 pubDate: 2026-10-10
 weekend: 1
 tags: [setup, taxonomy, decision]
-draft: true
+draft: false
 ---
 
 Before a model can learn to put pages into categories, the categories have to stop moving. This weekend was about freezing them: get the taxonomy file, make sure it's always the same file, and decide how much of it Hayate actually uses.

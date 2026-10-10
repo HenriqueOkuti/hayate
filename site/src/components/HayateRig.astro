@@ -1,14 +1,15 @@
 ---
 // Idle animation of the mascot: layered WebP from scripts/mascot_rig_export.py,
 // moved with CSS (decision 0009). Each layer is a full-canvas image in stacking
-// order. The outer div breathes and tilts with the head; the inner image sways
-// or blinks around its own pivot. Reduced motion shows the still composite.
+// order. The head is BASE's original pixels, so her expression never changes.
+// The outer div breathes and tilts with the head; the inner image sways around
+// its own pivot. Reduced motion shows the still composite.
 import { url } from "../lib";
 
 const W = 404;
 const H = 1296;
 
-type Layer = { name: string; part?: "body" | "head"; motion?: "ponytail" | "scarf" | "blink" };
+type Layer = { name: string; part?: "body" | "head"; motion?: "ponytail" | "scarf" };
 const layers: Layer[] = [
   { name: "back-hair", part: "head", motion: "ponytail" },
   { name: "footwear" },
@@ -16,20 +17,14 @@ const layers: Layer[] = [
   { name: "arm-far", part: "body" },
   { name: "topwear", part: "body" },
   { name: "arm-near", part: "body" },
-  { name: "eyebrow", part: "head" },
   { name: "neck", part: "body" },
-  { name: "ears", part: "head" },
   { name: "face", part: "head" },
-  { name: "mouth", part: "head" },
   { name: "neckwear", part: "body", motion: "scarf" },
-  { name: "eyelash", part: "head", motion: "blink" },
-  { name: "eyewhite", part: "head", motion: "blink" },
-  { name: "irides", part: "head", motion: "blink" },
-  { name: "front-hair", part: "head" },
+  { name: "head", part: "head" },
 ];
 ---
 
-<div class="rig" role="img" aria-label="Hayate standing with her hands in her pockets, grinning, her ponytail and scarf swaying" data-rig>
+<div class="rig" role="img" aria-label="Hayate standing with her hands in her pockets, grinning, her ponytail and scarf swaying">
   {
     layers.map((l) => (
       <div class:list={["rig-layer", l.part]}>
@@ -71,12 +66,6 @@ const layers: Layer[] = [
     transform-origin: 39.1% 17.1%; /* knot */
     animation: sway-small 4.1s ease-in-out infinite;
   }
-  .blink {
-    transform-origin: 52.5% 10.5%; /* eye line */
-  }
-  .rig.blinking .blink {
-    animation: blink 170ms ease-in-out;
-  }
   @keyframes breathe {
     0%,
     100% {
@@ -113,30 +102,9 @@ const layers: Layer[] = [
       rotate: 0.8deg;
     }
   }
-  @keyframes blink {
-    50% {
-      scale: 1 0.08;
-    }
-  }
   @media (prefers-reduced-motion: reduce) {
-    .rig *,
-    .rig.blinking .blink {
+    .rig * {
       animation: none;
     }
   }
 </style>
-
-<script>
-  // Blink at random intervals; skipped when the tab is hidden or motion is reduced.
-  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
-  for (const rig of document.querySelectorAll<HTMLElement>("[data-rig]")) {
-    rig.addEventListener("animationend", (e) => {
-      if (e.animationName === "blink") rig.classList.remove("blinking");
-    });
-    const next = () => {
-      if (!reduce.matches && !document.hidden) rig.classList.add("blinking");
-      window.setTimeout(next, 2500 + Math.random() * 3500);
-    };
-    window.setTimeout(next, 1200);
-  }
-</script>

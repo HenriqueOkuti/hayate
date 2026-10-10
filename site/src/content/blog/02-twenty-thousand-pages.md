@@ -4,7 +4,7 @@ description: "Sampling Portuguese and English pages fairly from a 150 GB index w
 pubDate: 2026-10-10
 weekend: 2
 tags: [data, decision]
-draft: true
+draft: false
 ---
 
 Hayate needs pages to learn from, and they have to be real, messy web pages, not a cleaned-up corpus. This weekend I pulled 10,000 Portuguese and 10,000 English pages out of Common Crawl, with the raw HTML, and finished a weekend ahead of schedule.
