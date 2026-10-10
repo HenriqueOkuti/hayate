@@ -6,8 +6,13 @@ two layers See-through got wrong (headwear, nose), splits the arms so the far
 one sits behind the jacket, crops every layer to one shared canvas and writes
 them in stacking order.
 
+See-through redraws the face, eyes and mouth, which changes her expression. So
+the head (face, eyes, brows, mouth, ears, front hair) is taken from the original
+pixels of hayate-base.png instead, cut out with the shape of See-through's head
+layers. Its redrawn face only stays underneath, as filler where the scarf moves.
+
 Usage: uv run --with psd-tools --with scipy python scripts/mascot_rig_export.py \
-    docs/assets/mascot/rig/hayate-base.psd site/public/rig
+    docs/assets/mascot/rig/hayate-base.psd docs/assets/mascot/hayate-base.png site/public/rig
 """
 
 import json
@@ -20,6 +25,8 @@ from psd_tools import PSDImage
 from scipy import ndimage
 
 DROP = {"headwear", "nose"}
+# Parts replaced by the original pixels of the head.
+HEAD = ["eyebrow", "ears", "mouth", "eyelash", "eyewhite", "irides", "front-hair"]
 # Shared canvas in PSD pixels (left, top, right, bottom) and headroom on top,
 # so rotations never clip the hair.
 CROP = (452, 0, 856, 1280)
@@ -47,7 +54,27 @@ def split_arms(arms: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
     return out[0], out[1]
 
 
-def main(psd_path: str, out_dir: str) -> None:
+def original_on_canvas(base_path: str, size: tuple[int, int]) -> np.ndarray:
+    """hayate-base.png scaled and centred the way See-through placed it."""
+    im = Image.open(base_path).convert("RGB")
+    scale = size[1] / im.height
+    im = im.resize((round(im.width * scale), size[1]), Image.LANCZOS)
+    canvas = Image.new("RGB", size, (255, 255, 255))
+    canvas.paste(im, ((size[0] - im.width) // 2, 0))
+    return np.array(canvas).astype(np.float32)
+
+
+def original_head(base: np.ndarray, parts: dict[str, np.ndarray]) -> np.ndarray:
+    """Original pixels inside the head's shape, minus the scarf, un-mixed from white."""
+    a = np.zeros(base.shape[:2], np.float32)
+    for name in [*HEAD, "face"]:
+        a = np.maximum(a, parts[name][..., 3] / 255.0)
+    a = a * (1.0 - parts["neckwear"][..., 3] / 255.0)
+    rgb = np.clip((base - (1.0 - a[..., None]) * 255.0) / np.maximum(a[..., None], 1e-3), 0, 255)
+    return np.dstack([rgb, a * 255.0]).round().astype(np.uint8)
+
+
+def main(psd_path: str, base_path: str, out_dir: str) -> None:
     psd = PSDImage.open(psd_path)
     layers, arms = [], None
     for layer in psd:
@@ -56,6 +83,9 @@ def main(psd_path: str, out_dir: str) -> None:
             arms = split_arms(full_layer(psd, layer))
         elif name not in DROP:
             layers.append((name, full_layer(psd, layer)))
+    parts = dict(layers)
+    head = original_head(original_on_canvas(base_path, psd.size), parts)
+    layers = [(n, a) for n, a in layers if n not in HEAD] + [("head", head)]
     # The far arm goes behind the jacket, the near one in front of it.
     near, far = arms
     names = [n for n, _ in layers]
@@ -75,4 +105,4 @@ def main(psd_path: str, out_dir: str) -> None:
 
 
 if __name__ == "__main__":
-    main(sys.argv[1], sys.argv[2])
+    main(sys.argv[1], sys.argv[2], sys.argv[3])
