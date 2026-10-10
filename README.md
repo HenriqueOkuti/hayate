@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/assets/hayate-peek.png" alt="Hayate, the project mascot: a cyan-haired runner in an orange scarf, peeking curiously over the edge" width="480">
+  <img src="docs/assets/hayate-peek.png" alt="Hayate-chan, the model as a character: a cyan-haired runner in an orange scarf, peeking curiously over the edge" width="480">
 </p>
 
 <h1 align="center">Hayate 疾風</h1>
@@ -31,7 +31,7 @@
 
 ## What she does
 
-Give Hayate a web page and she tells you what it's about:
+Meet Hayate-chan: she is the model, drawn as a smug runner who hates being slow ([her canon](docs/mascot.md)). Give her a web page and she tells you what it's about:
 
 | Page | Hayate says |
 | :--- | :--- |
@@ -96,7 +96,7 @@ New to the ML side? [docs/stack.md](docs/stack.md) maps the jargon to everyday p
 | [Models](docs/models.md) | The three student tiers |
 | [Measurement](docs/measurement.md) | Quality, speed, cost, local setup |
 | [Decisions](docs/decisions/README.md) | What's settled, what's pending |
-| [Mascot](docs/mascot.md) | Her canon and how new images are made |
+| [Mascot](docs/mascot.md) | Hayate-chan: who she is, her canon and how new images of her are made |
 | [Contributing](CONTRIBUTING.md) | Issues, branches, PRs, commit conventions and checks |
 
 ## Ground rules

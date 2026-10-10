@@ -1,6 +1,15 @@
-# Mascot
+# Mascot: Hayate-chan
 
-Hayate (疾風, "gale") is the project mascot: a smug, fast, cyan-haired runner. This page is her canon and the way new images of her are made. The redesign of 2026-10-10 replaced the earlier dark-teal version ([#36](https://github.com/HenriqueOkuti/hayate/issues/36)).
+Hayate-chan is Hayate, the model, drawn as a character: a smug, fast, cyan-haired runner (疾風, "gale"). When a post says Hayate-chan mislabeled a cookie wall or got faster, it means the model did. This page is her canon and the way new images of her are made.
+
+Her character maps to the model:
+
+- **Speed** is latency. The whole point of her is answering before you blink.
+- **The smug grin** is a confident, correct call. **Laughter** is a funny failure, **the surprised face** an unexpected number, **provocation** a challenge for next weekend.
+- **Tracksuit and sneakers:** she is built to be light, like the students she stands for.
+- **One Hayate-chan, many students:** the tier-1, tier-2 and tier-3 students are all her. Where a table compares them, name the tier.
+
+The redesign of 2026-10-10 replaced the earlier dark-teal version. The redesign of 2026-10-10 replaced the earlier dark-teal version ([#36](https://github.com/HenriqueOkuti/hayate/issues/36)).
 
 ## Canon
 
