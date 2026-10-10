@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/assets/hayate-header.png" alt="Hayate, the project mascot: a grinning speedster in a teal track jacket and orange scarf, slicing a web page into Sports, Travel and Tech tags" width="760">
+  <img src="docs/assets/hayate-peek.png" alt="Hayate, the project mascot: a cyan-haired runner in an orange scarf, peeking curiously over the edge" width="480">
 </p>
 
 <h1 align="center">Hayate 疾風</h1>
@@ -96,6 +96,7 @@ New to the ML side? [docs/stack.md](docs/stack.md) maps the jargon to everyday p
 | [Models](docs/models.md) | The three student tiers |
 | [Measurement](docs/measurement.md) | Quality, speed, cost, local setup |
 | [Decisions](docs/decisions/README.md) | What's settled, what's pending |
+| [Mascot](docs/mascot.md) | Her canon and how new images are made |
 | [Contributing](CONTRIBUTING.md) | Issues, branches, PRs, commit conventions and checks |
 
 ## Ground rules

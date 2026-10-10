@@ -1,0 +1,36 @@
+references: hayate-base.png (variation of the base prompt)
+generated: 2026-10-10 by Henrique (tool: TODO)
+
+**Anime character design reference, full-body illustration on a pure white background.** Clean, expressive anime art style with crisp linework, balanced proportions, and subtle cel shading. The character must be fully visible from head to toe, with a clear view of her outfit, silhouette, and movement.
+
+**Character appearance:**
+
+A tall, slender, athletic woman with a naturally fit physique. She has long limbs, a narrow waist, and subtle muscle definition, suggesting exceptional agility, stamina, and speed rather than bulk or heavy musculature.
+
+Her hair is a vibrant cyan, thick, wild, and deliberately messy, with uneven, spiky locks framing her face and several rebellious strands sticking out in different directions. Most of her hair is gathered into a medium-length ponytail at the back, which swings dynamically with her movement while retaining its unruly, windswept appearance.
+
+Her facial expression is playful, amused, and unmistakably smug. She has expressive, slightly narrowed eyes with a mischievous glint, raised eyebrows, and a confident, asymmetrical grin revealing a small, distinctly pointed canine fang. Even while running, she should look like she is enjoying herself and is effortlessly ahead of everyone else.
+
+**Outfit:**
+
+She wears a sporty, slightly relaxed cyan tracksuit with clean white athletic stripes running along the sleeves and the outer seams of her pants.
+
+The jacket is a fitted, zip-up athletic top, worn casually with its sleeves pushed up to her elbows, exposing her forearms. The matching track pants have a comfortable athletic cut, neither excessively baggy nor skin-tight, and should respond naturally to motion with believable folds and tension.
+
+A vivid orange scarf is wrapped loosely around her neck, with its ends trailing behind her due to the movement. The scarf is her signature accessory, providing a striking warm contrast against the predominantly cyan outfit and hair.
+
+Her footwear consists of modern, lightweight running sneakers featuring a coordinated palette of white, cyan, and orange, with practical athletic soles and a sleek, sporty design.
+
+**Pose and presentation:**
+
+She is shown in a dynamic running pose, captured mid-stride. One leg is extended forward while the other pushes off behind her, clearly conveying forward motion. Her arms are positioned naturally for running, with one arm bent forward and the other back, maintaining a balanced athletic posture.
+
+Her torso should lean slightly forward, reinforcing momentum and speed, while still keeping the pose elegant and readable. Her ponytail and scarf should flow with the movement, enhancing the sense of action.
+
+Despite the running pose, her body language should still feel relaxed, confident, and slightly teasing, as if she is effortlessly outrunning someone while fully in control. The overall silhouette should remain clean, appealing, and easy to read.
+
+**Art direction:**
+
+Contemporary Japanese anime character design, appealing and consistent facial features, expressive eyes, clean anatomical construction, restrained cel shading, and a polished but not overly rendered finish.
+
+Pure white studio background, no scenery, no environmental objects, no text, no logos, no decorative frames, and no unnecessary accessories. Prioritize character readability, outfit accuracy, dynamic movement, and a distinctive silhouette.
