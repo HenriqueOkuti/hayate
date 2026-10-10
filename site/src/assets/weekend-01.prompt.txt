@@ -1,0 +1,29 @@
+references: hayate-base.png hayate-sheet.png
+generated: 2026-10-10T05:20:54Z with codex exec (OpenAI image generation)
+
+CHARACTER CANON (Hayate). The attached hayate-base.png and hayate-sheet.png are the authority for her face, proportions, outfit and colors. Draw exactly this character; do not redesign her.
+
+Style: contemporary Japanese anime character art, crisp controlled linework, appealing consistent facial features, expressive eyes, clean anatomy, flat colors with restrained cel shading, polished but not over-rendered.
+
+Body: a tall, slender, athletic young adult woman, long limbs, narrow waist, subtle believable muscle, built for speed and agility, not bulk. Keep the slim proportions of hayate-base.png; do not exaggerate hips or bust.
+
+Hair: vibrant cyan, thick, wild and deliberately messy, uneven spiky locks framing the face, a few rebellious strands. A medium-length messy ponytail tied high on the back of the head with a small orange hair tie.
+
+Face: vivid cyan-blue eyes, slightly narrowed and mischievous. Signature expression: a playful, asymmetrical smug grin showing one small pointed canine fang. Natural skin with a subtle warm blush.
+
+Outfit (identical in every image):
+- Fitted cyan zip-up track jacket, stand-up collar, white central zipper, exactly two white stripes down each sleeve, both sleeves pushed up to just below the elbow, forearms bare. A plain white undershirt shows at the open neckline.
+- Matching cyan track pants, relaxed athletic cut, exactly two white stripes down each outer seam, cuffed ankles.
+- Vivid orange scarf, loosely wrapped, with fringed (tasseled) ends.
+- Lightweight running sneakers: white base, cyan panels, orange laces and orange sole accents.
+
+Palette: cyan (primary), white (stripes, zipper, sneakers, undershirt), orange (scarf, hair tie, laces). No other dominant colors.
+
+Never: other outfits or hairstyles, extra accessories, logos, watermarks, signatures, or text unless the scene asks for it.
+
+Background: simple and calm, never busy. A soft flat color or gentle gradient, at most one or two large simple shapes that support the scene. No furnished rooms, clutter, crowds of objects or detailed scenery. She and the one key prop are the focus.
+
+SCENE:
+Blog illustration. She pins the top box of a simple category tree (a few rounded empty boxes on two levels, joined by lines, no words) to a plain corkboard with a large orange pushpin, grinning smugly, a small gold padlock hanging from that top box, while flicking one loose empty label card away with her other hand. Whole figure visible head to toe. Background: a soft, calm, flat pale peach-to-cream gradient with no room, no furniture and no other objects; only her, the corkboard tree, the padlock and the flicked card. Landscape 3:2, 1536x1024. No readable text anywhere.
+
+The references are on white only to show the design; use the simple background the scene describes. Save the result as weekend-01.png in the current folder.
