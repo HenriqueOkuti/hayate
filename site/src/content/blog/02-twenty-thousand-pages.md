@@ -7,9 +7,9 @@ tags: [data, decision]
 draft: false
 ---
 
-Hayate needs pages to learn from, and they have to be real, messy web pages, not a cleaned-up corpus. This weekend I pulled 10,000 Portuguese and 10,000 English pages out of Common Crawl, with the raw HTML, and finished a weekend ahead of schedule.
+Hayate-chan needs pages to learn from, and they have to be real, messy web pages, not a cleaned-up corpus. This weekend I pulled 10,000 Portuguese and 10,000 English pages out of Common Crawl, with the raw HTML, and finished a weekend ahead of schedule.
 
-![Hayate sprints with a stack of web page cards under one arm, a few loose pages fluttering behind her, toward a concrete block with a red stop-hand sign and a dent from an earlier collision, on a pale blue-to-lavender background](../../assets/weekend-02.png)
+![Hayate-chan sprints with a stack of web page cards under one arm, a few loose pages fluttering behind her, toward a concrete block with a red stop-hand sign and a dent from an earlier collision, on a pale blue-to-lavender background](../../assets/weekend-02.png)
 
 ## What I did
 

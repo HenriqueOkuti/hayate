@@ -7,9 +7,9 @@ tags: [setup, taxonomy, decision]
 draft: false
 ---
 
-Before a model can learn to put pages into categories, the categories have to stop moving. This weekend was about freezing them: get the taxonomy file, make sure it's always the same file, and decide how much of it Hayate actually uses.
+Before a model can learn to put pages into categories, the categories have to stop moving. This weekend was about freezing them: get the taxonomy file, make sure it's always the same file, and decide how much of it Hayate-chan actually uses.
 
-![Hayate grins as she pins the top box of a simple two-level category tree to a corkboard with an orange pushpin, a padlock hanging from it, while flicking one leftover label card away, on a soft peach background](../../assets/weekend-01.png)
+![Hayate-chan grins as she pins the top box of a simple two-level category tree to a corkboard with an orange pushpin, a padlock hanging from it, while flicking one leftover label card away, on a soft peach background](../../assets/weekend-01.png)
 
 ## What I did
 
