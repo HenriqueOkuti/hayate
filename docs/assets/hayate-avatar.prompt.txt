@@ -1,0 +1,28 @@
+references: hayate-base.png hayate-sheet.png
+generated: 2026-10-10T05:07:19Z with codex exec (OpenAI image generation)
+
+CHARACTER CANON (Hayate). The attached hayate-base.png and hayate-sheet.png are the authority for her face, proportions, outfit and colors. Draw exactly this character; do not redesign her.
+
+Style: contemporary Japanese anime character art, crisp controlled linework, appealing consistent facial features, expressive eyes, clean anatomy, flat colors with restrained cel shading, polished but not over-rendered.
+
+Body: a tall, slender, athletic young adult woman, long limbs, narrow waist, subtle believable muscle, built for speed and agility, not bulk. Keep the slim proportions of hayate-base.png; do not exaggerate hips or bust.
+
+Hair: vibrant cyan, thick, wild and deliberately messy, uneven spiky locks framing the face, a few rebellious strands. A medium-length messy ponytail tied high on the back of the head with a small orange hair tie.
+
+Face: vivid cyan-blue eyes, slightly narrowed and mischievous. Signature expression: a playful, asymmetrical smug grin showing one small pointed canine fang. Natural skin with a subtle warm blush.
+
+Outfit (identical in every image):
+- Fitted cyan zip-up track jacket, stand-up collar, white central zipper, exactly two white stripes down each sleeve, both sleeves pushed up to just below the elbow, forearms bare. A plain white undershirt shows at the open neckline.
+- Matching cyan track pants, relaxed athletic cut, exactly two white stripes down each outer seam, cuffed ankles.
+- Vivid orange scarf, loosely wrapped, with fringed (tasseled) ends.
+- Lightweight running sneakers: white base, cyan panels, orange laces and orange sole accents.
+
+Palette: cyan (primary), white (stripes, zipper, sneakers, undershirt), orange (scarf, hair tie, laces). No other dominant colors.
+
+Never: other outfits or hairstyles, extra accessories, logos, watermarks, signatures, or text unless the scene asks for it.
+
+SCENE:
+Square avatar icon, head and shoulders, facing slightly to the side with her signature smug fanged grin, ponytail and orange hair tie visible, orange scarf at the neck. Framed tightly so the face fills most of the square and still reads at 32x32 pixels: bold shapes, no tiny details. Square 1024x1024.
+
+Pure white background unless the scene says otherwise. Save the result as hayate-avatar.png in the current folder.
+post: cropped to the face (300,120)-(900,720) and resized to 512x512

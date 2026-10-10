@@ -1,0 +1,140 @@
+references: hayate-base.png hayate-moving.png
+generated: 2026-10-10 by Henrique (tool: TODO)
+status: superseded by hayate-sheet.png (kept for history; do not use as a reference)
+
+# Anime Character Design Sheet — Cyan-Haired Athletic Woman
+
+**Create a professional Japanese anime character design reference sheet based on the provided character images.** Preserve her established visual identity, proportions, facial features, hairstyle, clothing, accessories, and color palette with high fidelity.
+
+The result should resemble an official anime production model sheet (*設定資料 / settei shiryou*), featuring multiple consistent views of the same character, expressive facial references, and carefully selected design details.
+
+Use a clean contemporary Japanese anime art style with precise linework, appealing character proportions, restrained cel shading, and a polished but not overly rendered finish.
+
+**All illustrations must depict the exact same character.** Do not reinterpret, redesign, or introduce alternate outfits or hairstyles.
+
+## 1. Character Identity
+
+A tall, slender, athletic young adult woman with long limbs, a narrow waist, and a naturally fit physique. Her musculature is subtle but believable, emphasizing speed, agility, stamina, and athletic competence rather than bulk.
+
+Her hair is vibrant cyan, thick, unruly, and deliberately messy. Uneven, spiky locks frame her face, with several rebellious strands sticking out in different directions. Most of her hair is gathered into a medium-length, messy ponytail tied toward the upper back of her head.
+
+Her eyes are vivid cyan-blue, expressive, and slightly sharp, naturally conveying amusement and confidence.
+
+Her defining expression is a playful, asymmetrical grin revealing a small pointed canine fang. She has an unmistakably mischievous, self-assured personality, with the demeanor of someone who enjoys teasing others and rarely takes a challenge seriously.
+
+The design should balance athletic charm, cheeky confidence, and casual femininity.
+
+## 2. Character Turnaround — Main Section
+
+The primary section features three full-body views of the character, arranged horizontally at equal height and scale.
+
+**Front View:**
+- Relaxed, neutral standing posture with arms resting naturally at her sides.
+- Full visibility of her facial features, outfit, and athletic proportions.
+- Clear presentation of the jacket's zipper, collar, stripes, and sleeves.
+- Orange scarf loosely wrapped around her neck with its ends hanging naturally.
+- Both running sneakers fully visible.
+- Small, confident smile with one visible fang.
+
+**Side View:**
+- Accurate 90-degree profile showing the construction of her hairstyle, ponytail, face, and athletic silhouette.
+- Clear visibility of the scarf's thickness and how it wraps around her neck.
+- Natural tracksuit fit, including the jacket's waistline and the pants' relaxed taper.
+- Neutral standing posture, without exaggerated posing.
+
+**Back View:**
+- Clear view of her messy ponytail, including its length, volume, and silhouette.
+- Accurate continuation of the jacket's sleeve stripes and the track pants' outer seams.
+- Scarf wrapping and hanging naturally around the shoulders.
+- Back construction of her tracksuit and running shoes.
+- The same anatomical proportions and clothing fit as the other views.
+
+**Turnaround requirements:**
+
+The three views must be anatomically consistent, proportionally aligned, and presented at the same scale. Maintain identical clothing details, stripe placement, hair length, shoe designs, and accessory proportions.
+
+Prioritize accurate character construction over dramatic presentation.
+
+## 3. Facial Expression References
+
+Include a secondary section featuring four clean head-and-shoulders illustrations of the same character.
+
+Expressions:
+
+**Signature Smug Grin:** Her trademark mischievous smile, slightly narrowed eyes, raised eyebrow, and visible pointed canine fang.
+
+**Genuine Laughter:** A wide, energetic smile with naturally closed or squinting eyes. Her expression should feel spontaneous, joyful, and slightly chaotic.
+
+**Playful Provocation:** A teasing, competitive expression with one eyebrow raised, narrowed eyes, and a crooked grin, as though daring someone to keep up with her.
+
+**Surprised / Caught Off Guard:** Wide eyes, slightly parted lips, and raised eyebrows. Even without her characteristic smugness, her facial structure should remain immediately recognizable.
+
+Preserve the exact same eye shape, eyebrow design, hairline, bangs, face proportions, and canine fang placement across all expressions.
+
+Expressions should be distinctive and lively without excessive exaggeration or changes to her underlying facial anatomy.
+
+## 4. Outfit and Accessory Details
+
+Include a small selection of carefully arranged detail illustrations showing:
+
+**Orange Scarf:**
+A close-up of its fabric construction, loose wrapping style, and naturally hanging ends. Use a vivid, saturated orange that contrasts strongly against her cyan tracksuit.
+
+**Running Sneakers:**
+A clear close-up showcasing the lightweight athletic design, white base, cyan panels, orange accents and laces, and practical running soles.
+
+**Tracksuit Details:**
+A close-up showing the cyan jacket material, white athletic stripes, central zipper, collar construction, and sleeves pushed up to her elbows.
+
+The matching pants feature white stripes along their outer seams, comfortable athletic proportions, subtle fabric folds, and tapered ankles.
+
+These details must match the main turnaround illustrations exactly.
+
+## 5. Color Palette and Design Consistency
+
+The design uses a distinctive and carefully controlled color palette:
+
+- **Primary:** Vibrant cyan, shared between her hair and tracksuit.
+- **Secondary:** Clean white, used for athletic stripes, zipper details, and sneaker panels.
+- **Accent:** Vivid orange, used for her signature scarf and selected sneaker details.
+- **Facial colors:** Natural skin tones, cyan-blue eyes, and subtle warm blush accents.
+
+Include a small, unobtrusive row of flat color swatches near the bottom of the sheet.
+
+Avoid introducing additional dominant colors, decorative accessories, logos, or unnecessary costume embellishments.
+
+## 6. Composition and Art Direction
+
+Use a wide horizontal character design sheet layout with clear visual hierarchy.
+
+**Primary focus:** Three full-body turnaround views, occupying the majority of the composition.
+
+**Secondary focus:** Four facial expressions arranged in a clean row beneath or beside the main figures.
+
+**Tertiary focus:** Small outfit and accessory detail illustrations with understated color swatches.
+
+The sheet should resemble official Japanese animation production reference material rather than promotional key art.
+
+Maintain generous negative space and consistent spacing between elements.
+
+Use a pure white background with no environment, scenery, gradients, decorative patterns, or unnecessary graphical elements.
+
+Use minimal or no textual labeling. The design should communicate primarily through its illustrations.
+
+**Technical and artistic requirements:**
+- Crisp, controlled anime linework.
+- Clean, anatomically believable proportions.
+- Consistent facial construction across every view.
+- Flat colors with restrained cel shading.
+- No dramatic lighting, perspective distortion, or excessive rendering.
+- No additional characters.
+- No alternate costumes or redesigns.
+- No cropped heads, feet, or accessories.
+- No overlapping illustrations that obscure essential details.
+- No distracting decorative elements.
+
+**Final objective:**
+
+Produce a cohesive, production-quality anime character design sheet that clearly establishes the character's appearance from multiple angles, her expressive personality, and the construction of her signature outfit.
+
+The sheet should be sufficiently consistent and readable to serve as a definitive visual reference for future illustrations, animation, and character artwork.

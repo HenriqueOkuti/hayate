@@ -1,0 +1,2 @@
+derived from: hayate-moving.png
+made: 2026-10-10 with scripts/mascot_cutout.py (rembg, birefnet-general), background removed only

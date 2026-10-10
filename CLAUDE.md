@@ -52,4 +52,5 @@ This is an independent personal project, not affiliated with any company. Privat
 - **Common Crawl is rate-limited.** Keep `data.commoncrawl.org` under about 4 requests per second (`max_rps` in `configs/pages.toml`). A CloudFront 403 means this IP is blocked (about 12 minutes on 2026-10-09): stop, don't retry, probe once every ten minutes and resume. Details in [docs/data.md](docs/data.md).
 - **Long data steps run in the background** with `PYTHONUNBUFFERED=1`, progress per shard or batch and resumable output. Tell Henrique the expected finish time and a `!` command to check progress, and re-estimate from the measured rate.
 - **No Claude attribution:** commits and PRs never carry a `Co-Authored-By: Claude` trailer, a "Generated with Claude Code" line or any other Claude signature.
+- **Mascot art** follows [docs/mascot.md](docs/mascot.md): the only image inputs are the two character references (never other images, the chibi or earlier art), and backgrounds are simple, never busy. Generate with `scripts/mascot_gen.sh`.
 - Don't commit or push unless asked.
