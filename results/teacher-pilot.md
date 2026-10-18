@@ -1,6 +1,6 @@
 # Teacher pilot (W03, #4 and #54)
 
-Run 2026-10-18 with Claude Code 2.1.302, Ollama 0.40.6 and Antigravity 1.4.2. Every run's code commit, backend version, batch size and text field are in [teacher-pilot.json](teacher-pilot.json), written by `scripts/teacher_report.py` from the run outputs in `data/labels/` (not committed). Seven runs cite commit `5656019`, the pre-squash branch of PR #53; its code is the same as `4de7d89` on `main` except one line of `teacher_report.py`. Earlier experiments on 20 to 100 pages, with subagents and other vendors, are on [#4](https://github.com/HenriqueOkuti/hayate/issues/4).
+Run 2026-10-18 with Claude Code 2.1.302, Ollama 0.40.6 and Antigravity 1.4.2. Every run's code commit, backend version, batch size and text field are in [teacher-pilot.json](teacher-pilot.json), written by `scripts/teacher_report.py` from the run outputs in `data/labels/` (not committed). The cited commits are on the pre-squash branches of PRs #53 and #55 and stay reachable from those PRs on GitHub; the squashed commits on `main` (`4de7d89` and this report's merge) contain the same code paths each run used. Earlier experiments on 20 to 100 pages, with subagents and other vendors, are on [#4](https://github.com/HenriqueOkuti/hayate/issues/4).
 
 ## Setup
 
