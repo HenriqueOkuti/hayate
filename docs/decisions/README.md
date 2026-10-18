@@ -15,6 +15,6 @@ One file per decision, `NNNN-short-title.md`, copied from [0000-template.md](000
 
 | # | Question | Due | Inputs |
 | --- | --- | --- | --- |
-| 0006 | Extractor: trafilatura vs resiliparse (judged by student F1) | Weekend 6 | Tier-1 results |
+| 0006 | Extractor: trafilatura vs resiliparse (judged by student F1) | Weekend 6 | Tier-1 results; [teacher pilot](../../results/teacher-pilot.md): the teacher's labels do not depend on the extractor |
 | 0007 | Tier-1 implementation: sklearn/custom hashed model vs fastText (archived) | Weekend 6 | [models.md](../models.md) |
 | 0008 | Reference hardware for headline latency numbers | Weekend 7 | [measurement.md](../measurement.md) |
