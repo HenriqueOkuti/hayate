@@ -6,10 +6,13 @@ export function url(path = ""): string {
   return base + path.replace(/^\//, "");
 }
 
-/** Published posts, newest first. Drafts show up in `npm run dev` only. */
+/** Published posts, newest first; posts on the same date go by weekend, highest first. Drafts show up in `npm run dev` only. */
 export async function getPosts() {
   const posts = await getCollection("blog", ({ data }) => import.meta.env.DEV || !data.draft);
-  return posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+  return posts.sort(
+    (a, b) =>
+      b.data.pubDate.valueOf() - a.data.pubDate.valueOf() || (b.data.weekend ?? -1) - (a.data.weekend ?? -1),
+  );
 }
 
 export function formatDate(date: Date): string {
