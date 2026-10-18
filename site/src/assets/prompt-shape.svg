@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" width="720" height="300" role="img" aria-labelledby="t d">
+<title id="t">Label shape of prompts v0 and v2 on the holdout</title>
+<desc id="d">Sonnet 5.5 on 300 holdout pages. Labels per page: v0 2.13, v2 1.20; Pages with a parent and its child: v0 15.0%, v2 0.0%; Empty pages: v0 7.7%, v2 4.3%.</desc>
+<style>
+  .ink { fill: #0b0b0b; } .muted, .tick { fill: #52514e; } .tick { font-size: 12px; }
+  .grid { stroke: #e4e3df; stroke-width: 1; } .band { fill: #e4e3df; } .bandline { stroke: #8a8984; stroke-width: 1.5; stroke-dasharray: 4 4; }
+  .s1 { fill: #2a78d6; } .s1l { stroke: #2a78d6; } .s2 { fill: #eb6834; }
+  .ring { stroke: #fcfcfb; }
+  text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+  @media (prefers-color-scheme: dark) {
+    .ink { fill: #f0efec; } .muted, .tick { fill: #c3c2b7; } .grid { stroke: #2e2e2c; } .band { fill: #2e2e2c; } .bandline { stroke: #8a8984; }
+    .s1 { fill: #3987e5; } .s1l { stroke: #3987e5; } .s2 { fill: #d95926; } .ring { stroke: #1a1a19; }
+  }
+</style>
+<text class="ink" x="16" y="26" font-size="16" font-weight="600">Prompt v2 cleans up the labels</text>
+<text class="muted" x="16" y="45" font-size="12">Sonnet 5.5 on the 300 holdout pages, prompts v0 and v2. Each panel has its own scale.</text>
+<rect class="s2" x="16" y="60" width="12" height="12" rx="2"/><text class="ink" x="34" y="70" font-size="12">v0 (plain prompt)</text>
+<rect class="s1" x="160" y="60" width="12" height="12" rx="2"/><text class="ink" x="178" y="70" font-size="12">v2 (final prompt)</text>
+<line class="grid" x1="16" x2="216" y1="260" y2="260"/>
+<text class="muted" x="116.0" y="280" font-size="12" text-anchor="middle">Labels per page</text>
+<path class="s2" d="M59.0,260 V124.27199999999999 Q59.0,120.27199999999999 63.0,120.27199999999999 H111.0 Q115.0,120.27199999999999 115.0,124.27199999999999 V260 Z"/>
+<text class="ink" x="87.0" y="114.3" font-size="12" text-anchor="middle">2.13</text>
+<path class="s1" d="M117.0,260 V185.28 Q117.0,181.28 121.0,181.28 H169.0 Q173.0,181.28 173.0,185.28 V260 Z"/>
+<text class="ink" x="145.0" y="175.3" font-size="12" text-anchor="middle">1.20</text>
+<line class="grid" x1="250" x2="450" y1="260" y2="260"/>
+<text class="muted" x="350.0" y="280" font-size="12" text-anchor="middle">Pages with a parent and its child</text>
+<path class="s2" d="M293.0,260 V141.0 Q293.0,137.0 297.0,137.0 H345.0 Q349.0,137.0 349.0,141.0 V260 Z"/>
+<text class="ink" x="321.0" y="131.0" font-size="12" text-anchor="middle">15.0%</text>
+<path class="s1" d="M351.0,260 V259.0 Q351.0,258 352.0,258 H406.0 Q407.0,258 407.0,259.0 V260 Z"/>
+<text class="ink" x="379.0" y="252.0" font-size="12" text-anchor="middle">0.0%</text>
+<line class="grid" x1="484" x2="684" y1="260" y2="260"/>
+<text class="muted" x="584.0" y="280" font-size="12" text-anchor="middle">Empty pages</text>
+<path class="s2" d="M527.0,260 V138.26666666666665 Q527.0,134.26666666666665 531.0,134.26666666666665 H579.0 Q583.0,134.26666666666665 583.0,138.26666666666665 V260 Z"/>
+<text class="ink" x="555.0" y="128.3" font-size="12" text-anchor="middle">7.7%</text>
+<path class="s1" d="M585.0,260 V192.93333333333334 Q585.0,188.93333333333334 589.0,188.93333333333334 H637.0 Q641.0,188.93333333333334 641.0,192.93333333333334 V260 Z"/>
+<text class="ink" x="613.0" y="182.9" font-size="12" text-anchor="middle">4.3%</text>
+</svg>
