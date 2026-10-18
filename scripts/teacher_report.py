@@ -138,8 +138,11 @@ def call_stats(calls: list[dict]) -> dict:
             "cache_read": per_page("cache_read_input_tokens"),
             "output": per_page("output_tokens"),
         },
-        "list_price_usd_per_1k_pages": round(
-            sum(c.get("cost_usd_list") or 0 for c in main) / pages * 1000, 2
+        # only claude -p reports a list-price equivalent; None for the other backends
+        "list_price_usd_per_1k_pages": (
+            round(sum(c["cost_usd_list"] for c in main) / pages * 1000, 2)
+            if all(c.get("cost_usd_list") is not None for c in main)
+            else None
         ),
         "wall_s_per_call": {
             "median": round(statistics.median(walls), 1),
@@ -168,6 +171,7 @@ def main() -> None:
         mains[run] = {r["page_id"]: r["labels"] for r in rows if r["pass"] == "main"}
         repeats[run] = {r["page_id"]: r["labels"] for r in rows if r["pass"] == "repeat"}
         stamp = json.loads((base / run / "run.json").read_text())
+        calls = read_jsonl(base / run / "calls.jsonl")
         runs[run] = {
             "model": stamp["config"]["model"],
             "prompt": Path(stamp["config"]["prompt"]).name,
@@ -176,7 +180,12 @@ def main() -> None:
             "prompt_sha256": stamp["config"].get("prompt_sha256"),
             "claude_version": stamp["config"].get("claude_version"),
             "taxonomy_sha256": stamp["config"]["taxonomy_sha256"],
-            "calls": call_stats(read_jsonl(base / run / "calls.jsonl")),
+            "ollama_version": stamp["config"].get("ollama_version"),
+            "agy_version": stamp["config"].get("agy_version"),
+            "backend": stamp["config"].get("backend", "claude"),
+            "batch_size": max(c["pages"] for c in calls if c["pass"] == "main"),
+            "text_field": stamp["config"]["input"]["text_field"],
+            "calls": call_stats(calls),
             "labels": label_stats(list(mains[run].values()), labels),
             "repeat_consistency": (
                 agreement(mains[run], repeats[run], tier1) if repeats[run] else None
@@ -188,11 +197,17 @@ def main() -> None:
         if len(shared) >= MIN_COMMON:
             rows = [mains[run][p] for p in sorted(shared)]
             runs[run][f"labels_on_{first}_pages"] = label_stats(rows, labels)
-    pairs = {
-        f"{a} vs {b}": agreement(mains[a], mains[b], tier1)
-        for a, b in combinations(args.runs, 2)
-        if len(mains[a].keys() & mains[b].keys()) >= MIN_COMMON
-    }
+    pairs = {}
+    for a, b in combinations(args.runs, 2):
+        if len(mains[a].keys() & mains[b].keys()) < MIN_COMMON:
+            continue
+        pairs[f"{a} vs {b}"] = agreement(mains[a], mains[b], tier1)
+        # also on the pages both runs repeated, to set beside their repeat consistency
+        both = repeats[a].keys() & repeats[b].keys()
+        if len(both) >= MIN_COMMON:
+            pairs[f"{a} vs {b}"]["on_repeat_pages"] = agreement(
+                {p: mains[a][p] for p in both}, {p: mains[b][p] for p in both}, tier1
+            )
     repeat_diffs = {
         f"{b} minus {a}": paired_repeat_diff((mains[a], repeats[a]), (mains[b], repeats[b]))
         for a, b in combinations(args.runs, 2)

@@ -19,3 +19,12 @@ timeout_s = 600
 
 [output]
 dir = "data/labels"  # data/labels/<run>/, never committed
+
+[ollama]  # --backend ollama: a local open-weight model on the GPU (#54)
+host = "http://127.0.0.1:11434"
+model = "gemma4:12b-it-qat"  # Apache-2.0, 4-bit QAT, fits the 12 GB RTX 4070 SUPER
+num_ctx = 16384  # system prompt (~9k tokens) plus a 5-page batch
+
+[agy]  # --backend agy: a model served by the Antigravity CLI on a personal subscription (#54)
+model = "gemini-4-argon-low"  # Gemini 4 Argon, low thinking effort
+batch_size = 10  # the whole prompt is one CLI argument, capped at 128 KiB

@@ -10,7 +10,9 @@ the same --pages and --seed see the same pages. Writes to data/labels/<run>/:
   with their pages shuffled);
 - calls.jsonl: one row per call attempt, with usage, timing and errors;
 - run.json: the provenance stamp.
---exclude-runs leaves out every domain an earlier run labeled, for a holdout. A rerun skips
+--exclude-runs leaves out every domain an earlier run labeled, for a holdout. --backend ollama
+labels with a local model instead (the [ollama] section of the config), --backend agy with a
+model served by the Antigravity CLI (the [agy] section). A rerun skips
 finished batches. On a usage-limit error the run stops after in-flight batches.
 """
 
@@ -29,7 +31,7 @@ from pathlib import Path
 import duckdb
 
 from hayate import provenance
-from hayate.teacher import claude
+from hayate.teacher import agy, claude, ollama
 
 LANGS = ("por", "eng")
 
@@ -90,14 +92,24 @@ def main() -> None:
     ap.add_argument("--model")
     ap.add_argument("--workers", type=int)
     ap.add_argument("--repeat-frac", type=float, default=0.0, help="batches labeled twice")
+    ap.add_argument("--backend", choices=["claude", "ollama", "agy"], default="claude")
+    ap.add_argument("--batch-size", type=int)
+    ap.add_argument("--text-field", help="override [input] text_field, e.g. text_resiliparse")
+    ap.add_argument("--fallback-field", help="override [input] fallback_field")
     ap.add_argument("--claude-bin", default="claude")
+    ap.add_argument("--agy-bin", default="agy")
     ap.add_argument("--exclude-runs", nargs="*", default=[], help="skip these runs' domains")
     args = ap.parse_args()
 
     claude.check_env()
     cfg = tomllib.loads(args.config.read_text())
     inp, tch = cfg["input"], cfg["teacher"]
-    model = args.model or tch["model"]
+    inp["text_field"] = args.text_field or inp["text_field"]
+    inp["fallback_field"] = args.fallback_field or inp["fallback_field"]
+    olm = cfg.get("ollama", {})
+    model = args.model or {"ollama": olm.get("model"), "agy": cfg.get("agy", {}).get("model")}.get(
+        args.backend, tch["model"]
+    )
     workers = args.workers or tch["workers"]
     labels_json = json.loads(Path(inp["labels"]).read_text())
     labels = claude.load_labels(labels_json)
@@ -107,7 +119,8 @@ def main() -> None:
     out.mkdir(parents=True, exist_ok=True)
     sp_file = out / "system-prompt.txt"
     prompt_text = args.prompt.read_text()
-    sp_file.write_text(claude.system_prompt(prompt_text, labels))
+    sp_text = claude.system_prompt(prompt_text, labels)
+    sp_file.write_text(sp_text)
     run_cfg = {
         **vars(args),
         "config": str(args.config),
@@ -115,7 +128,10 @@ def main() -> None:
         "model": model,
         "workers": workers,
         "prompt_sha256": hashlib.sha256(prompt_text.encode()).hexdigest(),
-        "claude_version": claude_version(args.claude_bin),
+        "claude_version": claude_version(args.claude_bin) if args.backend == "claude" else None,
+        "ollama_version": ollama.version(olm["host"]) if args.backend == "ollama" else None,
+        "ollama": olm if args.backend == "ollama" else None,
+        "agy_version": agy.version(args.agy_bin) if args.backend == "agy" else None,
         "teacher": tch,
         "input": inp,
         "taxonomy_sha256": labels_json["source"]["sha256"],
@@ -126,7 +142,7 @@ def main() -> None:
         *(run_domains(inp["pages"], Path(cfg["output"]["dir"]) / r) for r in args.exclude_runs)
     )
     pages = pick_pages(inp["pages"], args.pages, args.seed, inp, excluded)
-    size = tch["batch_size"]
+    size = args.batch_size or cfg.get(args.backend, {}).get("batch_size") or tch["batch_size"]
     batches = [pages[i : i + size] for i in range(0, len(pages), size)]
     n_repeat = round(len(batches) * args.repeat_frac)
     jobs = [("main", b) for b in batches] + [("repeat", b) for b in batches[:n_repeat]]
@@ -155,10 +171,21 @@ def main() -> None:
             t0 = time.time()
             row = {"batch": key, "pass": pass_, "attempt": attempt, "pages": len(batch), "t0": t0}
             try:
-                res = claude.call(
-                    stdin, str(sp_file.resolve()), sch, model, workdir, args.claude_bin,
-                    tch["timeout_s"],
-                )  # fmt: skip
+                if args.backend == "agy":
+                    res = agy.call(
+                        agy.prompt(sp_text, stdin), sch, model, workdir, args.agy_bin,
+                        tch["timeout_s"],
+                    )  # fmt: skip
+                elif args.backend == "ollama":
+                    res = ollama.call(
+                        stdin, sp_text, json.loads(sch), model, olm["host"], olm["num_ctx"],
+                        tch["timeout_s"],
+                    )  # fmt: skip
+                else:
+                    res = claude.call(
+                        stdin, str(sp_file.resolve()), sch, model, workdir, args.claude_bin,
+                        tch["timeout_s"],
+                    )  # fmt: skip
                 answer = claude.validate(res["structured_output"], len(batch), valid_ids)
             except claude.CallError as e:
                 log_call(row | {"ok": False, "kind": e.kind, "error": str(e)[:300],
