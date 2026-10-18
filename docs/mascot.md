@@ -7,6 +7,7 @@ Her character maps to the model:
 - **Speed** is latency. The whole point of her is answering before you blink.
 - **The smug grin** is a confident, correct call. **Laughter** is a funny failure, **the surprised face** an unexpected number, **provocation** a challenge for next weekend.
 - **Tracksuit and sneakers:** she is built to be light, like the students she stands for.
+- **She narrates the blog:** every post is written by her, in the first person, about what Henrique and she did that weekend (rules in the `/blog-post` skill).
 - **One Hayate-chan, many students:** the tier-1, tier-2 and tier-3 students are all her. Where a table compares them, name the tier.
 
 The redesign of 2026-10-10 replaced the earlier dark-teal version. The redesign of 2026-10-10 replaced the earlier dark-teal version ([#36](https://github.com/HenriqueOkuti/hayate/issues/36)).
