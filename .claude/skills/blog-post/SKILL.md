@@ -5,7 +5,7 @@ description: Draft a progress post for the Hayate blog (Astro site in site/). Us
 
 # Blog post
 
-Posts live in `site/src/content/blog/` and are written in **the user's voice**: first person, casual, honest about what didn't work. The audience is curious developers, not ML researchers, so explain jargon the first time it appears.
+Posts live in `site/src/content/blog/` and are narrated by **Hayate-chan**, in the first person: she is the model ([docs/mascot.md](../../../docs/mascot.md)), smug, fast and slightly impatient with anything slow, and honest about what didn't work, including her own mistakes. Henrique is the person building her; she calls him Henrique. The teacher is the big LLM she learns from, and the students are her (name the tier where it matters). Facts and numbers stay exact whatever the voice. The audience is curious developers, not ML researchers, so explain jargon the first time it appears.
 
 ## File
 
