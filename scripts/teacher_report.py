@@ -171,6 +171,7 @@ def main() -> None:
         mains[run] = {r["page_id"]: r["labels"] for r in rows if r["pass"] == "main"}
         repeats[run] = {r["page_id"]: r["labels"] for r in rows if r["pass"] == "repeat"}
         stamp = json.loads((base / run / "run.json").read_text())
+        calls = read_jsonl(base / run / "calls.jsonl")
         runs[run] = {
             "model": stamp["config"]["model"],
             "prompt": Path(stamp["config"]["prompt"]).name,
@@ -182,10 +183,9 @@ def main() -> None:
             "ollama_version": stamp["config"].get("ollama_version"),
             "agy_version": stamp["config"].get("agy_version"),
             "backend": stamp["config"].get("backend", "claude"),
-            "batch_size": stamp["config"].get("batch_size")
-            or stamp["config"]["teacher"]["batch_size"],
+            "batch_size": max(c["pages"] for c in calls if c["pass"] == "main"),
             "text_field": stamp["config"]["input"]["text_field"],
-            "calls": call_stats(read_jsonl(base / run / "calls.jsonl")),
+            "calls": call_stats(calls),
             "labels": label_stats(list(mains[run].values()), labels),
             "repeat_consistency": (
                 agreement(mains[run], repeats[run], tier1) if repeats[run] else None
