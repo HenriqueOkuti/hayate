@@ -1,0 +1,21 @@
+# Teacher labeling with headless Claude Code (#4 pilot; the bulk plan is on #6).
+# Used by scripts/label_pages.py. Runs on the Claude Code plan, never an API key.
+
+[input]
+pages = "data/pages/pages.parquet"
+labels = "data/taxonomy/labels.json"
+text_field = "text_trafilatura"
+fallback_field = "text_resiliparse"  # used when the main field is shorter than min_chars
+min_chars = 200
+max_chars = 3000  # characters of page text sent per page
+
+[teacher]
+model = "sonnet"
+batch_size = 25
+workers = 4
+retries = 3  # per batch, for transient errors and invalid answers
+backoff_s = 20  # doubled on each retry
+timeout_s = 600
+
+[output]
+dir = "data/labels"  # data/labels/<run>/, never committed

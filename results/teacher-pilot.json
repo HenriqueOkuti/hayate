@@ -1,0 +1,864 @@
+{
+ "step": "teacher_report",
+ "commit": "05a1d324514c2e86d4e81b4e519ef7028e018485",
+ "created": "2026-10-18T09:09:33+00:00",
+ "config": {
+  "config": "configs/teacher.toml",
+  "runs": [
+   "pilot-v0",
+   "pilot-v1",
+   "pilot-v2",
+   "pilot-opus-v2",
+   "holdout-v0",
+   "holdout-v2"
+  ],
+  "out": "results/teacher-pilot.json"
+ },
+ "runs": {
+  "pilot-v0": {
+   "model": "sonnet",
+   "prompt": "prompt-v0.txt",
+   "workers": 8,
+   "commit": "5656019e11712d0e4bc3ec98ebb142a9d4afe89a",
+   "prompt_sha256": "3a2291887130441c169a8781ad374d81e4adb89d90358db587bdeb6481195b7c",
+   "claude_version": "2.1.302 (Claude Code)",
+   "taxonomy_sha256": "7212cdc496ba347a03e703b1932bdcdd4fd29089b058f4edeb4d3da1f1222ea7",
+   "calls": {
+    "calls_ok": 24,
+    "calls_failed": 0,
+    "failures_by_kind": {
+     "limit": 0,
+     "transient": 0,
+     "bad": 0
+    },
+    "pages_labeled": 600,
+    "tokens_per_page": {
+     "input": 0.1,
+     "cache_write": 548.8,
+     "cache_read": 566.4,
+     "output": 46.3
+    },
+    "list_price_usd_per_1k_pages": 2.71,
+    "wall_s_per_call": {
+     "median": 8.3,
+     "p90": 9.9
+    }
+   },
+   "labels": {
+    "pages": 500,
+    "labels_per_page": 1.96,
+    "empty_pages": 42,
+    "tier1_label_share": 0.223,
+    "pages_with_parent_and_child": 63,
+    "secondary_labels": 520,
+    "secondary_below_0_5": 395,
+    "top_confidence_mean": 0.638
+   },
+   "repeat_consistency": {
+    "pages": 100,
+    "both_empty": 6,
+    "tier2_jaccard": {
+     "mean": 0.762,
+     "ci95": [
+      0.699,
+      0.82
+     ],
+     "n": 100
+    },
+    "tier2_jaccard_secondaries_0_5": {
+     "mean": 0.802,
+     "ci95": [
+      0.733,
+      0.87
+     ],
+     "n": 100
+    },
+    "tier2_same_top": {
+     "mean": 0.78,
+     "ci95": [
+      0.7,
+      0.86
+     ],
+     "n": 100
+    },
+    "tier1_jaccard": {
+     "mean": 0.818,
+     "ci95": [
+      0.756,
+      0.873
+     ],
+     "n": 100
+    },
+    "tier1_same_top": {
+     "mean": 0.86,
+     "ci95": [
+      0.8,
+      0.92
+     ],
+     "n": 100
+    }
+   },
+   "labels_on_pilot-v0_pages": {
+    "pages": 500,
+    "labels_per_page": 1.96,
+    "empty_pages": 42,
+    "tier1_label_share": 0.223,
+    "pages_with_parent_and_child": 63,
+    "secondary_labels": 520,
+    "secondary_below_0_5": 395,
+    "top_confidence_mean": 0.638
+   }
+  },
+  "pilot-v1": {
+   "model": "sonnet",
+   "prompt": "prompt-v1.txt",
+   "workers": 8,
+   "commit": "5656019e11712d0e4bc3ec98ebb142a9d4afe89a",
+   "prompt_sha256": "87fbc9d7ee2aede35eabf0b157fabf912872168ffd20459bece69e9f86cb6b06",
+   "claude_version": "2.1.302 (Claude Code)",
+   "taxonomy_sha256": "7212cdc496ba347a03e703b1932bdcdd4fd29089b058f4edeb4d3da1f1222ea7",
+   "calls": {
+    "calls_ok": 24,
+    "calls_failed": 0,
+    "failures_by_kind": {
+     "limit": 0,
+     "transient": 0,
+     "bad": 0
+    },
+    "pages_labeled": 600,
+    "tokens_per_page": {
+     "input": 0.1,
+     "cache_write": 13.9,
+     "cache_read": 1110.0,
+     "output": 33.3
+    },
+    "list_price_usd_per_1k_pages": 0.5,
+    "wall_s_per_call": {
+     "median": 6.7,
+     "p90": 7.2
+    }
+   },
+   "labels": {
+    "pages": 500,
+    "labels_per_page": 1.12,
+    "empty_pages": 67,
+    "tier1_label_share": 0.148,
+    "pages_with_parent_and_child": 4,
+    "secondary_labels": 127,
+    "secondary_below_0_5": 80,
+    "top_confidence_mean": 0.649
+   },
+   "repeat_consistency": {
+    "pages": 100,
+    "both_empty": 14,
+    "tier2_jaccard": {
+     "mean": 0.813,
+     "ci95": [
+      0.745,
+      0.88
+     ],
+     "n": 100
+    },
+    "tier2_jaccard_secondaries_0_5": {
+     "mean": 0.83,
+     "ci95": [
+      0.755,
+      0.895
+     ],
+     "n": 100
+    },
+    "tier2_same_top": {
+     "mean": 0.82,
+     "ci95": [
+      0.74,
+      0.89
+     ],
+     "n": 100
+    },
+    "tier1_jaccard": {
+     "mean": 0.873,
+     "ci95": [
+      0.813,
+      0.933
+     ],
+     "n": 100
+    },
+    "tier1_same_top": {
+     "mean": 0.87,
+     "ci95": [
+      0.8,
+      0.93
+     ],
+     "n": 100
+    }
+   },
+   "labels_on_pilot-v0_pages": {
+    "pages": 500,
+    "labels_per_page": 1.12,
+    "empty_pages": 67,
+    "tier1_label_share": 0.148,
+    "pages_with_parent_and_child": 4,
+    "secondary_labels": 127,
+    "secondary_below_0_5": 80,
+    "top_confidence_mean": 0.649
+   }
+  },
+  "pilot-v2": {
+   "model": "sonnet",
+   "prompt": "prompt-v2.txt",
+   "workers": 8,
+   "commit": "5656019e11712d0e4bc3ec98ebb142a9d4afe89a",
+   "prompt_sha256": "10f500c9165d5790d87e6030d44c7c7bb99d14ceb99ecf52c88158d514e69b44",
+   "claude_version": "2.1.302 (Claude Code)",
+   "taxonomy_sha256": "7212cdc496ba347a03e703b1932bdcdd4fd29089b058f4edeb4d3da1f1222ea7",
+   "calls": {
+    "calls_ok": 24,
+    "calls_failed": 0,
+    "failures_by_kind": {
+     "limit": 0,
+     "transient": 0,
+     "bad": 0
+    },
+    "pages_labeled": 600,
+    "tokens_per_page": {
+     "input": 0.1,
+     "cache_write": 14.0,
+     "cache_read": 1116.5,
+     "output": 35.1
+    },
+    "list_price_usd_per_1k_pages": 0.52,
+    "wall_s_per_call": {
+     "median": 7.1,
+     "p90": 8.3
+    }
+   },
+   "labels": {
+    "pages": 500,
+    "labels_per_page": 1.25,
+    "empty_pages": 17,
+    "tier1_label_share": 0.143,
+    "pages_with_parent_and_child": 3,
+    "secondary_labels": 140,
+    "secondary_below_0_5": 94,
+    "top_confidence_mean": 0.636
+   },
+   "repeat_consistency": {
+    "pages": 100,
+    "both_empty": 2,
+    "tier2_jaccard": {
+     "mean": 0.785,
+     "ci95": [
+      0.713,
+      0.848
+     ],
+     "n": 100
+    },
+    "tier2_jaccard_secondaries_0_5": {
+     "mean": 0.79,
+     "ci95": [
+      0.715,
+      0.86
+     ],
+     "n": 100
+    },
+    "tier2_same_top": {
+     "mean": 0.82,
+     "ci95": [
+      0.74,
+      0.89
+     ],
+     "n": 100
+    },
+    "tier1_jaccard": {
+     "mean": 0.827,
+     "ci95": [
+      0.765,
+      0.887
+     ],
+     "n": 100
+    },
+    "tier1_same_top": {
+     "mean": 0.87,
+     "ci95": [
+      0.8,
+      0.93
+     ],
+     "n": 100
+    }
+   },
+   "labels_on_pilot-v0_pages": {
+    "pages": 500,
+    "labels_per_page": 1.25,
+    "empty_pages": 17,
+    "tier1_label_share": 0.143,
+    "pages_with_parent_and_child": 3,
+    "secondary_labels": 140,
+    "secondary_below_0_5": 94,
+    "top_confidence_mean": 0.636
+   }
+  },
+  "pilot-opus-v2": {
+   "model": "opus",
+   "prompt": "prompt-v2.txt",
+   "workers": 4,
+   "commit": "5656019e11712d0e4bc3ec98ebb142a9d4afe89a",
+   "prompt_sha256": "10f500c9165d5790d87e6030d44c7c7bb99d14ceb99ecf52c88158d514e69b44",
+   "claude_version": "2.1.302 (Claude Code)",
+   "taxonomy_sha256": "7212cdc496ba347a03e703b1932bdcdd4fd29089b058f4edeb4d3da1f1222ea7",
+   "calls": {
+    "calls_ok": 4,
+    "calls_failed": 0,
+    "failures_by_kind": {
+     "limit": 0,
+     "transient": 0,
+     "bad": 0
+    },
+    "pages_labeled": 100,
+    "tokens_per_page": {
+     "input": 0.1,
+     "cache_write": 13.8,
+     "cache_read": 1090.0,
+     "output": 44.9
+    },
+    "list_price_usd_per_1k_pages": 1.23,
+    "wall_s_per_call": {
+     "median": 8.8,
+     "p90": 9.7
+    }
+   },
+   "labels": {
+    "pages": 100,
+    "labels_per_page": 1.38,
+    "empty_pages": 1,
+    "tier1_label_share": 0.13,
+    "pages_with_parent_and_child": 0,
+    "secondary_labels": 39,
+    "secondary_below_0_5": 2,
+    "top_confidence_mean": 0.701
+   },
+   "repeat_consistency": null,
+   "labels_on_pilot-v0_pages": {
+    "pages": 100,
+    "labels_per_page": 1.38,
+    "empty_pages": 1,
+    "tier1_label_share": 0.13,
+    "pages_with_parent_and_child": 0,
+    "secondary_labels": 39,
+    "secondary_below_0_5": 2,
+    "top_confidence_mean": 0.701
+   }
+  },
+  "holdout-v0": {
+   "model": "sonnet",
+   "prompt": "prompt-v0.txt",
+   "workers": 8,
+   "commit": "5656019e11712d0e4bc3ec98ebb142a9d4afe89a",
+   "prompt_sha256": "3a2291887130441c169a8781ad374d81e4adb89d90358db587bdeb6481195b7c",
+   "claude_version": "2.1.302 (Claude Code)",
+   "taxonomy_sha256": "7212cdc496ba347a03e703b1932bdcdd4fd29089b058f4edeb4d3da1f1222ea7",
+   "calls": {
+    "calls_ok": 16,
+    "calls_failed": 0,
+    "failures_by_kind": {
+     "limit": 0,
+     "transient": 0,
+     "bad": 0
+    },
+    "pages_labeled": 400,
+    "tokens_per_page": {
+     "input": 0.1,
+     "cache_write": 832.3,
+     "cache_read": 293.1,
+     "output": 48.6
+    },
+    "list_price_usd_per_1k_pages": 3.84,
+    "wall_s_per_call": {
+     "median": 9.1,
+     "p90": 9.4
+    }
+   },
+   "labels": {
+    "pages": 300,
+    "labels_per_page": 2.13,
+    "empty_pages": 23,
+    "tier1_label_share": 0.207,
+    "pages_with_parent_and_child": 45,
+    "secondary_labels": 361,
+    "secondary_below_0_5": 276,
+    "top_confidence_mean": 0.617
+   },
+   "repeat_consistency": {
+    "pages": 100,
+    "both_empty": 7,
+    "tier2_jaccard": {
+     "mean": 0.761,
+     "ci95": [
+      0.705,
+      0.817
+     ],
+     "n": 100
+    },
+    "tier2_jaccard_secondaries_0_5": {
+     "mean": 0.83,
+     "ci95": [
+      0.765,
+      0.892
+     ],
+     "n": 100
+    },
+    "tier2_same_top": {
+     "mean": 0.81,
+     "ci95": [
+      0.73,
+      0.88
+     ],
+     "n": 100
+    },
+    "tier1_jaccard": {
+     "mean": 0.843,
+     "ci95": [
+      0.788,
+      0.891
+     ],
+     "n": 100
+    },
+    "tier1_same_top": {
+     "mean": 0.86,
+     "ci95": [
+      0.79,
+      0.92
+     ],
+     "n": 100
+    }
+   }
+  },
+  "holdout-v2": {
+   "model": "sonnet",
+   "prompt": "prompt-v2.txt",
+   "workers": 8,
+   "commit": "5656019e11712d0e4bc3ec98ebb142a9d4afe89a",
+   "prompt_sha256": "10f500c9165d5790d87e6030d44c7c7bb99d14ceb99ecf52c88158d514e69b44",
+   "claude_version": "2.1.302 (Claude Code)",
+   "taxonomy_sha256": "7212cdc496ba347a03e703b1932bdcdd4fd29089b058f4edeb4d3da1f1222ea7",
+   "calls": {
+    "calls_ok": 16,
+    "calls_failed": 0,
+    "failures_by_kind": {
+     "limit": 0,
+     "transient": 0,
+     "bad": 0
+    },
+    "pages_labeled": 400,
+    "tokens_per_page": {
+     "input": 0.1,
+     "cache_write": 832.3,
+     "cache_read": 308.2,
+     "output": 34.5
+    },
+    "list_price_usd_per_1k_pages": 3.7,
+    "wall_s_per_call": {
+     "median": 7.3,
+     "p90": 7.7
+    }
+   },
+   "labels": {
+    "pages": 300,
+    "labels_per_page": 1.2,
+    "empty_pages": 13,
+    "tier1_label_share": 0.134,
+    "pages_with_parent_and_child": 0,
+    "secondary_labels": 72,
+    "secondary_below_0_5": 47,
+    "top_confidence_mean": 0.627
+   },
+   "repeat_consistency": {
+    "pages": 100,
+    "both_empty": 4,
+    "tier2_jaccard": {
+     "mean": 0.793,
+     "ci95": [
+      0.718,
+      0.863
+     ],
+     "n": 100
+    },
+    "tier2_jaccard_secondaries_0_5": {
+     "mean": 0.795,
+     "ci95": [
+      0.72,
+      0.87
+     ],
+     "n": 100
+    },
+    "tier2_same_top": {
+     "mean": 0.8,
+     "ci95": [
+      0.72,
+      0.87
+     ],
+     "n": 100
+    },
+    "tier1_jaccard": {
+     "mean": 0.89,
+     "ci95": [
+      0.835,
+      0.942
+     ],
+     "n": 100
+    },
+    "tier1_same_top": {
+     "mean": 0.9,
+     "ci95": [
+      0.84,
+      0.96
+     ],
+     "n": 100
+    }
+   }
+  }
+ },
+ "agreement": {
+  "pilot-v0 vs pilot-v1": {
+   "pages": 500,
+   "both_empty": 41,
+   "tier2_jaccard": {
+    "mean": 0.611,
+    "ci95": [
+     0.585,
+     0.637
+    ],
+    "n": 500
+   },
+   "tier2_jaccard_secondaries_0_5": {
+    "mean": 0.782,
+    "ci95": [
+     0.752,
+     0.812
+    ],
+    "n": 500
+   },
+   "tier2_same_top": {
+    "mean": 0.806,
+    "ci95": [
+     0.772,
+     0.842
+    ],
+    "n": 500
+   },
+   "tier1_jaccard": {
+    "mean": 0.745,
+    "ci95": [
+     0.718,
+     0.771
+    ],
+    "n": 500
+   },
+   "tier1_same_top": {
+    "mean": 0.874,
+    "ci95": [
+     0.844,
+     0.902
+    ],
+    "n": 500
+   }
+  },
+  "pilot-v0 vs pilot-v2": {
+   "pages": 500,
+   "both_empty": 17,
+   "tier2_jaccard": {
+    "mean": 0.58,
+    "ci95": [
+     0.553,
+     0.606
+    ],
+    "n": 500
+   },
+   "tier2_jaccard_secondaries_0_5": {
+    "mean": 0.756,
+    "ci95": [
+     0.724,
+     0.788
+    ],
+    "n": 500
+   },
+   "tier2_same_top": {
+    "mean": 0.796,
+    "ci95": [
+     0.76,
+     0.832
+    ],
+    "n": 500
+   },
+   "tier1_jaccard": {
+    "mean": 0.728,
+    "ci95": [
+     0.7,
+     0.754
+    ],
+    "n": 500
+   },
+   "tier1_same_top": {
+    "mean": 0.85,
+    "ci95": [
+     0.818,
+     0.878
+    ],
+    "n": 500
+   }
+  },
+  "pilot-v0 vs pilot-opus-v2": {
+   "pages": 100,
+   "both_empty": 1,
+   "tier2_jaccard": {
+    "mean": 0.584,
+    "ci95": [
+     0.517,
+     0.647
+    ],
+    "n": 100
+   },
+   "tier2_jaccard_secondaries_0_5": {
+    "mean": 0.655,
+    "ci95": [
+     0.582,
+     0.73
+    ],
+    "n": 100
+   },
+   "tier2_same_top": {
+    "mean": 0.65,
+    "ci95": [
+     0.55,
+     0.74
+    ],
+    "n": 100
+   },
+   "tier1_jaccard": {
+    "mean": 0.729,
+    "ci95": [
+     0.658,
+     0.795
+    ],
+    "n": 100
+   },
+   "tier1_same_top": {
+    "mean": 0.78,
+    "ci95": [
+     0.7,
+     0.86
+    ],
+    "n": 100
+   }
+  },
+  "pilot-v1 vs pilot-v2": {
+   "pages": 500,
+   "both_empty": 17,
+   "tier2_jaccard": {
+    "mean": 0.737,
+    "ci95": [
+     0.703,
+     0.77
+    ],
+    "n": 500
+   },
+   "tier2_jaccard_secondaries_0_5": {
+    "mean": 0.767,
+    "ci95": [
+     0.732,
+     0.802
+    ],
+    "n": 500
+   },
+   "tier2_same_top": {
+    "mean": 0.776,
+    "ci95": [
+     0.74,
+     0.81
+    ],
+    "n": 500
+   },
+   "tier1_jaccard": {
+    "mean": 0.81,
+    "ci95": [
+     0.78,
+     0.84
+    ],
+    "n": 500
+   },
+   "tier1_same_top": {
+    "mean": 0.84,
+    "ci95": [
+     0.808,
+     0.872
+    ],
+    "n": 500
+   }
+  },
+  "pilot-v1 vs pilot-opus-v2": {
+   "pages": 100,
+   "both_empty": 1,
+   "tier2_jaccard": {
+    "mean": 0.637,
+    "ci95": [
+     0.557,
+     0.712
+    ],
+    "n": 100
+   },
+   "tier2_jaccard_secondaries_0_5": {
+    "mean": 0.622,
+    "ci95": [
+     0.54,
+     0.702
+    ],
+    "n": 100
+   },
+   "tier2_same_top": {
+    "mean": 0.6,
+    "ci95": [
+     0.51,
+     0.69
+    ],
+    "n": 100
+   },
+   "tier1_jaccard": {
+    "mean": 0.747,
+    "ci95": [
+     0.665,
+     0.823
+    ],
+    "n": 100
+   },
+   "tier1_same_top": {
+    "mean": 0.72,
+    "ci95": [
+     0.63,
+     0.81
+    ],
+    "n": 100
+   }
+  },
+  "pilot-v2 vs pilot-opus-v2": {
+   "pages": 100,
+   "both_empty": 1,
+   "tier2_jaccard": {
+    "mean": 0.703,
+    "ci95": [
+     0.63,
+     0.775
+    ],
+    "n": 100
+   },
+   "tier2_jaccard_secondaries_0_5": {
+    "mean": 0.687,
+    "ci95": [
+     0.61,
+     0.762
+    ],
+    "n": 100
+   },
+   "tier2_same_top": {
+    "mean": 0.68,
+    "ci95": [
+     0.58,
+     0.77
+    ],
+    "n": 100
+   },
+   "tier1_jaccard": {
+    "mean": 0.812,
+    "ci95": [
+     0.745,
+     0.875
+    ],
+    "n": 100
+   },
+   "tier1_same_top": {
+    "mean": 0.8,
+    "ci95": [
+     0.72,
+     0.87
+    ],
+    "n": 100
+   }
+  },
+  "holdout-v0 vs holdout-v2": {
+   "pages": 300,
+   "both_empty": 13,
+   "tier2_jaccard": {
+    "mean": 0.556,
+    "ci95": [
+     0.525,
+     0.589
+    ],
+    "n": 300
+   },
+   "tier2_jaccard_secondaries_0_5": {
+    "mean": 0.751,
+    "ci95": [
+     0.71,
+     0.792
+    ],
+    "n": 300
+   },
+   "tier2_same_top": {
+    "mean": 0.78,
+    "ci95": [
+     0.733,
+     0.823
+    ],
+    "n": 300
+   },
+   "tier1_jaccard": {
+    "mean": 0.725,
+    "ci95": [
+     0.692,
+     0.759
+    ],
+    "n": 300
+   },
+   "tier1_same_top": {
+    "mean": 0.867,
+    "ci95": [
+     0.827,
+     0.903
+    ],
+    "n": 300
+   }
+  }
+ },
+ "repeat_diff_tier2_jaccard": {
+  "pilot-v1 minus pilot-v0": {
+   "mean": 0.052,
+   "ci95": [
+    -0.042,
+    0.144
+   ],
+   "n": 100
+  },
+  "pilot-v2 minus pilot-v0": {
+   "mean": 0.023,
+   "ci95": [
+    -0.069,
+    0.117
+   ],
+   "n": 100
+  },
+  "pilot-v2 minus pilot-v1": {
+   "mean": -0.028,
+   "ci95": [
+    -0.112,
+    0.055
+   ],
+   "n": 100
+  },
+  "holdout-v2 minus holdout-v0": {
+   "mean": 0.032,
+   "ci95": [
+    -0.062,
+    0.125
+   ],
+   "n": 100
+  }
+ }
+}
