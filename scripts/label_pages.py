@@ -94,6 +94,8 @@ def main() -> None:
     ap.add_argument("--repeat-frac", type=float, default=0.0, help="batches labeled twice")
     ap.add_argument("--backend", choices=["claude", "ollama", "agy"], default="claude")
     ap.add_argument("--batch-size", type=int)
+    ap.add_argument("--text-field", help="override [input] text_field, e.g. text_resiliparse")
+    ap.add_argument("--fallback-field", help="override [input] fallback_field")
     ap.add_argument("--claude-bin", default="claude")
     ap.add_argument("--agy-bin", default="agy")
     ap.add_argument("--exclude-runs", nargs="*", default=[], help="skip these runs' domains")
@@ -102,6 +104,8 @@ def main() -> None:
     claude.check_env()
     cfg = tomllib.loads(args.config.read_text())
     inp, tch = cfg["input"], cfg["teacher"]
+    inp["text_field"] = args.text_field or inp["text_field"]
+    inp["fallback_field"] = args.fallback_field or inp["fallback_field"]
     olm = cfg.get("ollama", {})
     model = args.model or {"ollama": olm.get("model"), "agy": cfg.get("agy", {}).get("model")}.get(
         args.backend, tch["model"]
