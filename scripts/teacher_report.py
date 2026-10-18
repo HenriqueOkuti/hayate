@@ -179,6 +179,12 @@ def main() -> None:
             "prompt_sha256": stamp["config"].get("prompt_sha256"),
             "claude_version": stamp["config"].get("claude_version"),
             "taxonomy_sha256": stamp["config"]["taxonomy_sha256"],
+            "ollama_version": stamp["config"].get("ollama_version"),
+            "agy_version": stamp["config"].get("agy_version"),
+            "backend": stamp["config"].get("backend", "claude"),
+            "batch_size": stamp["config"].get("batch_size")
+            or stamp["config"]["teacher"]["batch_size"],
+            "text_field": stamp["config"]["input"]["text_field"],
             "calls": call_stats(read_jsonl(base / run / "calls.jsonl")),
             "labels": label_stats(list(mains[run].values()), labels),
             "repeat_consistency": (
@@ -191,11 +197,17 @@ def main() -> None:
         if len(shared) >= MIN_COMMON:
             rows = [mains[run][p] for p in sorted(shared)]
             runs[run][f"labels_on_{first}_pages"] = label_stats(rows, labels)
-    pairs = {
-        f"{a} vs {b}": agreement(mains[a], mains[b], tier1)
-        for a, b in combinations(args.runs, 2)
-        if len(mains[a].keys() & mains[b].keys()) >= MIN_COMMON
-    }
+    pairs = {}
+    for a, b in combinations(args.runs, 2):
+        if len(mains[a].keys() & mains[b].keys()) < MIN_COMMON:
+            continue
+        pairs[f"{a} vs {b}"] = agreement(mains[a], mains[b], tier1)
+        # also on the pages both runs repeated, to set beside their repeat consistency
+        both = repeats[a].keys() & repeats[b].keys()
+        if len(both) >= MIN_COMMON:
+            pairs[f"{a} vs {b}"]["on_repeat_pages"] = agreement(
+                {p: mains[a][p] for p in both}, {p: mains[b][p] for p in both}, tier1
+            )
     repeat_diffs = {
         f"{b} minus {a}": paired_repeat_diff((mains[a], repeats[a]), (mains[b], repeats[b]))
         for a, b in combinations(args.runs, 2)
