@@ -138,8 +138,11 @@ def call_stats(calls: list[dict]) -> dict:
             "cache_read": per_page("cache_read_input_tokens"),
             "output": per_page("output_tokens"),
         },
-        "list_price_usd_per_1k_pages": round(
-            sum(c.get("cost_usd_list") or 0 for c in main) / pages * 1000, 2
+        # only claude -p reports a list-price equivalent; None for the other backends
+        "list_price_usd_per_1k_pages": (
+            round(sum(c["cost_usd_list"] for c in main) / pages * 1000, 2)
+            if all(c.get("cost_usd_list") is not None for c in main)
+            else None
         ),
         "wall_s_per_call": {
             "median": round(statistics.median(walls), 1),
