@@ -1,0 +1,30 @@
+# Teacher labeling with headless Claude Code (#4 pilot; the bulk plan is on #6).
+# Used by scripts/label_pages.py. Runs on the Claude Code plan, never an API key.
+
+[input]
+pages = "data/pages/pages.parquet"
+labels = "data/taxonomy/labels.json"
+text_field = "text_trafilatura"
+fallback_field = "text_resiliparse"  # used when the main field is shorter than min_chars
+min_chars = 200
+max_chars = 3000  # characters of page text sent per page
+
+[teacher]
+model = "sonnet"
+batch_size = 25
+workers = 4
+retries = 3  # per batch, for transient errors and invalid answers
+backoff_s = 20  # doubled on each retry
+timeout_s = 600
+
+[output]
+dir = "data/labels"  # data/labels/<run>/, never committed
+
+[ollama]  # --backend ollama: a local open-weight model on the GPU (#54)
+host = "http://127.0.0.1:11434"
+model = "gemma4:12b-it-qat"  # Apache-2.0, 4-bit QAT, fits the 12 GB RTX 4070 SUPER
+num_ctx = 16384  # system prompt (~9k tokens) plus a 5-page batch
+
+[agy]  # --backend agy: a model served by the Antigravity CLI on a personal subscription (#54)
+model = "gemini-4-argon-low"  # Gemini 4 Argon, low thinking effort
+batch_size = 10  # the whole prompt is one CLI argument, capped at 128 KiB

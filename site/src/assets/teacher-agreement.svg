@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" width="720" height="300" role="img" aria-labelledby="t d">
+<title id="t">Agreement of each teacher with Sonnet 5.5</title>
+<desc id="d">Tier-2 Jaccard with Sonnet 5.5: Opus 5.5 0.70 (95% interval 0.63 to 0.78, 100 pages); Gemini 4 Argon 0.68 (95% interval 0.61 to 0.75, 100 pages); Gemma 4 12B 0.42 (95% interval 0.38 to 0.47, 300 holdout pages). Sonnet against its own rerun: 0.79 (0.72 to 0.86).</desc>
+<style>
+  .ink { fill: #0b0b0b; } .muted, .tick { fill: #52514e; } .tick { font-size: 12px; }
+  .grid { stroke: #e4e3df; stroke-width: 1; } .band { fill: #e4e3df; } .bandline { stroke: #8a8984; stroke-width: 1.5; stroke-dasharray: 4 4; }
+  .s1 { fill: #2a78d6; } .s1l { stroke: #2a78d6; } .s2 { fill: #eb6834; }
+  .ring { stroke: #fcfcfb; }
+  text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+  @media (prefers-color-scheme: dark) {
+    .ink { fill: #f0efec; } .muted, .tick { fill: #c3c2b7; } .grid { stroke: #2e2e2c; } .band { fill: #2e2e2c; } .bandline { stroke: #8a8984; }
+    .s1 { fill: #3987e5; } .s1l { stroke: #3987e5; } .s2 { fill: #d95926; } .ring { stroke: #1a1a19; }
+  }
+</style>
+<text class="ink" x="16" y="26" font-size="16" font-weight="600">Opus and Argon land near Sonnet&#8217;s own rerun; Gemma is far off</text>
+<text class="muted" x="16" y="45" font-size="12">Tier-2 Jaccard with Sonnet 5.5 labels, prompt v2, dots with 95% intervals. Gray band: Sonnet against its own rerun.</text>
+<line class="grid" x1="170.0" x2="170.0" y1="80" y2="248"/>
+<text class="tick" x="170.0" y="266" text-anchor="middle">0</text>
+<line class="grid" x1="297.5" x2="297.5" y1="80" y2="248"/>
+<text class="tick" x="297.5" y="266" text-anchor="middle">0.25</text>
+<line class="grid" x1="425.0" x2="425.0" y1="80" y2="248"/>
+<text class="tick" x="425.0" y="266" text-anchor="middle">0.5</text>
+<line class="grid" x1="552.5" x2="552.5" y1="80" y2="248"/>
+<text class="tick" x="552.5" y="266" text-anchor="middle">0.75</text>
+<line class="grid" x1="680.0" x2="680.0" y1="80" y2="248"/>
+<text class="tick" x="680.0" y="266" text-anchor="middle">1</text>
+<rect class="band" x="536.2" y="80" width="73.9" height="168" opacity="0.8"/>
+<line class="bandline" x1="574.4" x2="574.4" y1="80" y2="248"/>
+<text class="muted" x="574.4" y="74" font-size="12" text-anchor="middle">Sonnet vs itself 0.79</text>
+<text class="ink" x="158" y="116.0" font-size="13" text-anchor="end">Opus 5.5</text>
+<text class="muted" x="158" y="131.0" font-size="11" text-anchor="end">100 pages</text>
+<line class="s1l" x1="491.3" x2="565.2" y1="118.0" y2="118.0" stroke-width="2" stroke-linecap="round"/>
+<circle class="s1 ring" cx="528.5" cy="118.0" r="6" stroke-width="2"/>
+<text class="ink" x="483.3" y="122.0" font-size="12" text-anchor="end">0.70</text>
+<text class="ink" x="158" y="168.0" font-size="13" text-anchor="end">Gemini 4 Argon</text>
+<text class="muted" x="158" y="183.0" font-size="11" text-anchor="end">100 pages</text>
+<line class="s1l" x1="481.1" x2="551.5" y1="170.0" y2="170.0" stroke-width="2" stroke-linecap="round"/>
+<circle class="s1 ring" cx="517.3" cy="170.0" r="6" stroke-width="2"/>
+<text class="ink" x="473.1" y="174.0" font-size="12" text-anchor="end">0.68</text>
+<text class="ink" x="158" y="220.0" font-size="13" text-anchor="end">Gemma 4 12B</text>
+<text class="muted" x="158" y="235.0" font-size="11" text-anchor="end">300 holdout pages</text>
+<line class="s1l" x1="364.3" x2="408.2" y1="222.0" y2="222.0" stroke-width="2" stroke-linecap="round"/>
+<circle class="s1 ring" cx="386.2" cy="222.0" r="6" stroke-width="2"/>
+<text class="ink" x="416.2" y="226.0" font-size="12" text-anchor="start">0.42</text>
+<text class="muted" x="425.0" y="286" font-size="12" text-anchor="middle">Jaccard: shared labels / all labels used, averaged over pages (1 = identical)</text>
+</svg>
