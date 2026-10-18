@@ -1,12 +1,12 @@
 # Teacher pilot (W03, #4 and #54)
 
-Run 2026-10-18 with Claude Code 2.1.302, Ollama 0.40.6 and Antigravity 1.4.2. Every run's code commit is in [teacher-pilot.json](teacher-pilot.json), written by `scripts/teacher_report.py` from the run outputs in `data/labels/` (not committed). Earlier experiments on 20 to 100 pages, with subagents and other vendors, are on [#4](https://github.com/HenriqueOkuti/hayate/issues/4).
+Run 2026-10-18 with Claude Code 2.1.302, Ollama 0.40.6 and Antigravity 1.4.2. Every run's code commit, backend version, batch size and text field are in [teacher-pilot.json](teacher-pilot.json), written by `scripts/teacher_report.py` from the run outputs in `data/labels/` (not committed). Seven runs cite commit `5656019`, the pre-squash branch of PR #53; its code is the same as `4de7d89` on `main` except one line of `teacher_report.py`. Earlier experiments on 20 to 100 pages, with subagents and other vendors, are on [#4](https://github.com/HenriqueOkuti/hayate/issues/4).
 
 ## Setup
 
 - **Teachers:**
   - Sonnet 5.5 and Opus 5.5 through headless `claude -p` from an empty directory, with tools off, no settings or MCP servers, and 25 pages per call (Claude Code plan).
-  - Gemini 4 Argon (low effort) through `agy -p`, the Antigravity CLI, with 10 pages per call and a one-line "no tools, no plan" instruction added to the prompt (Henrique's Google subscription).
+  - Gemini 4 Argon (low effort) through `agy -p`, the Antigravity CLI, with 10 pages per call and a one-line "no tools, no plan" instruction added to the prompt (`NO_TOOLS` in `src/hayate/teacher/agy.py`; the recorded prompt hash is of plain `v2`), on Henrique's Google subscription.
   - Gemma 4 12B (Apache-2.0, 4-bit QAT) through Ollama on the RTX 4070 SUPER, with 5 pages per call.
 - **Answers:** every teacher is held to the same JSON schema (label ids are an enum of the 330 labels, at most 5 per page) and the same validation. No API keys are used.
 - **Pages:** each page gives the teacher its URL, title, meta description and the first 3,000 characters of the trafilatura text (resiliparse if trafilatura gave under 200). One run uses resiliparse text instead, to test the extractor. Code: `src/hayate/teacher/`, `scripts/label_pages.py`, `configs/teacher.toml`.
@@ -72,24 +72,25 @@ Agreement between teachers, all on prompt `v2`, on the same 100 development page
 | Sonnet and Gemma, holdout | 0.42 (0.38 to 0.47) | 0.48 | 0.59 | 0.63 |
 | Sonnet `v0` and Opus | 0.58 (0.52 to 0.65) | 0.65 | 0.73 | 0.78 |
 
-Sonnet `v2` on the holdout, trafilatura text against resiliparse text: Tier-2 Jaccard 0.81 (0.77 to 0.84), same top 0.84; Tier 1 0.89 and 0.91.
+Sonnet `v2` on the holdout, trafilatura text against resiliparse text: Tier-2 Jaccard 0.81 (0.77 to 0.84) on all 300 pages, same top 0.84; Tier 1 0.89 and 0.91. On the 100 repeat pages alone, 0.78 (0.71 to 0.85). 51 of the 300 pages got identical text from both extractors, and URL, title and description are the same in both runs.
 
 **Cost and speed:**
 
 - **Sonnet `v2` on the holdout** (fresh pages, so not distorted by the prompt cache): about 1.18k tokens per page (830 cache writes, 310 cache reads, 35 output) and a median 7.3 s per 25-page call. The list-price equivalent is about $3.7 per 1,000 pages; nothing is billed on the plan.
 - **Development reruns:** they read most of their input from the prompt cache left by an earlier run of the same pages, so their cost figures are not representative.
-- **Argon:** about 2.3k tokens per page (including about 14k tokens of agent overhead per call) and 10 s per 10-page call.
-- **Gemma:** about 9.5 s per 5-page call on the 4070, about 1.9 s per page, against about 0.3 s per page for Sonnet.
+- **Argon:** about 2.3k tokens per page, including the CLI agent's own context, and a median 10 s per 10-page call.
+- **Gemma:** a median 9.5 s per 5-page call on the 4070, one call at a time (about 0.5 pages per second). Sonnet took 7.3 s per 25-page call with 8 calls in parallel. Batch size and parallelism differ, so this is not a like-for-like speed comparison.
 
 All 337 calls of the final runs returned valid output on the first attempt (4,230 page labelings), with no rate-limit or usage-limit error.
 
 ## What it shows
 
-- **`v2` fixes the label shape, and it holds on the holdout.** Parent-and-child pairs go from 13 to 15% of pages to under 1%, labels per page from about 2 to 1.2, and empty pages stay rare (about 4%) and are mostly real no-topic pages (terms of service, password and account pages, a directory listing). `v1` over-pruned: about half of the pages it left empty but `v0` labeled had a clear topic (a travel article, product pages).
-- **No prompt makes Sonnet more consistent.** Repeat agreement is about 0.76 to 0.81 Tier-2 Jaccard and 0.82 to 0.89 at Tier 1 whatever the prompt. Earlier same-input repeats (an identical batch replayed from the cache) gave higher numbers and measured only sampling noise.
-- **The three frontier models agree about equally with each other.** Opus, Argon and Sonnet agree at 0.68 to 0.73 Tier-2 Jaccard and 0.81 to 0.84 at Tier 1, with no sign of the two Claude models clustering. `v2` brings Sonnet into that band (0.70 against Opus, from 0.58 with `v0`). Argon is the most self-consistent (0.92 on 30 pages) and the most confident; Sonnet ignores the 0.5 floor for secondaries, while Opus and Argon follow it.
-- **The local Gemma 4 12B is a much weaker teacher.** It agrees with each frontier model at only 0.42 to 0.47 Tier-2 Jaccard, agrees with itself on a repeat at 0.49 to 0.55 (against Sonnet's 0.79), gives Tier-1 parents with their children on 6% of pages, and reports high confidence (0.85) regardless. It is free and its labels are open, but it is about 6 times slower per page than Sonnet on this GPU.
-- **The extractor does not change the teacher's labels.** Sonnet's labels from resiliparse text agree with its trafilatura labels (0.81 Tier-2 Jaccard) as closely as Sonnet agrees with itself on a rerun (0.79). The choice between the two (decision 0006) can rest on the student's F1 and on speed: trafilatura takes a median 16 ms per page against 1 ms for resiliparse.
+- **`v2` fixes the label shape, and it holds on the holdout.** Parent-and-child pairs go from 13 to 15% of pages to under 1%, labels per page from about 2 to 1.2, and empty pages stay rare (about 4%) and are mostly real no-topic pages (terms of service, password and account pages, a directory listing). `v1` over-pruned: in a spot check of 16 such pages in a first round of runs, about half of the pages it left empty but `v0` labeled had a clear topic (a travel article, product pages).
+- **No prompt makes Sonnet more consistent.** Repeat agreement is about 0.76 to 0.81 Tier-2 Jaccard and 0.82 to 0.89 at Tier 1 whatever the prompt. A first round of runs, not in the JSON, repeated identical batches served from the prompt cache and gave higher numbers (0.86 for `v2`); that measured only sampling noise on a fixed input.
+- **The three frontier models sit close together.** On 100 pages the three pairs of Opus, Argon and Sonnet fall within 0.05 of each other (0.68 to 0.73 Tier-2 Jaccard, 0.81 to 0.84 at Tier 1) with overlapping intervals; a difference under about 0.1, including the two Claude models agreeing more with each other, cannot be ruled out at this size. `v2` brings Sonnet into that band (0.70 against Opus, from 0.58 with `v0`). Argon's repeat agreement was higher (0.92 on 30 pages in 10-page batches, not paired with Sonnet's) and it is the most confident; Sonnet ignores the 0.5 floor for secondaries, while Opus and Argon follow it.
+- **The local Gemma 4 12B is a much weaker teacher.** It agrees with each frontier model at only 0.42 to 0.47 Tier-2 Jaccard, agrees with itself on a repeat at 0.49 to 0.55 (against Sonnet's 0.79), gives Tier-1 parents with their children on 6% of pages, and reports high confidence (0.85) regardless. It is free and its labels are open, and it labeled about 0.5 pages per second on this GPU.
+- **The extractor does not change the teacher's labels much.** On the same 100 repeat pages, Sonnet's trafilatura and resiliparse labels agree at 0.78 Tier-2 Jaccard, within Sonnet's own repeat range on those pages (0.79 to 0.82). This is a weak test of the extractor: 51 of 300 pages got identical text, and the URL, title and description, shared by both runs, carry much of the signal. The choice between the two (decision 0006) can rest on the student's F1 and on speed: trafilatura takes a median 16 ms per page against 1 ms for resiliparse.
+- **Caveat for all cross-model numbers:** batch sizes differ (25 pages per call for Sonnet and Opus, 10 for Argon, 5 for Gemma), and Argon's prompt has an added no-tools sentence, so agreement and repeat figures across models are confounded by setup as well as by the model.
 - **Throughput is not the limit.** At the holdout rate, 20k pages is about 24M tokens and, with 8 calls in parallel, roughly 15 minutes. How much of the plan's usage that takes was not measured: the runs did not read the usage meter.
 
 ## Not done
