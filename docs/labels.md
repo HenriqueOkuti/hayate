@@ -27,7 +27,7 @@ Snapshot 2026-10-07. Sources and details are in [research/2026-10-07-taxonomy-te
 - `id` is a JSON-schema **enum of valid IDs** (structured output on API models, constrained decoding on open models).
 - Each record stores the model ID, prompt version, taxonomy SHA, sampling settings and token usage.
 - **Prompting the ~700 labels:**
-  1. Start with the full list (~8k tokens) in a **cached** prefix.
+  1. Start with the full list (~8k tokens) in a **cached** prefix. **Chosen in [0004](decisions/0004-taxonomy-prompting.md).**
   2. Compare against a hierarchical pass (pick Tier 1, then the subtree).
   3. Infer–retrieve–rank ([arXiv:2401.12178](https://arxiv.org/abs/2401.12178)) is the fallback.
 - **Confidence:**
@@ -49,7 +49,7 @@ Cost assumes 1,000 tokens in and 100 out per page. The Claude tokenizer adds abo
 
 **Terms (not legal advice):** Anthropic, OpenAI and Google forbid using outputs to train *competing* models. A tiny fixed-taxonomy classifier in a personal repo is low risk, but publishing its labels or weights counts as distribution.
 
-- **Default:** labels or weights that will be published come from an Apache or MIT teacher. API models serve as a reference.
-- **Avoid as the published teacher:**
+- **Decided ([0003](decisions/0003-teacher.md), 2026-10-18):** Henrique chose to allow publishing labels made by Claude and students trained on them. An Apache or MIT teacher stays the fallback for a fully open label set.
+- **Avoid as an open-weight teacher:**
   - Gemma ≤ 3: a model distilled from it inherits the Gemma terms.
   - Llama 4: a published student must be named "Llama…".
