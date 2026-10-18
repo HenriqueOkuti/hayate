@@ -36,6 +36,8 @@ Snapshot 2026-10-07. Sources and details are in [research/2026-10-07-taxonomy-te
 
 ## Teacher choice
 
+**Decided in [0003](decisions/0003-teacher.md):** Sonnet 5.5 through headless `claude -p` on the Claude Code plan, with Opus 5.5 as the reference; pilot numbers in [results/teacher-pilot.md](../results/teacher-pilot.md). The table below is the option survey from before the pilot.
+
 | Option | Cost | Notes |
 | --- | --- | --- |
 | Local open-weight model on the RTX 4070 SUPER (12 GB) | Free (electricity) | Fits ~8–14B models at 4-bit, e.g. Gemma 4 12B (Apache-2.0). Qwen3.8-27B (Apache-2.0) does **not** fit at 4-bit. Weaker than the API models, but its labels are **publishable**. |

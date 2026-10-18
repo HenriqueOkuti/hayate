@@ -175,6 +175,7 @@ def main() -> None:
             "commit": stamp["commit"],
             "prompt_sha256": stamp["config"].get("prompt_sha256"),
             "claude_version": stamp["config"].get("claude_version"),
+            "taxonomy_sha256": stamp["config"]["taxonomy_sha256"],
             "calls": call_stats(read_jsonl(base / run / "calls.jsonl")),
             "labels": label_stats(list(mains[run].values()), labels),
             "repeat_consistency": (
