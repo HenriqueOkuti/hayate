@@ -164,3 +164,29 @@ def test_ollama_call_parses_and_guards_context(monkeypatch):
     assert res["usage"] == {"input_tokens": 9, "output_tokens": 3}
     with pytest.raises(claude.CallError):
         ollama.call("x" * 400, "system", {}, "m", "http://x", num_ctx=100)
+
+
+FAKE_AGY = """#!/usr/bin/env python3
+import json, re, sys
+prompt = [a for a in sys.argv if a.startswith("-p=")][0]
+ids = re.findall(r'<page id="(p\\d+)">', prompt)
+out = {"pages": [{"page": i, "labels": [{"id": "9", "confidence": 0.7}]} for i in ids]}
+print(json.dumps({"status": "SUCCESS", "structured_output": out, "duration_seconds": 1.5,
+                  "usage": {"input_tokens": 100, "cache_read_tokens": 40, "output_tokens": 5,
+                            "thinking_tokens": 2}}))
+"""
+
+
+def test_agy_call_with_fake_binary(tmp_path):
+    from hayate.teacher import agy
+
+    fake = tmp_path / "fake-agy"
+    fake.write_text(FAKE_AGY)
+    fake.chmod(0o755)
+    pages = [claude.Page("a", "https://x.test/", "T", "D", "text")]
+    full = agy.prompt("system", claude.batch_input(pages, 100))
+    res = agy.call(full, "{}", "m", str(tmp_path), str(fake))
+    assert claude.validate(res["structured_output"], 1, VALID)["p01"][0]["id"] == "9"
+    assert res["usage"] == {"input_tokens": 60, "cache_read_input_tokens": 40, "output_tokens": 7}
+    with pytest.raises(claude.CallError):
+        agy.call("x" * (agy.MAX_PROMPT_CHARS + 1), "{}", "m", str(tmp_path), str(fake))
