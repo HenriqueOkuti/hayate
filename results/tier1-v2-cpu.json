@@ -1,0 +1,27 @@
+{
+  "step": "tier1-v2 CPU bundle checks",
+  "commit": "1957ffda5c94c863ba808cec9aa14e4d2c05de6c",
+  "created": "2026-11-14T13:27:56Z",
+  "bundle": "artifacts/tier1-v2/cpu (not committed)",
+  "export_check": {
+    "script": "scripts/export_tier1.py --name tier1-v2",
+    "split": "val",
+    "pages": 500,
+    "max_abs_logit_diff": 0.0000019073486328125,
+    "same_labels_as_training": 500,
+    "bundle_sha256": "9d30c3af47a9a7e7491b38fb713f57f445ca250db0fc1636c72c43b98f8207dd"
+  },
+  "go_parity": {
+    "command": "go/cmd/tier1-parity -bundle artifacts/tier1-v2/cpu",
+    "split": "test",
+    "max_abs_feature_diff": 0,
+    "max_abs_prob_diff": 1.1920928955078125E-7,
+    "mismatch_count": 0,
+    "ok": true,
+    "pages": 1875,
+    "same_feature_indices": 1875,
+    "same_input": 1875,
+    "same_labels": 1875,
+    "tolerance": 0.00001
+  }
+}
