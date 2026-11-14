@@ -15,6 +15,7 @@ One file per decision, `NNNN-short-title.md`, copied from [0000-template.md](000
 - [0009: Mascot rig tool](0009-mascot-rig.md): layered WebP with CSS keyframes and a tiny JS blink; no runtime, all MIT.
 - [0010: Reference sample v0](0010-reference-sample.md): no human labeling; the labels two of three panel members (Sonnet, Opus, Gemini Argon) agree on, for the 300 holdout pages; reported as agreement, never accuracy.
 - [0011: Splits and label-set version](0011-splits-and-label-set.md): components of related domains (brand, same or near-duplicate text) split by fixed hash, holdout to test, pilot to train; one relabeling run `bulk-v2` with a manifest.
+- [0012: Go first](0012-go-first.md): inference and every latency number in Go now; new training in Go with GoMLX from W08; existing Python replaced as Go versions pass the same tests. Updates 0001.
 
 ## Pending
 

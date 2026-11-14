@@ -1,6 +1,7 @@
-# Allowlist: the bench image only needs code. Data, artifacts and results are mounted.
+# Allowlist: the bench images only need code. Data, artifacts and results are mounted.
 *
 !docker/bench/requirements.txt
 !src/
 !scripts/
+!go/
 **/__pycache__
