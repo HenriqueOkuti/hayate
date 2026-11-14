@@ -1,6 +1,7 @@
 """Record which config and code version produced an output file."""
 
 import json
+import os
 import subprocess
 from datetime import UTC, datetime
 
@@ -9,7 +10,12 @@ import pyarrow.parquet as pq
 
 
 def git_commit() -> str:
-    """Current commit, with a -dirty suffix if the work tree has uncommitted changes."""
+    """Current commit, with a -dirty suffix if the work tree has uncommitted changes.
+
+    HAYATE_COMMIT overrides it, for code running where git is not available (the bench image).
+    """
+    if os.environ.get("HAYATE_COMMIT"):
+        return os.environ["HAYATE_COMMIT"]
     try:
         sha = subprocess.run(
             ["git", "rev-parse", "HEAD"], capture_output=True, text=True, check=True

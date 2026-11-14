@@ -1,0 +1,6 @@
+# Allowlist: the bench image only needs code. Data, artifacts and results are mounted.
+*
+!docker/bench/requirements.txt
+!src/
+!scripts/
+**/__pycache__
