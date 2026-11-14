@@ -1,0 +1,3375 @@
+{
+ "step": "train_tier1",
+ "commit": "b261e6743b3409cba5df2c418f0a36028c91e667",
+ "created": "2026-11-14T10:36:06+00:00",
+ "config": {
+  "name": "tier1-v1",
+  "labels_run": "bulk-v2",
+  "splits": "splits-v1",
+  "split_column": "split",
+  "text_field": "text_trafilatura",
+  "fallback_field": "text_resiliparse",
+  "min_chars": 200,
+  "max_chars": 3000,
+  "lrs": [
+   0.003,
+   0.01,
+   0.03
+  ],
+  "weight_decay": 0.0,
+  "max_epochs": 20,
+  "word_bits": 18,
+  "char_bits": 18,
+  "max_labels": 5,
+  "top1_floors": [
+   -1.0,
+   0.0,
+   0.01,
+   0.02,
+   0.03,
+   0.04
+  ],
+  "min_supports": [
+   5,
+   20,
+   50,
+   1000000000
+  ],
+  "reference": "data/labels/panel-v0/reference.jsonl",
+  "panel_leave_out": "holdout-v2",
+  "min_votes": 2,
+  "pages": "data/pages/pages.parquet",
+  "labels_json": "data/taxonomy/labels.json",
+  "labels_dir": "data/labels",
+  "splits_dir": "data/splits"
+ },
+ "inputs": {
+  "taxonomy_sha256": "7212cdc496ba347a03e703b1932bdcdd4fd29089b058f4edeb4d3da1f1222ea7",
+  "label_set_sha256": "afdb1cfd6190a5b2dd59abc32cab4bc339add3977a24a1218f7ae53354177072",
+  "splits_assignment_sha256": "af101301b560212115453d143d60cdc00c8662915cbaecc13ccfe6bbf73677df",
+  "panel_reference_sha256": "8be6eb400a5b8fda0bad03189a1788005bf152474c2b6ed0ca665c923788ef06",
+  "seed": 0
+ },
+ "environment": {
+  "cpu": "13th Gen Intel(R) Core(TM) i7-13700F",
+  "gpu": "NVIDIA GeForce RTX 4070 SUPER",
+  "python": "3.12.3",
+  "torch": "2.15.0+cu132",
+  "cuda": "13.2",
+  "sklearn": "1.9.1",
+  "numpy": "2.5.4"
+ },
+ "model": {
+  "lr": 0.01,
+  "weight_decay": 0.0,
+  "best_epoch": 3,
+  "features": 524288,
+  "featurize_s": 22.8,
+  "device": "cuda",
+  "temperature": 1.051,
+  "global_threshold": 0.05,
+  "labels_learned": 317,
+  "min_support": 20,
+  "top1_floor": 0.03,
+  "labels_with_own_threshold": 15,
+  "fit_s": 54.9,
+  "note": "fit and featurize times are training costs, not inference latency",
+  "candidates": [
+   {
+    "lr": 0.003,
+    "min_support": 20,
+    "floor": 0.04,
+    "cross": {
+     "5|off": 0.4098,
+     "5|0.0": 0.4217,
+     "5|0.01": 0.4225,
+     "5|0.02": 0.4224,
+     "5|0.03": 0.426,
+     "5|0.04": 0.4262,
+     "20|off": 0.4209,
+     "20|0.0": 0.4359,
+     "20|0.01": 0.4367,
+     "20|0.02": 0.4368,
+     "20|0.03": 0.4412,
+     "20|0.04": 0.4416,
+     "50|off": 0.4149,
+     "50|0.0": 0.4361,
+     "50|0.01": 0.4369,
+     "50|0.02": 0.437,
+     "50|0.03": 0.4412,
+     "50|0.04": 0.4406,
+     "1000000000|off": 0.4087,
+     "1000000000|0.0": 0.4247,
+     "1000000000|0.01": 0.4254,
+     "1000000000|0.02": 0.4254,
+     "1000000000|0.03": 0.4291,
+     "1000000000|0.04": 0.4282
+    },
+    "val_f1_cross": 0.4416,
+    "val_f1_cross_rule_off": 0.4209,
+    "val_f1_in_sample": 0.4531,
+    "val_bce_by_epoch": [
+     0.020153,
+     0.018769,
+     0.017707,
+     0.016894,
+     0.016277,
+     0.015829,
+     0.015525,
+     0.01531,
+     0.015178,
+     0.015108,
+     0.015083,
+     0.015086,
+     0.015115,
+     0.015162
+    ],
+    "best_epoch": 11,
+    "fit_s": 61.2
+   },
+   {
+    "lr": 0.01,
+    "min_support": 20,
+    "floor": 0.03,
+    "cross": {
+     "5|off": 0.4134,
+     "5|0.0": 0.4267,
+     "5|0.01": 0.4278,
+     "5|0.02": 0.4278,
+     "5|0.03": 0.43,
+     "5|0.04": 0.428,
+     "20|off": 0.4377,
+     "20|0.0": 0.447,
+     "20|0.01": 0.4482,
+     "20|0.02": 0.4485,
+     "20|0.03": 0.4516,
+     "20|0.04": 0.4498,
+     "50|off": 0.4334,
+     "50|0.0": 0.4399,
+     "50|0.01": 0.441,
+     "50|0.02": 0.4412,
+     "50|0.03": 0.4442,
+     "50|0.04": 0.4412,
+     "1000000000|off": 0.4223,
+     "1000000000|0.0": 0.4263,
+     "1000000000|0.01": 0.4274,
+     "1000000000|0.02": 0.4274,
+     "1000000000|0.03": 0.43,
+     "1000000000|0.04": 0.4268
+    },
+    "val_f1_cross": 0.4516,
+    "val_f1_cross_rule_off": 0.4377,
+    "val_f1_in_sample": 0.4614,
+    "val_bce_by_epoch": [
+     0.017476,
+     0.015441,
+     0.014783,
+     0.01484,
+     0.015088,
+     0.015386
+    ],
+    "best_epoch": 3,
+    "fit_s": 54.9
+   },
+   {
+    "lr": 0.03,
+    "min_support": 50,
+    "floor": 0.03,
+    "cross": {
+     "5|off": 0.4017,
+     "5|0.0": 0.4196,
+     "5|0.01": 0.4197,
+     "5|0.02": 0.4198,
+     "5|0.03": 0.4214,
+     "5|0.04": 0.4207,
+     "20|off": 0.4192,
+     "20|0.0": 0.4364,
+     "20|0.01": 0.4366,
+     "20|0.02": 0.4368,
+     "20|0.03": 0.4388,
+     "20|0.04": 0.4378,
+     "50|off": 0.4222,
+     "50|0.0": 0.4394,
+     "50|0.01": 0.4395,
+     "50|0.02": 0.4398,
+     "50|0.03": 0.4418,
+     "50|0.04": 0.441,
+     "1000000000|off": 0.4247,
+     "1000000000|0.0": 0.4362,
+     "1000000000|0.01": 0.4364,
+     "1000000000|0.02": 0.4366,
+     "1000000000|0.03": 0.4385,
+     "1000000000|0.04": 0.4377
+    },
+    "val_f1_cross": 0.4418,
+    "val_f1_cross_rule_off": 0.4222,
+    "val_f1_in_sample": 0.4414,
+    "val_bce_by_epoch": [
+     0.014117,
+     0.01449,
+     0.015982,
+     0.016679
+    ],
+    "best_epoch": 1,
+    "fit_s": 19.6
+   }
+  ]
+ },
+ "pages": {
+  "train": 16192,
+  "val": 1933,
+  "test": 1875
+ },
+ "val_cross_fitted_micro_f1": 0.4516,
+ "val_in_sample": {
+  "pages": 1933,
+  "tier2": {
+   "micro": {
+    "precision": 0.4393,
+    "recall": 0.4859,
+    "f1": 0.4614,
+    "f1_ci95": [
+     0.4417,
+     0.4781
+    ]
+   },
+   "macro_f1": 0.2132,
+   "labels_with_support": 253,
+   "exact_match": 0.2902
+  },
+  "tier1": {
+   "micro": {
+    "precision": 0.5828,
+    "recall": 0.5802,
+    "f1": 0.5815,
+    "f1_ci95": [
+     0.5616,
+     0.6
+    ]
+   },
+   "macro_f1": 0.4996,
+   "labels_with_support": 36,
+   "exact_match": 0.433
+  },
+  "hierarchical": {
+   "precision": 0.5228,
+   "recall": 0.5427,
+   "f1": 0.5325
+  }
+ },
+ "test": {
+  "pages": 1875,
+  "tier2": {
+   "micro": {
+    "precision": 0.4168,
+    "recall": 0.4711,
+    "f1": 0.4423,
+    "f1_ci95": [
+     0.4252,
+     0.4602
+    ]
+   },
+   "macro_f1": 0.1784,
+   "labels_with_support": 263,
+   "exact_match": 0.2603,
+   "per_category": {
+    "53": {
+     "name": "Business",
+     "support": 96,
+     "predicted": 168,
+     "precision": 0.4345,
+     "recall": 0.7604,
+     "f1": 0.553
+    },
+    "599": {
+     "name": "Computing",
+     "support": 64,
+     "predicted": 183,
+     "precision": 0.2623,
+     "recall": 0.75,
+     "f1": 0.3887
+    },
+    "90": {
+     "name": "Industries",
+     "support": 61,
+     "predicted": 119,
+     "precision": 0.437,
+     "recall": 0.8525,
+     "f1": 0.5778
+    },
+    "383": {
+     "name": "Law",
+     "support": 51,
+     "predicted": 117,
+     "precision": 0.3846,
+     "recall": 0.8824,
+     "f1": 0.5357
+    },
+    "8YPBBL": {
+     "name": "Civic affairs",
+     "support": 51,
+     "predicted": 85,
+     "precision": 0.3647,
+     "recall": 0.6078,
+     "f1": 0.4559
+    },
+    "280": {
+     "name": "Home Improvement",
+     "support": 49,
+     "predicted": 76,
+     "precision": 0.5395,
+     "recall": 0.8367,
+     "f1": 0.656
+    },
+    "459": {
+     "name": "Christianity",
+     "support": 43,
+     "predicted": 48,
+     "precision": 0.625,
+     "recall": 0.6977,
+     "f1": 0.6593
+    },
+    "338": {
+     "name": "Music",
+     "support": 41,
+     "predicted": 115,
+     "precision": 0.3304,
+     "recall": 0.9268,
+     "f1": 0.4872
+    },
+    "388": {
+     "name": "Political Issues & Policy",
+     "support": 41,
+     "predicted": 75,
+     "precision": 0.3733,
+     "recall": 0.6829,
+     "f1": 0.4828
+    },
+    "286": {
+     "name": "Medical Health",
+     "support": 38,
+     "predicted": 82,
+     "precision": 0.3659,
+     "recall": 0.7895,
+     "f1": 0.5
+    },
+    "287": {
+     "name": "Diseases and Conditions",
+     "support": 38,
+     "predicted": 72,
+     "precision": 0.4444,
+     "recall": 0.8421,
+     "f1": 0.5818
+    },
+    "451": {
+     "name": "Real Estate Buying and Selling",
+     "support": 37,
+     "predicted": 42,
+     "precision": 0.6667,
+     "recall": 0.7568,
+     "f1": 0.7089
+    },
+    "181": {
+     "name": "Casinos & Gambling",
+     "support": 36,
+     "predicted": 38,
+     "precision": 0.8947,
+     "recall": 0.9444,
+     "f1": 0.9189
+    },
+    "467": {
+     "name": "Environment",
+     "support": 33,
+     "predicted": 59,
+     "precision": 0.3729,
+     "recall": 0.6667,
+     "f1": 0.4783
+    },
+    "655": {
+     "name": "Travel Locations",
+     "support": 33,
+     "predicted": 81,
+     "precision": 0.3086,
+     "recall": 0.7576,
+     "f1": 0.4386
+    },
+    "248": {
+     "name": "Arts and Crafts",
+     "support": 31,
+     "predicted": 43,
+     "precision": 0.4186,
+     "recall": 0.5806,
+     "f1": 0.4865
+    },
+    "283": {
+     "name": "Interior Decorating",
+     "support": 31,
+     "predicted": 35,
+     "precision": 0.6286,
+     "recall": 0.7097,
+     "f1": 0.6667
+    },
+    "533": {
+     "name": "Soccer",
+     "support": 27,
+     "predicted": 30,
+     "precision": 0.5667,
+     "recall": 0.6296,
+     "f1": 0.5965
+    },
+    "380": {
+     "name": "Crime",
+     "support": 26,
+     "predicted": 23,
+     "precision": 0.7826,
+     "recall": 0.6923,
+     "f1": 0.7347
+    },
+    "552": {
+     "name": "Style & Fashion",
+     "support": 24,
+     "predicted": 70,
+     "precision": 0.2143,
+     "recall": 0.625,
+     "f1": 0.3191
+    },
+    "410": {
+     "name": "Personal Investing",
+     "support": 24,
+     "predicted": 21,
+     "precision": 0.619,
+     "recall": 0.5417,
+     "f1": 0.5778
+    },
+    "127": {
+     "name": "Job Search",
+     "support": 24,
+     "predicted": 37,
+     "precision": 0.5946,
+     "recall": 0.9167,
+     "f1": 0.7213
+    },
+    "42": {
+     "name": "Books and Literature",
+     "support": 23,
+     "predicted": 20,
+     "precision": 0.45,
+     "recall": 0.3913,
+     "f1": 0.4186
+    },
+    "8VZQHL": {
+     "name": "Events",
+     "support": 23,
+     "predicted": 31,
+     "precision": 0.4194,
+     "recall": 0.5652,
+     "f1": 0.4815
+    },
+    "232": {
+     "name": "Wellness",
+     "support": 22,
+     "predicted": 32,
+     "precision": 0.4688,
+     "recall": 0.6818,
+     "f1": 0.5556
+    },
+    "137": {
+     "name": "College Education",
+     "support": 21,
+     "predicted": 41,
+     "precision": 0.3659,
+     "recall": 0.7143,
+     "f1": 0.4839
+    },
+    "80": {
+     "name": "Economy",
+     "support": 20,
+     "predicted": 27,
+     "precision": 0.3704,
+     "recall": 0.5,
+     "f1": 0.4255
+    },
+    "324": {
+     "name": "Movies",
+     "support": 20,
+     "predicted": 28,
+     "precision": 0.3929,
+     "recall": 0.55,
+     "f1": 0.4583
+    },
+    "560": {
+     "name": "Women's Fashion",
+     "support": 18,
+     "predicted": 32,
+     "precision": 0.3125,
+     "recall": 0.5556,
+     "f1": 0.4
+    },
+    "216": {
+     "name": "Cooking",
+     "support": 18,
+     "predicted": 19,
+     "precision": 0.5263,
+     "recall": 0.5556,
+     "f1": 0.5405
+    },
+    "632": {
+     "name": "Consumer Electronics",
+     "support": 18,
+     "predicted": 28,
+     "precision": 0.4643,
+     "recall": 0.7222,
+     "f1": 0.5652
+    },
+    "464": {
+     "name": "Science",
+     "support": 17,
+     "predicted": 3,
+     "precision": 0.3333,
+     "recall": 0.0588,
+     "f1": 0.1
+    },
+    "30": {
+     "name": "Auto Buying and Selling",
+     "support": 17,
+     "predicted": 16,
+     "precision": 0.75,
+     "recall": 0.7059,
+     "f1": 0.7273
+    },
+    "553": {
+     "name": "Beauty",
+     "support": 16,
+     "predicted": 6,
+     "precision": 0.5,
+     "recall": 0.1875,
+     "f1": 0.2727
+    },
+    "32": {
+     "name": "Auto Parts",
+     "support": 16,
+     "predicted": 31,
+     "precision": 0.4194,
+     "recall": 0.8125,
+     "f1": 0.5532
+    },
+    "597": {
+     "name": "Artificial Intelligence",
+     "support": 15,
+     "predicted": 29,
+     "precision": 0.2759,
+     "recall": 0.5333,
+     "f1": 0.3636
+    },
+    "590": {
+     "name": "Personal Care",
+     "support": 14,
+     "predicted": 18,
+     "precision": 0.3333,
+     "recall": 0.4286,
+     "f1": 0.375
+    },
+    "275": {
+     "name": "Gardening",
+     "support": 14,
+     "predicted": 2,
+     "precision": 0.5,
+     "recall": 0.0714,
+     "f1": 0.125
+    },
+    "48": {
+     "name": "Fiction",
+     "support": 14,
+     "predicted": 11,
+     "precision": 0.6364,
+     "recall": 0.5,
+     "f1": 0.56
+    },
+    "201": {
+     "name": "Fine Art",
+     "support": 13,
+     "predicted": 13,
+     "precision": 0.3846,
+     "recall": 0.3846,
+     "f1": 0.3846
+    },
+    "269": {
+     "name": "Games and Puzzles",
+     "support": 13,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "551": {
+     "name": "Sports Equipment",
+     "support": 13,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "579": {
+     "name": "Men's Fashion",
+     "support": 13,
+     "predicted": 15,
+     "precision": 0.4667,
+     "recall": 0.5385,
+     "f1": 0.5
+    },
+    "664": {
+     "name": "Travel Type",
+     "support": 12,
+     "predicted": 14,
+     "precision": 0.2857,
+     "recall": 0.3333,
+     "f1": 0.3077
+    },
+    "132": {
+     "name": "Education",
+     "support": 12,
+     "predicted": 20,
+     "precision": 0.25,
+     "recall": 0.4167,
+     "f1": 0.3125
+    },
+    "211": {
+     "name": "Alcoholic Beverages",
+     "support": 12,
+     "predicted": 6,
+     "precision": 1.0,
+     "recall": 0.5,
+     "f1": 0.6667
+    },
+    "225": {
+     "name": "Fitness and Exercise",
+     "support": 12,
+     "predicted": 5,
+     "precision": 0.4,
+     "recall": 0.1667,
+     "f1": 0.2353
+    },
+    "387": {
+     "name": "Elections",
+     "support": 12,
+     "predicted": 9,
+     "precision": 0.8889,
+     "recall": 0.6667,
+     "f1": 0.7619
+    },
+    "447": {
+     "name": "Houses",
+     "support": 12,
+     "predicted": 24,
+     "precision": 0.375,
+     "recall": 0.75,
+     "f1": 0.5
+    },
+    "180": {
+     "name": "Business Expos & Conferences",
+     "support": 12,
+     "predicted": 12,
+     "precision": 0.3333,
+     "recall": 0.3333,
+     "f1": 0.3333
+    },
+    "Rm3SiT": {
+     "name": "Adult & Explicit Sexual Content",
+     "support": 12,
+     "predicted": 12,
+     "precision": 0.9167,
+     "recall": 0.9167,
+     "f1": 0.9167
+    },
+    "415": {
+     "name": "Personal Taxes",
+     "support": 11,
+     "predicted": 9,
+     "precision": 0.8889,
+     "recall": 0.7273,
+     "f1": 0.8
+    },
+    "165": {
+     "name": "Wedding",
+     "support": 11,
+     "predicted": 9,
+     "precision": 0.8889,
+     "recall": 0.7273,
+     "f1": 0.8
+    },
+    "204": {
+     "name": "Design",
+     "support": 11,
+     "predicted": 2,
+     "precision": 0.5,
+     "recall": 0.0909,
+     "f1": 0.1538
+    },
+    "125": {
+     "name": "Career Advice",
+     "support": 11,
+     "predicted": 13,
+     "precision": 0.3077,
+     "recall": 0.3636,
+     "f1": 0.3333
+    },
+    "149": {
+     "name": "Primary Education",
+     "support": 10,
+     "predicted": 6,
+     "precision": 0.1667,
+     "recall": 0.1,
+     "f1": 0.125
+    },
+    "479": {
+     "name": "Household Supplies",
+     "support": 10,
+     "predicted": 9,
+     "precision": 0.2222,
+     "recall": 0.2,
+     "f1": 0.2105
+    },
+    "135": {
+     "name": "Secondary Education",
+     "support": 10,
+     "predicted": 3,
+     "precision": 0.6667,
+     "recall": 0.2,
+     "f1": 0.3077
+    },
+    "596": {
+     "name": "Technology & Computing",
+     "support": 10,
+     "predicted": 27,
+     "precision": 0.1111,
+     "recall": 0.3,
+     "f1": 0.1622
+    },
+    "229": {
+     "name": "Nutrition",
+     "support": 10,
+     "predicted": 6,
+     "precision": 0.6667,
+     "recall": 0.4,
+     "f1": 0.5
+    },
+    "684": {
+     "name": "PC Games",
+     "support": 10,
+     "predicted": 2,
+     "precision": 1.0,
+     "recall": 0.2,
+     "f1": 0.3333
+    },
+    "392": {
+     "name": "Consumer Banking",
+     "support": 10,
+     "predicted": 5,
+     "precision": 0.2,
+     "recall": 0.1,
+     "f1": 0.1333
+    },
+    "131": {
+     "name": "Vocational Training",
+     "support": 9,
+     "predicted": 11,
+     "precision": 0.2727,
+     "recall": 0.3333,
+     "f1": 0.3
+    },
+    "261": {
+     "name": "Collecting",
+     "support": 9,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "278": {
+     "name": "Home Appliances",
+     "support": 9,
+     "predicted": 6,
+     "precision": 0.3333,
+     "recall": 0.2222,
+     "f1": 0.2667
+    },
+    "155": {
+     "name": "Museums & Galleries",
+     "support": 9,
+     "predicted": 6,
+     "precision": 0.3333,
+     "recall": 0.2222,
+     "f1": 0.2667
+    },
+    "133": {
+     "name": "Adult Education",
+     "support": 9,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "449": {
+     "name": "Land and Farms",
+     "support": 9,
+     "predicted": 5,
+     "precision": 0.8,
+     "recall": 0.4444,
+     "f1": 0.5714
+    },
+    "148": {
+     "name": "Online Education",
+     "support": 8,
+     "predicted": 14,
+     "precision": 0.2857,
+     "recall": 0.5,
+     "f1": 0.3636
+    },
+    "477": {
+     "name": "Grocery Shopping",
+     "support": 8,
+     "predicted": 6,
+     "precision": 0.3333,
+     "recall": 0.25,
+     "f1": 0.2857
+    },
+    "465": {
+     "name": "Biological Sciences",
+     "support": 8,
+     "predicted": 5,
+     "precision": 0.2,
+     "recall": 0.125,
+     "f1": 0.1538
+    },
+    "455": {
+     "name": "Spirituality",
+     "support": 8,
+     "predicted": 9,
+     "precision": 0.2222,
+     "recall": 0.25,
+     "f1": 0.2353
+    },
+    "653": {
+     "name": "Travel",
+     "support": 8,
+     "predicted": 4,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "206": {
+     "name": "Fine Art Photography",
+     "support": 8,
+     "predicted": 9,
+     "precision": 0.5556,
+     "recall": 0.625,
+     "f1": 0.5882
+    },
+    "210": {
+     "name": "Food & Drink",
+     "support": 7,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "512": {
+     "name": "Golf",
+     "support": 7,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "279": {
+     "name": "Home Entertaining",
+     "support": 7,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "192": {
+     "name": "Parenting",
+     "support": 7,
+     "predicted": 13,
+     "precision": 0.3077,
+     "recall": 0.5714,
+     "f1": 0.4
+    },
+    "381": {
+     "name": "Disasters",
+     "support": 7,
+     "predicted": 2,
+     "precision": 0.5,
+     "recall": 0.1429,
+     "f1": 0.2222
+    },
+    "473": {
+     "name": "Shopping",
+     "support": 7,
+     "predicted": 5,
+     "precision": 0.2,
+     "recall": 0.1429,
+     "f1": 0.1667
+    },
+    "640": {
+     "name": "Television",
+     "support": 7,
+     "predicted": 9,
+     "precision": 0.3333,
+     "recall": 0.4286,
+     "f1": 0.375
+    },
+    "575": {
+     "name": "Children's Clothing",
+     "support": 7,
+     "predicted": 5,
+     "precision": 0.4,
+     "recall": 0.2857,
+     "f1": 0.3333
+    },
+    "492": {
+     "name": "Cycling",
+     "support": 7,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "160": {
+     "name": "Parks & Nature",
+     "support": 7,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "1": {
+     "name": "Automotive",
+     "support": 7,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "159": {
+     "name": "Outdoor Activities",
+     "support": 7,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "389": {
+     "name": "War and Conflicts",
+     "support": 7,
+     "predicted": 3,
+     "precision": 0.6667,
+     "recall": 0.2857,
+     "f1": 0.4
+    },
+    "680": {
+     "name": "Video Gaming",
+     "support": 7,
+     "predicted": 2,
+     "precision": 0.5,
+     "recall": 0.1429,
+     "f1": 0.2222
+    },
+    "217": {
+     "name": "Desserts and Baking",
+     "support": 7,
+     "predicted": 10,
+     "precision": 0.4,
+     "recall": 0.5714,
+     "f1": 0.4706
+    },
+    "320": {
+     "name": "Pharmaceutical Drugs",
+     "support": 7,
+     "predicted": 2,
+     "precision": 0.5,
+     "recall": 0.1429,
+     "f1": 0.2222
+    },
+    "663": {
+     "name": "Travel Preparation and Advice",
+     "support": 7,
+     "predicted": 2,
+     "precision": 1.0,
+     "recall": 0.2857,
+     "f1": 0.4444
+    },
+    "393": {
+     "name": "Financial Assistance",
+     "support": 7,
+     "predicted": 9,
+     "precision": 0.4444,
+     "recall": 0.5714,
+     "f1": 0.5
+    },
+    "142": {
+     "name": "Early Childhood Education",
+     "support": 7,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "179": {
+     "name": "Bars & Restaurants",
+     "support": 6,
+     "predicted": 1,
+     "precision": 1.0,
+     "recall": 0.1667,
+     "f1": 0.2857
+    },
+    "476": {
+     "name": "Gifts and Greetings Cards",
+     "support": 6,
+     "predicted": 4,
+     "precision": 0.5,
+     "recall": 0.3333,
+     "f1": 0.4
+    },
+    "218": {
+     "name": "Dining Out",
+     "support": 6,
+     "predicted": 4,
+     "precision": 0.25,
+     "recall": 0.1667,
+     "f1": 0.2
+    },
+    "461": {
+     "name": "Islam",
+     "support": 6,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "49": {
+     "name": "Poetry",
+     "support": 6,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "XtODT3": {
+     "name": "Crime & Harmful Acts to Individuals, Society & Human Right Violations",
+     "support": 6,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "170": {
+     "name": "Birthday",
+     "support": 6,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "153": {
+     "name": "Historic Site and Landmark Tours",
+     "support": 6,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "162": {
+     "name": "Awards Shows",
+     "support": 6,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "323": {
+     "name": "Cosmetic Medical Services",
+     "support": 6,
+     "predicted": 2,
+     "precision": 1.0,
+     "recall": 0.3333,
+     "f1": 0.5
+    },
+    "284": {
+     "name": "Landscaping",
+     "support": 6,
+     "predicted": 2,
+     "precision": 1.0,
+     "recall": 0.3333,
+     "f1": 0.5
+    },
+    "209": {
+     "name": "Theater",
+     "support": 6,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "545": {
+     "name": "Baseball",
+     "support": 5,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "441": {
+     "name": "Real Estate",
+     "support": 5,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "243": {
+     "name": "Musical Instruments",
+     "support": 5,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "27": {
+     "name": "Motorcycles",
+     "support": 5,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "386": {
+     "name": "Politics",
+     "support": 5,
+     "predicted": 10,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "221": {
+     "name": "Healthy Cooking and Eating",
+     "support": 5,
+     "predicted": 7,
+     "precision": 0.1429,
+     "recall": 0.2,
+     "f1": 0.1667
+    },
+    "1KXCLD": {
+     "name": "Holidays",
+     "support": 5,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "518": {
+     "name": "Auto Racing",
+     "support": 5,
+     "predicted": 1,
+     "precision": 1.0,
+     "recall": 0.2,
+     "f1": 0.3333
+    },
+    "452": {
+     "name": "Real Estate Renting and Leasing",
+     "support": 5,
+     "predicted": 8,
+     "precision": 0.25,
+     "recall": 0.4,
+     "f1": 0.3077
+    },
+    "123": {
+     "name": "Careers",
+     "support": 5,
+     "predicted": 5,
+     "precision": 0.2,
+     "recall": 0.2,
+     "f1": 0.2
+    },
+    "161": {
+     "name": "Party Supplies and Decorations",
+     "support": 5,
+     "predicted": 1,
+     "precision": 1.0,
+     "recall": 0.2,
+     "f1": 0.3333
+    },
+    "472": {
+     "name": "Space and Astronomy",
+     "support": 5,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "425": {
+     "name": "Dogs",
+     "support": 5,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "Z7rJBM": {
+     "name": "Debated Sensitive Social Issues",
+     "support": 5,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "498": {
+     "name": "Extreme Sports",
+     "support": 5,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "396": {
+     "name": "Financial Planning",
+     "support": 5,
+     "predicted": 1,
+     "precision": 1.0,
+     "recall": 0.2,
+     "f1": 0.3333
+    },
+    "274": {
+     "name": "Home & Garden",
+     "support": 4,
+     "predicted": 2,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "276": {
+     "name": "Remodeling & Construction",
+     "support": 4,
+     "predicted": 16,
+     "precision": 0.1875,
+     "recall": 0.75,
+     "f1": 0.3
+    },
+    "242": {
+     "name": "Model Toys",
+     "support": 4,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "416": {
+     "name": "Retirement Planning",
+     "support": 4,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "207": {
+     "name": "Modern Art",
+     "support": 4,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "527": {
+     "name": "Rugby",
+     "support": 4,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "231": {
+     "name": "Weight Loss",
+     "support": 4,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "391": {
+     "name": "Personal Finance",
+     "support": 4,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "547": {
+     "name": "Basketball",
+     "support": 4,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "80DV8O": {
+     "name": "Communication",
+     "support": 4,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "440": {
+     "name": "Humor and Satire",
+     "support": 4,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "186": {
+     "name": "Family and Relationships",
+     "support": 4,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "avbNf2": {
+     "name": "Arms & Ammunition",
+     "support": 4,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "41": {
+     "name": "Auto Rentals",
+     "support": 4,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "28": {
+     "name": "Road-Side Assistance",
+     "support": 4,
+     "predicted": 1,
+     "precision": 1.0,
+     "recall": 0.25,
+     "f1": 0.4
+    },
+    "390": {
+     "name": "Weather",
+     "support": 4,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "639": {
+     "name": "Virtual Reality",
+     "support": 4,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "222": {
+     "name": "Non-Alcoholic Beverages",
+     "support": 4,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "34": {
+     "name": "Auto Repair",
+     "support": 4,
+     "predicted": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "147": {
+     "name": "Language Learning",
+     "support": 4,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "496": {
+     "name": "Equine Sports",
+     "support": 4,
+     "predicted": 3,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "683": {
+     "name": "Mobile Games",
+     "support": 4,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "pg0WhF": {
+     "name": "Illegal Drugs, Tobacco, eCigarettes, Vaping, Alcohol",
+     "support": 4,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "JLBCU7": {
+     "name": "Entertainment",
+     "support": 4,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "136": {
+     "name": "Special Education",
+     "support": 4,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "43": {
+     "name": "Art and Photography",
+     "support": 4,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "542": {
+     "name": "Walking",
+     "support": 3,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "224": {
+     "name": "Children's Health",
+     "support": 3,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "214": {
+     "name": "World Cuisines",
+     "support": 3,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "238": {
+     "name": "Women's Health",
+     "support": 3,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "321": {
+     "name": "Surgery",
+     "support": 3,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "466": {
+     "name": "Chemistry",
+     "support": 3,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "530": {
+     "name": "Sailing",
+     "support": 3,
+     "predicted": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "273": {
+     "name": "Genealogy and Ancestry",
+     "support": 3,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "433": {
+     "name": "Celebrity Deaths",
+     "support": 3,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "491": {
+     "name": "Cricket",
+     "support": 3,
+     "predicted": 1,
+     "precision": 1.0,
+     "recall": 0.3333,
+     "f1": 0.5
+    },
+    "423": {
+     "name": "Birds",
+     "support": 3,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "520": {
+     "name": "Martial Arts",
+     "support": 3,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "405": {
+     "name": "Personal Debt",
+     "support": 3,
+     "predicted": 2,
+     "precision": 1.0,
+     "recall": 0.6667,
+     "f1": 0.8
+    },
+    "35": {
+     "name": "Auto Safety",
+     "support": 3,
+     "predicted": 2,
+     "precision": 1.0,
+     "recall": 0.6667,
+     "f1": 0.8
+    },
+    "398": {
+     "name": "Insurance",
+     "support": 3,
+     "predicted": 4,
+     "precision": 0.5,
+     "recall": 0.6667,
+     "f1": 0.5714
+    },
+    "426": {
+     "name": "Fish and Aquariums",
+     "support": 3,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "515": {
+     "name": "Ice Hockey",
+     "support": 3,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "432": {
+     "name": "Pop Culture",
+     "support": 3,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "521": {
+     "name": "Olympic Sports",
+     "support": 3,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "470": {
+     "name": "Geology",
+     "support": 3,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "444": {
+     "name": "Vacation Properties",
+     "support": 3,
+     "predicted": 1,
+     "precision": 1.0,
+     "recall": 0.3333,
+     "f1": 0.5
+    },
+    "434": {
+     "name": "Celebrity Families",
+     "support": 3,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "681": {
+     "name": "Console Games",
+     "support": 3,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "146": {
+     "name": "Homework and Study",
+     "support": 3,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "37": {
+     "name": "Auto Technology",
+     "support": 3,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "264": {
+     "name": "Content Production",
+     "support": 3,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "482": {
+     "name": "Children's Games and Toys",
+     "support": 3,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "469": {
+     "name": "Geography",
+     "support": 3,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "322": {
+     "name": "Vaccines",
+     "support": 3,
+     "predicted": 1,
+     "precision": 1.0,
+     "recall": 0.3333,
+     "f1": 0.5
+    },
+    "508": {
+     "name": "Fantasy Sports",
+     "support": 2,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "46": {
+     "name": "Comics and Graphic Novels",
+     "support": 2,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "442": {
+     "name": "Apartments",
+     "support": 2,
+     "predicted": 5,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "281": {
+     "name": "Home Security",
+     "support": 2,
+     "predicted": 2,
+     "precision": 0.5,
+     "recall": 0.5,
+     "f1": 0.5
+    },
+    "427": {
+     "name": "Large Animals",
+     "support": 2,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "430": {
+     "name": "Veterinary Medicine",
+     "support": 2,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "157": {
+     "name": "National & Civic Holidays",
+     "support": 2,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "191": {
+     "name": "Marriage and Civil Unions",
+     "support": 2,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "577": {
+     "name": "Fashion Trends",
+     "support": 2,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "25": {
+     "name": "Car Culture",
+     "support": 2,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "576": {
+     "name": "Designer Clothing",
+     "support": 2,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "458": {
+     "name": "Buddhism",
+     "support": 2,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "483": {
+     "name": "Sports",
+     "support": 2,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "431": {
+     "name": "Pet Supplies",
+     "support": 2,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "460": {
+     "name": "Hinduism",
+     "support": 2,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "247": {
+     "name": "Workshops and Classes",
+     "support": 2,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "546": {
+     "name": "Wrestling",
+     "support": 2,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "638": {
+     "name": "Robotics",
+     "support": 2,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "189": {
+     "name": "Divorce",
+     "support": 2,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "478": {
+     "name": "Holiday Shopping",
+     "support": 2,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "151": {
+     "name": "Amusement and Theme Parks",
+     "support": 2,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "215": {
+     "name": "Barbecues and Grilling",
+     "support": 2,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "203": {
+     "name": "Dance",
+     "support": 2,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "462": {
+     "name": "Judaism",
+     "support": 2,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "169": {
+     "name": "Birth",
+     "support": 2,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "mm3UXx": {
+     "name": "Online Piracy",
+     "support": 2,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "540": {
+     "name": "Track and Field",
+     "support": 2,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "438": {
+     "name": "Celebrity Scandal",
+     "support": 2,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "223": {
+     "name": "Healthy Living",
+     "support": 2,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "480": {
+     "name": "Lotteries and Scratchcards",
+     "support": 2,
+     "predicted": 2,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "143": {
+     "name": "Educational Assessment",
+     "support": 2,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "2": {
+     "name": "Auto Body Styles",
+     "support": 1,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "468": {
+     "name": "Genetics",
+     "support": 1,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "574": {
+     "name": "Body Art",
+     "support": 1,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "437": {
+     "name": "Celebrity Relationships",
+     "support": 1,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "397": {
+     "name": "Frugal Living",
+     "support": 1,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "208": {
+     "name": "Opera",
+     "support": 1,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "484": {
+     "name": "American Football",
+     "support": 1,
+     "predicted": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "487": {
+     "name": "College Sports",
+     "support": 1,
+     "predicted": 1,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "240": {
+     "name": "Antiquing and Antiques",
+     "support": 1,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "8FD8nI": {
+     "name": "Terrorism",
+     "support": 1,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "654": {
+     "name": "Travel Accessories",
+     "support": 1,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "36": {
+     "name": "Auto Shows",
+     "support": 1,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "239": {
+     "name": "Hobbies & Interests",
+     "support": 1,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "31": {
+     "name": "Auto Insurance",
+     "support": 1,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "598": {
+     "name": "Augmented Reality",
+     "support": 1,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "6i4dB6": {
+     "name": "Spam or Harmful Content",
+     "support": 1,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "190": {
+     "name": "Eldercare",
+     "support": 1,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "163": {
+     "name": "Personal Celebrations & Life Events",
+     "support": 1,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "595": {
+     "name": "Street Style",
+     "support": 1,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "205": {
+     "name": "Digital Arts",
+     "support": 1,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "145": {
+     "name": "Homeschooling",
+     "support": 1,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "494": {
+     "name": "Disabled Sports",
+     "support": 1,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "246": {
+     "name": "Sci-fi and Fantasy",
+     "support": 1,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "187": {
+     "name": "Bereavement",
+     "support": 1,
+     "predicted": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "171": {
+     "name": "Funeral",
+     "support": 1,
+     "predicted": 1,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "I4GWl6": {
+     "name": "Death, Injury, or Military Conflict",
+     "support": 1,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "486": {
+     "name": "Cheerleading",
+     "support": 1,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "456": {
+     "name": "Astrology",
+     "support": 1,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "471": {
+     "name": "Physics",
+     "support": 1,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "539": {
+     "name": "Tennis",
+     "support": 1,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "417": {
+     "name": "Home Utilities",
+     "support": 1,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "158": {
+     "name": "Nightclubs",
+     "support": 1,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "126": {
+     "name": "Career Planning",
+     "support": 1,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "481": {
+     "name": "Sales and Promotions",
+     "support": 1,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "536": {
+     "name": "Squash",
+     "support": 1,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "285": {
+     "name": "Outdoor Decorating",
+     "support": 1,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "213": {
+     "name": "Vegetarian Diets",
+     "support": 1,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "319": {
+     "name": "Medical Tests",
+     "support": 1,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "178": {
+     "name": "Zoos & Aquariums",
+     "support": 1,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "428": {
+     "name": "Pet Adoptions",
+     "support": 1,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "453": {
+     "name": "Religion & Spirituality",
+     "support": 1,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "230": {
+     "name": "Senior Health",
+     "support": 1,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "537": {
+     "name": "Swimming",
+     "support": 1,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "245": {
+     "name": "Radio Control",
+     "support": 1,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "525": {
+     "name": "Rodeo",
+     "support": 1,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "474": {
+     "name": "Coupons and Discounts",
+     "support": 1,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "526": {
+     "name": "Rowing",
+     "support": 1,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "550": {
+     "name": "Bowling",
+     "support": 1,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "524": {
+     "name": "Poker and Professional Gambling",
+     "support": 1,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "177": {
+     "name": "Theater Venues",
+     "support": 1,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "188": {
+     "name": "Dating",
+     "support": 1,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "282": {
+     "name": "Indoor Environmental Quality",
+     "support": 1,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "16": {
+     "name": "Auto Type",
+     "support": 1,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "532": {
+     "name": "Snooker/Pool/Billiards",
+     "support": 1,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "228": {
+     "name": "Men's Health",
+     "support": 1,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "150": {
+     "name": "Attractions",
+     "support": 1,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    }
+   }
+  },
+  "tier1": {
+   "micro": {
+    "precision": 0.5491,
+    "recall": 0.5583,
+    "f1": 0.5537,
+    "f1_ci95": [
+     0.5357,
+     0.5718
+    ]
+   },
+   "macro_f1": 0.463,
+   "labels_with_support": 36,
+   "exact_match": 0.3925,
+   "per_category": {
+    "52": {
+     "name": "Business and Finance",
+     "support": 175,
+     "predicted": 293,
+     "precision": 0.4846,
+     "recall": 0.8114,
+     "f1": 0.6068
+    },
+    "274": {
+     "name": "Home & Garden",
+     "support": 124,
+     "predicted": 126,
+     "precision": 0.6984,
+     "recall": 0.7097,
+     "f1": 0.704
+    },
+    "596": {
+     "name": "Technology & Computing",
+     "support": 113,
+     "predicted": 236,
+     "precision": 0.3475,
+     "recall": 0.7257,
+     "f1": 0.4699
+    },
+    "483": {
+     "name": "Sports",
+     "support": 112,
+     "predicted": 36,
+     "precision": 0.6944,
+     "recall": 0.2232,
+     "f1": 0.3378
+    },
+    "386": {
+     "name": "Politics",
+     "support": 107,
+     "predicted": 143,
+     "precision": 0.5455,
+     "recall": 0.729,
+     "f1": 0.624
+    },
+    "552": {
+     "name": "Style & Fashion",
+     "support": 96,
+     "predicted": 104,
+     "precision": 0.6346,
+     "recall": 0.6875,
+     "f1": 0.66
+    },
+    "286": {
+     "name": "Medical Health",
+     "support": 93,
+     "predicted": 122,
+     "precision": 0.6393,
+     "recall": 0.8387,
+     "f1": 0.7256
+    },
+    "132": {
+     "name": "Education",
+     "support": 88,
+     "predicted": 62,
+     "precision": 0.6613,
+     "recall": 0.4659,
+     "f1": 0.5467
+    },
+    "150": {
+     "name": "Attractions",
+     "support": 77,
+     "predicted": 45,
+     "precision": 0.8222,
+     "recall": 0.4805,
+     "f1": 0.6066
+    },
+    "464": {
+     "name": "Science",
+     "support": 74,
+     "predicted": 66,
+     "precision": 0.4545,
+     "recall": 0.4054,
+     "f1": 0.4286
+    },
+    "JLBCU7": {
+     "name": "Entertainment",
+     "support": 72,
+     "predicted": 137,
+     "precision": 0.4161,
+     "recall": 0.7917,
+     "f1": 0.5455
+    },
+    "239": {
+     "name": "Hobbies & Interests",
+     "support": 72,
+     "predicted": 43,
+     "precision": 0.4419,
+     "recall": 0.2639,
+     "f1": 0.3304
+    },
+    "391": {
+     "name": "Personal Finance",
+     "support": 68,
+     "predicted": 46,
+     "precision": 0.6739,
+     "recall": 0.4559,
+     "f1": 0.5439
+    },
+    "1": {
+     "name": "Automotive",
+     "support": 65,
+     "predicted": 51,
+     "precision": 0.6863,
+     "recall": 0.5385,
+     "f1": 0.6034
+    },
+    "453": {
+     "name": "Religion & Spirituality",
+     "support": 64,
+     "predicted": 52,
+     "precision": 0.6923,
+     "recall": 0.5625,
+     "f1": 0.6207
+    },
+    "441": {
+     "name": "Real Estate",
+     "support": 61,
+     "predicted": 43,
+     "precision": 0.9535,
+     "recall": 0.6721,
+     "f1": 0.7885
+    },
+    "210": {
+     "name": "Food & Drink",
+     "support": 59,
+     "predicted": 26,
+     "precision": 0.9231,
+     "recall": 0.4068,
+     "f1": 0.5647
+    },
+    "223": {
+     "name": "Healthy Living",
+     "support": 53,
+     "predicted": 38,
+     "precision": 0.6316,
+     "recall": 0.4528,
+     "f1": 0.5275
+    },
+    "653": {
+     "name": "Travel",
+     "support": 51,
+     "predicted": 83,
+     "precision": 0.4337,
+     "recall": 0.7059,
+     "f1": 0.5373
+    },
+    "383": {
+     "name": "Law",
+     "support": 51,
+     "predicted": 117,
+     "precision": 0.3846,
+     "recall": 0.8824,
+     "f1": 0.5357
+    },
+    "42": {
+     "name": "Books and Literature",
+     "support": 49,
+     "predicted": 31,
+     "precision": 0.7097,
+     "recall": 0.449,
+     "f1": 0.55
+    },
+    "123": {
+     "name": "Careers",
+     "support": 48,
+     "predicted": 61,
+     "precision": 0.541,
+     "recall": 0.6875,
+     "f1": 0.6055
+    },
+    "473": {
+     "name": "Shopping",
+     "support": 45,
+     "predicted": 26,
+     "precision": 0.4615,
+     "recall": 0.2667,
+     "f1": 0.338
+    },
+    "201": {
+     "name": "Fine Art",
+     "support": 45,
+     "predicted": 22,
+     "precision": 0.6364,
+     "recall": 0.3111,
+     "f1": 0.4179
+    },
+    "8VZQHL": {
+     "name": "Events",
+     "support": 41,
+     "predicted": 41,
+     "precision": 0.4146,
+     "recall": 0.4146,
+     "f1": 0.4146
+    },
+    "v9i3On": {
+     "name": "Sensitive Topics",
+     "support": 36,
+     "predicted": 12,
+     "precision": 0.9167,
+     "recall": 0.3056,
+     "f1": 0.4583
+    },
+    "380": {
+     "name": "Crime",
+     "support": 26,
+     "predicted": 23,
+     "precision": 0.7826,
+     "recall": 0.6923,
+     "f1": 0.7347
+    },
+    "680": {
+     "name": "Video Gaming",
+     "support": 23,
+     "predicted": 4,
+     "precision": 1.0,
+     "recall": 0.1739,
+     "f1": 0.2963
+    },
+    "163": {
+     "name": "Personal Celebrations & Life Events",
+     "support": 20,
+     "predicted": 10,
+     "precision": 0.9,
+     "recall": 0.45,
+     "f1": 0.6
+    },
+    "186": {
+     "name": "Family and Relationships",
+     "support": 17,
+     "predicted": 14,
+     "precision": 0.3571,
+     "recall": 0.2941,
+     "f1": 0.3226
+    },
+    "422": {
+     "name": "Pets",
+     "support": 17,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "432": {
+     "name": "Pop Culture",
+     "support": 16,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "381": {
+     "name": "Disasters",
+     "support": 7,
+     "predicted": 2,
+     "precision": 0.5,
+     "recall": 0.1429,
+     "f1": 0.2222
+    },
+    "1KXCLD": {
+     "name": "Holidays",
+     "support": 7,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "389": {
+     "name": "War and Conflicts",
+     "support": 7,
+     "predicted": 3,
+     "precision": 0.6667,
+     "recall": 0.2857,
+     "f1": 0.4
+    },
+    "80DV8O": {
+     "name": "Communication",
+     "support": 4,
+     "predicted": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    }
+   }
+  },
+  "hierarchical": {
+   "precision": 0.4927,
+   "recall": 0.52,
+   "f1": 0.506
+  }
+ },
+ "test_supported_labels_never_predicted": 151,
+ "test_by_lang": {
+  "eng": {
+   "pages": 877,
+   "tier2": {
+    "micro": {
+     "precision": 0.4329,
+     "recall": 0.4473,
+     "f1": 0.44,
+     "f1_ci95": [
+      0.4128,
+      0.4652
+     ]
+    },
+    "macro_f1": 0.1846,
+    "labels_with_support": 225,
+    "exact_match": 0.2668
+   },
+   "tier1": {
+    "micro": {
+     "precision": 0.5723,
+     "recall": 0.541,
+     "f1": 0.5563,
+     "f1_ci95": [
+      0.5286,
+      0.5849
+     ]
+    },
+    "macro_f1": 0.4752,
+    "labels_with_support": 35,
+    "exact_match": 0.4002
+   },
+   "hierarchical": {
+    "precision": 0.5161,
+    "recall": 0.5024,
+    "f1": 0.5092
+   }
+  },
+  "por": {
+   "pages": 998,
+   "tier2": {
+    "micro": {
+     "precision": 0.4045,
+     "recall": 0.4925,
+     "f1": 0.4442,
+     "f1_ci95": [
+      0.4206,
+      0.4698
+     ]
+    },
+    "macro_f1": 0.194,
+    "labels_with_support": 204,
+    "exact_match": 0.2545
+   },
+   "tier1": {
+    "micro": {
+     "precision": 0.5308,
+     "recall": 0.5739,
+     "f1": 0.5515,
+     "f1_ci95": [
+      0.5274,
+      0.5785
+     ]
+    },
+    "macro_f1": 0.4208,
+    "labels_with_support": 36,
+    "exact_match": 0.3858
+   },
+   "hierarchical": {
+    "precision": 0.4741,
+    "recall": 0.5362,
+    "f1": 0.5032
+   }
+  }
+ },
+ "test_rule_off": {
+  "pages": 1875,
+  "tier2": {
+   "micro": {
+    "precision": 0.4736,
+    "recall": 0.411,
+    "f1": 0.4401,
+    "f1_ci95": [
+     0.422,
+     0.4581
+    ]
+   },
+   "macro_f1": 0.1722,
+   "labels_with_support": 263,
+   "exact_match": 0.256
+  },
+  "tier1": {
+   "micro": {
+    "precision": 0.6374,
+    "recall": 0.4743,
+    "f1": 0.5439,
+    "f1_ci95": [
+     0.5257,
+     0.5641
+    ]
+   },
+   "macro_f1": 0.446,
+   "labels_with_support": 36,
+   "exact_match": 0.3691
+  },
+  "hierarchical": {
+   "precision": 0.5753,
+   "recall": 0.4447,
+   "f1": 0.5017
+  }
+ },
+ "top1_rule_minus_off": {
+  "val": {
+   "pages": 1933,
+   "tier2": {
+    "value": 0.011,
+    "ci95": [
+     0.002,
+     0.02
+    ]
+   },
+   "tier1": {
+    "value": 0.028,
+    "ci95": [
+     0.017,
+     0.039
+    ]
+   }
+  },
+  "test": {
+   "pages": 1875,
+   "tier2": {
+    "value": 0.002,
+    "ci95": [
+     -0.006,
+     0.011
+    ]
+   },
+   "tier1": {
+    "value": 0.01,
+    "ci95": [
+     -0.001,
+     0.021
+    ]
+   }
+  }
+ },
+ "test_no_topic": {
+  "support": 114,
+  "predicted": 165,
+  "precision": 0.0242,
+  "recall": 0.0351,
+  "f1": 0.0287
+ },
+ "test_calibration": {
+  "raw": {
+   "bins": "10 equal-width over [0, 1]",
+   "ece_all_cells": 0.00136,
+   "brier_all_cells": 0.00298,
+   "ece_cells_p_ge_0.05": 0.2423,
+   "cells_p_ge_0.05": 2320,
+   "top1_ece": 0.3017,
+   "top1_mean_prob": 0.1735,
+   "top1_hit_rate": 0.4752,
+   "per_category": {
+    "127": {
+     "support": 24,
+     "ece": 0.00836,
+     "brier": 0.00819
+    },
+    "137": {
+     "support": 21,
+     "ece": 0.00449,
+     "brier": 0.0081
+    },
+    "181": {
+     "support": 36,
+     "ece": 0.00288,
+     "brier": 0.00433
+    },
+    "232": {
+     "support": 22,
+     "ece": 0.00498,
+     "brier": 0.00964
+    },
+    "248": {
+     "support": 31,
+     "ece": 0.00952,
+     "brier": 0.01426
+    },
+    "280": {
+     "support": 49,
+     "ece": 0.01085,
+     "brier": 0.01556
+    },
+    "283": {
+     "support": 31,
+     "ece": 0.00759,
+     "brier": 0.01291
+    },
+    "286": {
+     "support": 38,
+     "ece": 0.00651,
+     "brier": 0.01561
+    },
+    "287": {
+     "support": 38,
+     "ece": 0.0095,
+     "brier": 0.01574
+    },
+    "324": {
+     "support": 20,
+     "ece": 0.00532,
+     "brier": 0.0092
+    },
+    "338": {
+     "support": 41,
+     "ece": 0.00911,
+     "brier": 0.01531
+    },
+    "380": {
+     "support": 26,
+     "ece": 0.00472,
+     "brier": 0.0079
+    },
+    "383": {
+     "support": 51,
+     "ece": 0.01226,
+     "brier": 0.0178
+    },
+    "388": {
+     "support": 41,
+     "ece": 0.00929,
+     "brier": 0.01752
+    },
+    "410": {
+     "support": 24,
+     "ece": 0.00767,
+     "brier": 0.01042
+    },
+    "42": {
+     "support": 23,
+     "ece": 0.00726,
+     "brier": 0.01162
+    },
+    "451": {
+     "support": 37,
+     "ece": 0.00951,
+     "brier": 0.01199
+    },
+    "459": {
+     "support": 43,
+     "ece": 0.00993,
+     "brier": 0.0145
+    },
+    "467": {
+     "support": 33,
+     "ece": 0.00753,
+     "brier": 0.01416
+    },
+    "53": {
+     "support": 96,
+     "ece": 0.02108,
+     "brier": 0.0331
+    },
+    "533": {
+     "support": 27,
+     "ece": 0.00544,
+     "brier": 0.00856
+    },
+    "552": {
+     "support": 24,
+     "ece": 0.0056,
+     "brier": 0.01147
+    },
+    "599": {
+     "support": 64,
+     "ece": 0.01335,
+     "brier": 0.02498
+    },
+    "655": {
+     "support": 33,
+     "ece": 0.00433,
+     "brier": 0.01315
+    },
+    "80": {
+     "support": 20,
+     "ece": 0.00595,
+     "brier": 0.00934
+    },
+    "8VZQHL": {
+     "support": 23,
+     "ece": 0.00634,
+     "brier": 0.01086
+    },
+    "8YPBBL": {
+     "support": 51,
+     "ece": 0.01026,
+     "brier": 0.02076
+    },
+    "90": {
+     "support": 61,
+     "ece": 0.01501,
+     "brier": 0.02027
+    }
+   },
+   "per_category_min_support": 20
+  },
+  "temperature": {
+   "bins": "10 equal-width over [0, 1]",
+   "ece_all_cells": 0.00085,
+   "brier_all_cells": 0.00296,
+   "ece_cells_p_ge_0.05": 0.21,
+   "cells_p_ge_0.05": 2721,
+   "top1_ece": 0.295,
+   "top1_mean_prob": 0.1802,
+   "top1_hit_rate": 0.4752,
+   "per_category": {
+    "127": {
+     "support": 24,
+     "ece": 0.00916,
+     "brier": 0.00808
+    },
+    "137": {
+     "support": 21,
+     "ece": 0.00655,
+     "brier": 0.00801
+    },
+    "181": {
+     "support": 36,
+     "ece": 0.00409,
+     "brier": 0.00429
+    },
+    "232": {
+     "support": 22,
+     "ece": 0.00355,
+     "brier": 0.00954
+    },
+    "248": {
+     "support": 31,
+     "ece": 0.00804,
+     "brier": 0.01411
+    },
+    "280": {
+     "support": 49,
+     "ece": 0.0129,
+     "brier": 0.01541
+    },
+    "283": {
+     "support": 31,
+     "ece": 0.00647,
+     "brier": 0.01275
+    },
+    "286": {
+     "support": 38,
+     "ece": 0.00503,
+     "brier": 0.01546
+    },
+    "287": {
+     "support": 38,
+     "ece": 0.00768,
+     "brier": 0.01555
+    },
+    "324": {
+     "support": 20,
+     "ece": 0.00406,
+     "brier": 0.0091
+    },
+    "338": {
+     "support": 41,
+     "ece": 0.01377,
+     "brier": 0.01514
+    },
+    "380": {
+     "support": 26,
+     "ece": 0.00465,
+     "brier": 0.00785
+    },
+    "383": {
+     "support": 51,
+     "ece": 0.0143,
+     "brier": 0.0176
+    },
+    "388": {
+     "support": 41,
+     "ece": 0.00736,
+     "brier": 0.01736
+    },
+    "410": {
+     "support": 24,
+     "ece": 0.00662,
+     "brier": 0.01031
+    },
+    "42": {
+     "support": 23,
+     "ece": 0.00597,
+     "brier": 0.01154
+    },
+    "451": {
+     "support": 37,
+     "ece": 0.00831,
+     "brier": 0.01186
+    },
+    "459": {
+     "support": 43,
+     "ece": 0.00913,
+     "brier": 0.01434
+    },
+    "467": {
+     "support": 33,
+     "ece": 0.00565,
+     "brier": 0.01402
+    },
+    "53": {
+     "support": 96,
+     "ece": 0.02417,
+     "brier": 0.03279
+    },
+    "533": {
+     "support": 27,
+     "ece": 0.00431,
+     "brier": 0.00851
+    },
+    "552": {
+     "support": 24,
+     "ece": 0.00415,
+     "brier": 0.01137
+    },
+    "599": {
+     "support": 64,
+     "ece": 0.01552,
+     "brier": 0.02477
+    },
+    "655": {
+     "support": 33,
+     "ece": 0.00611,
+     "brier": 0.01307
+    },
+    "80": {
+     "support": 20,
+     "ece": 0.00482,
+     "brier": 0.00924
+    },
+    "8VZQHL": {
+     "support": 23,
+     "ece": 0.00495,
+     "brier": 0.01074
+    },
+    "8YPBBL": {
+     "support": 51,
+     "ece": 0.00803,
+     "brier": 0.02057
+    },
+    "90": {
+     "support": 61,
+     "ece": 0.01866,
+     "brier": 0.02015
+    }
+   },
+   "per_category_min_support": 20
+  }
+ },
+ "test_leak": {
+  "leaky_pages": 0,
+  "clean_pages": 1875
+ },
+ "panel": {
+  "reference": "panel-v0 votes without holdout-v2",
+  "min_votes": 2,
+  "coverage": {
+   "pages": 300,
+   "tier2": 285,
+   "tier1": 296
+  },
+  "student": {
+   "tier2": {
+    "precision": {
+     "value": 0.399,
+     "ci95": [
+      0.353,
+      0.445
+     ]
+    },
+    "recall": {
+     "value": 0.417,
+     "ci95": [
+      0.365,
+      0.47
+     ]
+    },
+    "f1": {
+     "value": 0.408,
+     "ci95": [
+      0.363,
+      0.452
+     ]
+    },
+    "top_match": {
+     "value": 0.361,
+     "ci95": [
+      0.302,
+      0.418
+     ]
+    },
+    "top_in_reference": {
+     "value": 0.428,
+     "ci95": [
+      0.368,
+      0.484
+     ]
+    },
+    "exact_match": {
+     "value": 0.2,
+     "ci95": [
+      0.154,
+      0.246
+     ]
+    },
+    "jaccard": {
+     "value": 0.321,
+     "ci95": [
+      0.275,
+      0.367
+     ]
+    }
+   },
+   "tier1": {
+    "precision": {
+     "value": 0.574,
+     "ci95": [
+      0.521,
+      0.628
+     ]
+    },
+    "recall": {
+     "value": 0.539,
+     "ci95": [
+      0.486,
+      0.589
+     ]
+    },
+    "f1": {
+     "value": 0.556,
+     "ci95": [
+      0.507,
+      0.601
+     ]
+    },
+    "top_match": {
+     "value": 0.53,
+     "ci95": [
+      0.473,
+      0.588
+     ]
+    },
+    "top_in_reference": {
+     "value": 0.598,
+     "ci95": [
+      0.541,
+      0.655
+     ]
+    },
+    "exact_match": {
+     "value": 0.378,
+     "ci95": [
+      0.324,
+      0.436
+     ]
+    },
+    "jaccard": {
+     "value": 0.49,
+     "ci95": [
+      0.438,
+      0.54
+     ]
+    }
+   }
+  },
+  "teacher_same_pages": {
+   "tier2": {
+    "precision": {
+     "value": 0.791,
+     "ci95": [
+      0.748,
+      0.834
+     ]
+    },
+    "recall": {
+     "value": 0.752,
+     "ci95": [
+      0.712,
+      0.795
+     ]
+    },
+    "f1": {
+     "value": 0.771,
+     "ci95": [
+      0.733,
+      0.809
+     ]
+    },
+    "top_match": {
+     "value": 0.754,
+     "ci95": [
+      0.702,
+      0.804
+     ]
+    },
+    "top_in_reference": {
+     "value": 0.828,
+     "ci95": [
+      0.782,
+      0.874
+     ]
+    },
+    "exact_match": {
+     "value": 0.614,
+     "ci95": [
+      0.558,
+      0.67
+     ]
+    },
+    "jaccard": {
+     "value": 0.743,
+     "ci95": [
+      0.701,
+      0.783
+     ]
+    }
+   },
+   "tier1": {
+    "precision": {
+     "value": 0.898,
+     "ci95": [
+      0.868,
+      0.927
+     ]
+    },
+    "recall": {
+     "value": 0.854,
+     "ci95": [
+      0.818,
+      0.886
+     ]
+    },
+    "f1": {
+     "value": 0.875,
+     "ci95": [
+      0.849,
+      0.901
+     ]
+    },
+    "top_match": {
+     "value": 0.851,
+     "ci95": [
+      0.807,
+      0.892
+     ]
+    },
+    "top_in_reference": {
+     "value": 0.919,
+     "ci95": [
+      0.885,
+      0.949
+     ]
+    },
+    "exact_match": {
+     "value": 0.764,
+     "ci95": [
+      0.72,
+      0.811
+     ]
+    },
+    "jaccard": {
+     "value": 0.854,
+     "ci95": [
+      0.823,
+      0.885
+     ]
+    }
+   }
+  }
+ }
+}
