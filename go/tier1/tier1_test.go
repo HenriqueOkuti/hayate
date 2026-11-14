@@ -65,3 +65,23 @@ func TestPageInputCutsCodePoints(t *testing.T) {
 		t.Errorf("PageInput = %q, want %q", got, want)
 	}
 }
+
+func TestNpyRoundTrip(t *testing.T) {
+	dir := t.TempDir()
+	w := []float32{1, -2.5, 3e-8, 4, 5, 6}
+	if err := WriteFloat32(dir+"/w.npy", w, 2, 3); err != nil {
+		t.Fatal(err)
+	}
+	got, shape, err := ReadFloat32(dir + "/w.npy")
+	if err != nil || !reflect.DeepEqual(got, w) || !reflect.DeepEqual(shape, []int{2, 3}) {
+		t.Fatalf("float32 round trip: %v %v %v", got, shape, err)
+	}
+	v := []float64{1.5, 2, 1e-300}
+	if err := WriteFloat64(dir+"/v.npy", v, 3); err != nil {
+		t.Fatal(err)
+	}
+	got64, shape, err := ReadFloat64(dir + "/v.npy")
+	if err != nil || !reflect.DeepEqual(got64, v) || !reflect.DeepEqual(shape, []int{3}) {
+		t.Fatalf("float64 round trip: %v %v %v", got64, shape, err)
+	}
+}

@@ -15,6 +15,11 @@ floor; the floor (or "off", -1) is chosen with the threshold policy by cross-fit
 test is also scored with the rule off on the same model (`test_rule_off`, `top1_rule_minus_off`,
 paired over the same pages; the val pairing is in-sample).
 
+With --heads DIR, the candidates are not trained here but loaded from the Go trainer's output
+(go/train/cmd/tier1-train: one lr-<lr>/ head per learning rate, plus its IDF); everything after
+training is the same. The run checks that the Go IDF equals the one fitted here and that each
+loaded head's val loss matches the one the Go trainer recorded.
+
 Writes results/<name>.json (counts and scores only, no page text), and to artifacts/<name>/
 (never committed) the model (featurizer.joblib, head.pt) and predictions.jsonl (label ids per
 val and test page, for paired comparisons in scripts/compare_students.py). Scores:
@@ -108,6 +113,7 @@ def main() -> None:
     ap.add_argument("--lrs", type=float, nargs="+", default=[3e-3, 1e-2, 3e-2])
     ap.add_argument("--weight-decay", type=float, default=0.0)
     ap.add_argument("--max-epochs", type=int, default=20)
+    ap.add_argument("--adam-eps", type=float, default=1e-8, help="AdamW epsilon (PyTorch default)")
     ap.add_argument("--word-bits", type=int, default=18)
     ap.add_argument("--char-bits", type=int, default=18)
     ap.add_argument("--max-labels", type=int, default=5)
@@ -119,6 +125,7 @@ def main() -> None:
         "--min-supports", type=int, nargs="+", default=[5, 20, 50, 10**9],
         help="candidate val positives for a label's own threshold (10**9: global only)",
     )  # fmt: skip
+    ap.add_argument("--heads", type=Path, help="score Go-trained candidates instead of training")
     ap.add_argument("--reference", type=Path, default=Path("data/labels/panel-v0/reference.jsonl"))
     ap.add_argument("--panel-leave-out", default="holdout-v2", help="the teacher model's vote")
     ap.add_argument("--min-votes", type=int, default=2)
@@ -228,12 +235,59 @@ def main() -> None:
                 "val_f1_cross_rule_off": grid[(ms, None)] if None in floors else None,
                 "val_f1_in_sample": in_sample}  # fmt: skip
 
+    go_check = None
+
+    def trained():
+        """(lr, head, history, fit seconds) per candidate: trained here, or loaded from --heads."""
+        nonlocal go_check
+        if not args.heads:
+            for lr in args.lrs:
+                cfg = HeadConfig(
+                    lr=lr,
+                    weight_decay=args.weight_decay,
+                    max_epochs=args.max_epochs,
+                    eps=args.adam_eps,
+                )
+                t0 = time.time()
+                head, hist = train_head(x_train, y_train, x_val, y_val, cfg)
+                yield lr, head, hist, time.time() - t0
+            return
+        go_idf = np.load(args.heads / "idf.npy")
+        idf_diff = float(np.abs(go_idf - feat.tfidf.idf_).max())
+        if idf_diff > 1e-9:
+            raise SystemExit(f"the Go IDF differs from this run's by {idf_diff}")
+        go_check = {
+            "idf_max_abs_diff": idf_diff,
+            "heads": [],
+            "pytorch_args_ignored": ["weight_decay", "max_epochs", "adam_eps"],
+        }
+        dirs = sorted(args.heads.glob("lr-*"), key=lambda d: float(d.name[3:]))
+        if sorted(float(d.name[3:]) for d in dirs) != sorted(args.lrs):
+            raise SystemExit(f"{args.heads}: candidates {[d.name for d in dirs]} are not --lrs")
+        for d in dirs:
+            meta = json.loads((d / "train.json").read_text())
+            if meta["label_ids"] != label_ids or meta["features"] != x_all.shape[1]:
+                raise SystemExit(f"{d}: labels or features differ from this run's")
+            head = LinearHead(x_all.shape[1], len(label_ids)).to(device())
+            head.weight.weight.data = torch.from_numpy(np.load(d / "weights.npy")).to(device())
+            head.bias.data = torch.from_numpy(np.load(d / "bias.npy")).to(device())
+            z = torch.from_numpy(logits(head, x_val))
+            bce = float(torch.nn.BCEWithLogitsLoss()(z, torch.from_numpy(y_val.astype(np.float32))))
+            go_bce = min(meta["val_bce_by_epoch"])
+            if abs(bce - go_bce) > 1e-5:
+                raise SystemExit(f"{d}: val BCE {bce} here, {go_bce} in the Go trainer")
+            settings = {k: v for k, v in meta.items()
+                        if k not in ("label_ids", "val_bce_by_epoch", "epoch_s")}  # fmt: skip
+            go_check["heads"].append({"val_bce_here": round(bce, 6), "val_bce_go": go_bce,
+                                      "train_json_sha256": sha256_file(d / "train.json"),
+                                      **settings})  # fmt: skip
+            hist = {"val_bce_by_epoch": meta["val_bce_by_epoch"], "best_epoch": meta["best_epoch"],
+                    "trainer": meta["trainer"], "optimizer": meta["optimizer"],
+                    "backend": meta["backend"]}  # fmt: skip
+            yield meta["lr"], head, hist, meta["train_s"]
+
     candidates, best = [], None
-    for lr in args.lrs:
-        cfg = HeadConfig(lr=lr, weight_decay=args.weight_decay, max_epochs=args.max_epochs)
-        t0 = time.time()
-        head, hist = train_head(x_train, y_train, x_val, y_val, cfg)
-        fit_s = time.time() - t0
+    for lr, head, hist, fit_s in trained():
         t = tune(head)
         print(f"lr {lr:g}: val micro F1 cross-fitted {t['val_f1_cross']:.4f} "
               f"(in-sample {t['val_f1_in_sample']:.4f}), min support {t['min_support']}, "
@@ -372,6 +426,12 @@ def main() -> None:
             "features": x_all.shape[1],
             "featurize_s": round(feat_s, 1),
             "device": device(),
+            "trainer": hist.get("trainer", "scripts/train_tier1.py (PyTorch)"),
+            "optimizer": hist.get(
+                "optimizer",
+                {"name": "adamw", "epsilon": args.adam_eps, "weight_decay": args.weight_decay},
+            ),
+            "go_heads_check": go_check,
             "temperature": round(temp, 3),
             "global_threshold": glob,
             "labels_learned": len(label_ids),

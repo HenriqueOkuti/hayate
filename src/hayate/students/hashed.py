@@ -31,6 +31,7 @@ class HeadConfig:
     patience: int = 3
     batch_size: int = 256
     seed: int = 0
+    eps: float = 1e-8  # PyTorch's default; GoMLX's 1e-7 trains longer and better (tier1-v2)
 
 
 def _bag(x: sp.csr_matrix, device: str) -> tuple[torch.Tensor, ...]:
@@ -79,7 +80,9 @@ def train_head(
     # learning that most labels are off
     rate = np.clip(y.mean(0), 1e-4, 1 - 1e-4)
     head.bias.data = torch.tensor(np.log(rate / (1 - rate)), dtype=torch.float32, device=dev)
-    opt = torch.optim.AdamW(head.parameters(), lr=cfg.lr, weight_decay=cfg.weight_decay)
+    opt = torch.optim.AdamW(
+        head.parameters(), lr=cfg.lr, weight_decay=cfg.weight_decay, eps=cfg.eps
+    )
     loss_fn = torch.nn.BCEWithLogitsLoss()
     yt = torch.from_numpy(y.astype(np.float32))
     yv = torch.from_numpy(y_val.astype(np.float32))
