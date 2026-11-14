@@ -55,7 +55,7 @@ A big LLM is accurate but slow and costly. It labels the pages **once**, and sma
 | **Tier 2** | Fixed word vectors + a linear layer | ~1 ms | The main bet: fast *and* good |
 | **Tier 3** | A compact transformer, int8 on CPU | a few ms | The accuracy ceiling |
 
-Each one is scored on **quality** (against the LLM *and* against human checks), **latency** (p50/p99) and **cost per million pages**.
+Each one is scored on **quality** (against the teacher LLM *and* against what a panel of three LLMs agrees on), **latency** (p50/p99) and **cost per million pages**.
 
 > **Why so fast?** Ad platforms categorize pages ahead of time and cache the
 > answer, so serving it is just a lookup. At web scale every millisecond is

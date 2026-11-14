@@ -7,7 +7,6 @@ What the project uses, why, and how to run it. The decision itself is recorded i
 **Python** does all the ML work: data, teacher labeling, training, evaluation and micro-benchmarks. Training libraries, model formats and research code all live there, and fighting that would cost more weekends than it saves. Python code stays **plain**: functions, dataclasses, type hints and small scripts. No frameworks, so it reads like Go. **TypeScript/JavaScript and Go** come in where they fit naturally and match what you know:
 
 - k6 load tests (JS);
-- the small review page (plain JS, served by Python);
 - the Phase 2 request-path server (Go), which loads the exported model files.
 
 ## Concepts, mapped to things you know
@@ -95,8 +94,7 @@ First-time setup: install [uv](https://docs.astral.sh/uv/getting-started/install
 | Page sample: WARC records | `scripts/fetch_records.py` | `configs/pages.toml` | `data/pages/records/part-*.parquet` (resumable) |
 | Page sample: text extraction | `scripts/extract_text.py` | `configs/pages.toml` | `data/pages/extracted.parquet`, `pages.parquet` (the sample) |
 | Teacher labels | `scripts/label_pages.py`, summarized by `scripts/teacher_report.py` | `configs/teacher.toml` | `data/labels/<run>/` (resumable); `results/teacher-pilot.json` ([decision 0003](decisions/0003-teacher.md)) |
-| Gold sample: human review | `scripts/review_gold.py` (a local page at `http://127.0.0.1:8765/`) | `configs/gold.toml` | `data/gold/v0/`: `tasks.jsonl`, `reviews.jsonl` (append-only, resumable) ([decision 0010](decisions/0010-gold-sample.md)) |
-| Gold sample: teacher against human | `scripts/gold_report.py` | `configs/gold.toml` | `results/gold-v0.json` |
+| Panel reference and teacher agreement | `scripts/panel_report.py` | `configs/panel.toml` | `data/labels/panel-v0/reference.jsonl`, `results/panel-v0.json` ([decision 0010](decisions/0010-reference-sample.md)) |
 
 ## Where TS and Go fit
 
@@ -104,5 +102,4 @@ First-time setup: install [uv](https://docs.astral.sh/uv/getting-started/install
 | --- | --- | --- | --- |
 | Progress blog | TS (Astro 7, in `site/`) | Now | Markdown posts in `site/src/content/blog/`. `make site` runs it locally with drafts. GitHub Actions deploys it to Pages on every push to `main`. |
 | HTTP load tests | JS (k6) | Phase 2 | Already installed. Uses arrival-rate executors. |
-| Human review tool | Python (standard-library server) + one plain HTML/JS page | Weekend 4 | [Decision 0010](decisions/0010-gold-sample.md). `scripts/review_gold.py` reads a teacher run and appends review decisions to JSONL. |
 | Request-path server (fetch → extract → infer) | Go | Phase 2 | The realistic serving language. Tier 1 is easy to port. ONNX Runtime has Go bindings (community `onnxruntime_go`; ONNX Runtime 1.30 reportedly added official ones, *unverified*). A Go port of trafilatura exists (*check its version and license*). |

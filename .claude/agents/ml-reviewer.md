@@ -12,13 +12,13 @@ You review experiments in Hayate (an LLM distilled into small web-page categoriz
 
 - Splits are by **domain**, not only by page, so near-duplicate pages can't leak between train and test.
 - No page, URL or domain appears in both train and test (check, don't assume).
-- The human-checked sample is never used for training or tuning.
+- The panel reference pages (the pilot holdout, decision 0010) are never used for training or tuning.
 
 ### Tuning and metrics
 
 - Thresholds, calibration and hyperparameters are tuned on validation, never on test.
 - Multi-label metrics are computed correctly: micro vs macro vs per-category, `zero_division` set, label set matching the pinned taxonomy SHA.
-- Results vs the teacher and vs humans are reported separately.
+- Results vs the teacher and vs the panel reference are reported separately, and neither is called accuracy: no human labels exist.
 
 ### Latency and cost
 

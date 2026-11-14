@@ -29,5 +29,5 @@ Opus 5.5 is the reference teacher on a subset (about 2% of pages, per the #6 pla
 
 - W05 can start on the existing driver (`scripts/label_pages.py`): 20k pages is about 24M tokens and roughly 15 minutes with 8 parallel calls, if the plan's usage allows; that was not measured.
 - One flat prompt with all 330 labels works and stays cheap, which is evidence for 0004 (single pass against hierarchical), though a hierarchical pass was not tried.
-- Teacher noise is real: Sonnet agrees with itself at about 0.79 Tier-2 Jaccard. Students should be judged against the W04 human gold sample, not only against the teacher.
-- Revisit if the W04 gold sample shows Sonnet's accuracy well below Opus or another vendor, if plan limits block bulk labeling, or if the provider terms change.
+- Teacher noise is real: Sonnet agrees with itself at about 0.79 Tier-2 Jaccard. Students should be judged against a reference that is not the teacher alone; since [0010](0010-reference-sample.md) that is a panel of teachers, not a human-checked sample.
+- Revisit if the panel reference ([0010](0010-reference-sample.md)) shows Sonnet agreeing with the other teachers clearly less than they agree with each other, if plan limits block bulk labeling, or if the provider terms change.

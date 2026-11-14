@@ -48,9 +48,9 @@ The quality filters in cleaned corpora drop product and listing pages, which shi
 - Choose between the two by **student F1**, not extraction F1.
 - Also test **URL + title + meta description** as a near-free input. It doubles as the cache-miss fallback.
 
-## Public labeled sets (sanity checks, never gold)
+## Public labeled sets (sanity checks, never the reference)
 
-No good open, human-labeled IAB page dataset exists, so we build the gold sample ([measurement.md](measurement.md)). These help through a hand-made crosswalk to IAB Tier 1:
+No good open, human-labeled IAB page dataset exists, and nobody labels pages by hand here, so the reference is a panel of teachers ([measurement.md](measurement.md)). These help through a hand-made crosswalk to IAB Tier 1:
 
 - **Curlie** (CC BY 3.0, many languages, with URLs): the best URL/domain → category ground truth.
 - **Homepage2Vec Curlie set** (CC BY 4.0, 92 languages): website-level, 14 classes.

@@ -1,0 +1,24 @@
+# Panel reference v0 (#5, decision 0010): the labels a panel of three models from two vendors agrees on.
+# Used by scripts/panel_report.py. The member runs are made with scripts/label_pages.py:
+# 300 pages, --seed 7, --exclude-runs pilot-v2 (domains the prompt was not tuned on), prompt v2.
+
+[panel]
+labels_dir = "data/labels"
+members = [
+  "holdout-v2",        # Sonnet 5.5, claude -p (Anthropic)
+  "holdout-opus-v2",   # Opus 5.5, claude -p (Anthropic)
+  "holdout-argon-v2",  # Gemini 4 Argon, agy -p (Google)
+]
+min_votes = 2  # a label is in the reference when at least this many members give it
+
+[output]
+reference = "data/labels/panel-v0/reference.jsonl"  # never committed
+
+[report]
+# Other runs on the same pages. leave_out: score against the panel without this member, for runs
+# of the same model, which would otherwise be scored against their own vote.
+compare_runs = [
+  { run = "holdout-v0", leave_out = "holdout-v2" },             # Sonnet, prompt v0
+  { run = "holdout-v2-resiliparse", leave_out = "holdout-v2" }, # Sonnet, resiliparse text
+  { run = "holdout-gemma-v2" },                                 # Gemma 4 12B, local
+]

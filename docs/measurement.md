@@ -7,8 +7,8 @@
 | Comparison | What it tells us |
 | --- | --- |
 | Student vs teacher (held-out split) | Distillation loss |
-| Student vs human-checked sample | Real quality |
-| Teacher vs human | Teacher label noise |
+| Student vs the panel reference | Quality, as agreement with three frontier models |
+| Teacher vs the rest of the panel | Teacher label noise, as disagreement between frontier models |
 | Teacher vs teacher (repeated runs) | Teacher self-consistency |
 
 **Splits:**
@@ -23,13 +23,14 @@
 - Per-category ECE and Brier score, with the binning reported. Try temperature scaling first.
 - Per-category thresholds tuned on validation. Watch rare labels, where "always positive" can game F1.
 
-**Human-checked sample:**
+**Panel reference (no human-checked sample):**
 
-- **v0 ([decision 0010](decisions/0010-gold-sample.md)):** the 300 holdout pages of the teacher pilot (150 pt, 150 en), a random draw that the teacher prompt was not tuned on. Stratifying by Tier 1 waits for a top-up (v1) after the bulk labels exist.
-- The reviewer accepts or corrects the teacher's labels, under the teacher's own rules.
-- 100 pages are labeled **blind** first, then the teacher's labels are revealed and a final answer is given. Both answers are kept, to measure anchoring on the teacher's answer.
-- Other teachers are scored against the blind answers only: the final answers were made looking at one teacher's labels.
-- The reviewer's decisions are kept alongside the teacher output (`data/gold/v0/`), and the gold pages' domains stay in the test split.
+- Nobody labels pages by hand in this project ([decision 0010](decisions/0010-reference-sample.md)), so no number here is accuracy. The words are **agreement** and **fidelity**.
+- The reference is what at least two of three teachers from two vendors (Sonnet 5.5, Opus 5.5, Gemini 4 Argon) agree on, for the 300 holdout pages of the teacher pilot (150 pt, 150 en).
+- Pages where the panel has no agreement are left out, and the coverage is reported beside every score.
+- A panel member is scored against what the other two agree on, never against its own vote.
+- The holdout pages' domains stay in the test split.
+- A public human-labeled set through a Tier-1 crosswalk is the open route to a human-anchored number (Phase 2).
 
 ## Speed
 

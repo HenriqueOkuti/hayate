@@ -97,4 +97,4 @@ All 337 calls of the final runs returned valid output on the first attempt (4,23
 
 - **Plan usage at scale:** the runs hit no limits, but the plan's usage meter was not read before and after.
 - **Argon on the holdout:** Argon ran on the development pages only; its prompt was not tuned there, so this matters less than it did for Sonnet.
-- **Accuracy:** only the W04 gold sample can measure it.
+- **Accuracy:** not measured, and it will not be: the W04 human-checked sample was replaced by a panel of teachers ([panel-v0.md](panel-v0.md), [decision 0010](../docs/decisions/0010-reference-sample.md)), which measures agreement between models.

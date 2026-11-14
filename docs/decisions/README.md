@@ -10,7 +10,7 @@ One file per decision, `NNNN-short-title.md`, copied from [0000-template.md](000
 - [0004: Taxonomy prompting](0004-taxonomy-prompting.md): one flat pass with all 330 labels in the cached system prompt and a schema enum of ids; no hierarchical pass.
 - [0005: Page sample](0005-page-sample.md): raw Common Crawl 2026-39, 10k pt + 10k en, max 3 per domain, two-stage sampling proportional to size.
 - [0009: Mascot rig tool](0009-mascot-rig.md): layered WebP with CSS keyframes and a tiny JS blink; no runtime, all MIT.
-- [0010: Gold sample v0](0010-gold-sample.md): the 300 holdout pages, 100 of them reviewed blind and then revealed, in a local review page; other teachers scored against the blind answers only.
+- [0010: Reference sample v0](0010-reference-sample.md): no human labeling; the labels two of three panel members (Sonnet, Opus, Gemini Argon) agree on, for the 300 holdout pages; reported as agreement, never accuracy.
 
 ## Pending
 
