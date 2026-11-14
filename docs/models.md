@@ -5,7 +5,7 @@ Snapshot 2026-10-07. Sources and details are in [research/2026-10-07-students-be
 | Tier | Candidates | Expected | Role |
 | --- | --- | --- | --- |
 | 1. Hashed n-gram linear | Hashed n-grams + one linear layer ([0007](decisions/0007-tier1-implementation.md)), trained and served in Go ([0012](decisions/0012-go-first.md)); the build on the curve is tier1-v2-17 (2^17 + 2^17 features), test Tier-2 F1 0.478 against the teacher ([results](../results/tier1-v2.md)) | Measured in Go: 0.52 ms/page p50 and 1.40 ms p99 at batch 1 and 3,000 chars, one thread, small-VPS profile ([results](../results/bench-tier1-go-v2.md)); Python was 1.7 ms for v1 ([results](../results/bench-tier1-v1.md)) | The sub-ms baseline |
-| 2. Static embeddings + linear head | Model2Vec `potion-multilingual-128M` (MIT), `static-similarity-mrl-multilingual-v1` (Apache-2.0, includes pt/id/vi/th) | Probably sub-ms; tokenization dominates | **Main bet** for sub-ms *and* good |
+| 2. Static embeddings + linear head | Model2Vec `potion-multilingual-128M` (MIT), `static-similarity-mrl-multilingual-v1` (Apache-2.0, includes pt/id/vi/th) | Probed in Go ([0013](decisions/0013-tier2-tokenizer.md)): potion with a trie tokenizer 0.32 ms/page p50, val Tier-2 F1 0.500; a train-page words-only table 0.05 ms, 0.480 ([research](research/2026-11-14-tier2-tokenizer.md)) | **Main bet** for sub-ms *and* good |
 | 3. Small encoder, int8, ONNX/OpenVINO | `multilingual-e5-small` (118M, MIT), `mmBERT-small` (42M non-embedding, MIT) | Several ms/page per core | The accuracy end of the curve |
 
 Notes:

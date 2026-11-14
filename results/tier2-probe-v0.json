@@ -1,7 +1,7 @@
 {
  "step": "tier2_probe",
- "commit": "0166b8ed3a1b0019c3502c40a18446967db9eb93",
- "created": "2026-11-14T14:38:32+00:00",
+ "commit": "ebc0b6f40ee551a3415188a1cbd7940dc80f3498",
+ "created": "2026-11-14T14:43:17+00:00",
  "config": {
   "variants": [
    "potion",
@@ -35,30 +35,30 @@
  "note": "val only; cross-fitted thresholds, no top-label floor; test never read",
  "variants": {
   "potion": {
-   "val_f1_cross": 0.4992,
+   "val_f1_cross": 0.5001,
    "min_support": 1000000000,
    "temperature": 1.0,
-   "val_bce": 0.010852,
+   "val_bce": 0.010791,
    "lr": 0.003,
-   "best_epoch": 90,
+   "best_epoch": 95,
    "table_rows": 500353,
    "dims": 256,
    "table_mb_float32": 512.4,
    "val_tokens_per_page_p50": 409.0,
-   "seconds": 48.3
+   "seconds": 41.8
   },
   "distill": {
-   "val_f1_cross": 0.4393,
+   "val_f1_cross": 0.4451,
    "min_support": 1000000000,
    "temperature": 1.0,
-   "val_bce": 0.012438,
+   "val_bce": 0.012398,
    "lr": 0.003,
-   "best_epoch": 144,
+   "best_epoch": 152,
    "table_rows": 249999,
    "dims": 256,
    "table_mb_float32": 256.0,
    "val_tokens_per_page_p50": 415.0,
-   "seconds": 42.4
+   "seconds": 49.2
   },
   "wordfirst": {
    "val_f1_cross": 0.4736,
@@ -73,7 +73,7 @@
    "dims": 256,
    "table_mb_float32": 300.2,
    "val_tokens_per_page_p50": 295.0,
-   "seconds": 25.0
+   "seconds": 27.7
   },
   "wordonly": {
    "val_f1_cross": 0.4801,
@@ -88,23 +88,23 @@
    "dims": 256,
    "table_mb_float32": 55.5,
    "val_tokens_per_page_p50": 244.0,
-   "seconds": 26.4
+   "seconds": 28.5
   }
  },
  "val_minus_potion_paired": {
   "distill": {
    "pages": 1933,
    "tier2": {
-    "value": -0.06,
+    "value": -0.055,
     "ci95": [
-     -0.073,
-     -0.047
+     -0.068,
+     -0.042
     ]
    },
    "tier1": {
     "value": -0.056,
     "ci95": [
-     -0.069,
+     -0.07,
      -0.043
     ]
    }
@@ -112,33 +112,33 @@
   "wordfirst": {
    "pages": 1933,
    "tier2": {
-    "value": -0.026,
+    "value": -0.027,
     "ci95": [
-     -0.039,
-     -0.012
+     -0.04,
+     -0.014
     ]
    },
    "tier1": {
-    "value": -0.024,
+    "value": -0.026,
     "ci95": [
      -0.038,
-     -0.01
+     -0.011
     ]
    }
   },
   "wordonly": {
    "pages": 1933,
    "tier2": {
-    "value": -0.019,
+    "value": -0.02,
     "ci95": [
      -0.033,
-     -0.006
+     -0.007
     ]
    },
    "tier1": {
-    "value": -0.014,
+    "value": -0.015,
     "ci95": [
-     -0.028,
+     -0.029,
      -0.0
     ]
    }
