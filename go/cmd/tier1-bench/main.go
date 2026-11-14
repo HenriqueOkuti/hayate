@@ -100,6 +100,7 @@ func main() {
 	cpu := flag.Int("cpu", -1, "pin the benchmark thread to this logical CPU")
 	refPath := flag.String("reference", "", "reference readings (default <out-dir>/"+refFile+")")
 	accept := flag.Bool("accept-reference", false, "store this run's reference reading even if busy")
+	flag.BoolVar(&reuse, "reuse", true, "reuse buffers (FeaturizeInto, DecideInto); false: allocating path")
 	flag.Parse()
 	if *cpu >= 0 {
 		// the timing loop runs on this goroutine, so lock it to one OS thread and pin that thread
@@ -129,7 +130,7 @@ func main() {
 		}
 		for _, batch := range ints(*batches) {
 			calls := max(*minCalls, *perConfig/batch)
-			pooled, trialP50, trialP99 := timeConfig(m, docs, maxChars, batch, *trials, calls, *warmup)
+			pooled, trialP50, trialP99, mem := timeConfig(m, docs, maxChars, batch, *trials, calls, *warmup)
 			raw = append(raw, pooled...)
 			series := map[string][]float64{}
 			for _, t := range pooled {
@@ -138,7 +139,7 @@ func main() {
 				series["decide"] = append(series["decide"], float64(t.decide)/1000)
 				series["total"] = append(series["total"], float64(t.total)/1000)
 			}
-			cfg := map[string]any{"max_chars": maxChars, "batch": batch, "calls": len(pooled)}
+			cfg := map[string]any{"max_chars": maxChars, "batch": batch, "calls": len(pooled), "memory": mem}
 			for stage, v := range series {
 				s := stats(v, batch)
 				cfg["us_per_call_"+stage] = s["call"]
@@ -152,8 +153,8 @@ func main() {
 			}
 			configs = append(configs, cfg)
 			pp := cfg["us_per_page_total"].(map[string]float64)
-			fmt.Printf("chars %5d batch %3d: per page p50 %8.1f us p99 %8.1f us, %9.1f pages/s\n",
-				maxChars, batch, pp["p50"], pp["p99"], cfg["pages_per_s"])
+			fmt.Printf("chars %5d batch %3d: per page p50 %8.1f us p99 %8.1f us, %9.1f pages/s, %.1f allocs/page, %d GCs\n",
+				maxChars, batch, pp["p50"], pp["p99"], cfg["pages_per_s"], mem.AllocsPerPage, mem.GCCycles)
 		}
 	}
 
@@ -200,7 +201,7 @@ func main() {
 		"profile":  *profile,
 		"config": map[string]any{"batches": ints(*batches), "max_chars": ints(*lengths),
 			"trials": *trials, "pages_per_config": *perConfig, "min_calls": *minCalls,
-			"warmup": *warmup, "bundle": *bundle},
+			"warmup": *warmup, "bundle": *bundle, "reuse": reuse},
 		"environment": environment(),
 		"reference":   ref,
 		"model": map[string]any{"bundle_sha256": sha, "labels": len(m.Labels),
@@ -216,29 +217,51 @@ func main() {
 
 // timeConfig times trials of calls batches (after warmup untimed calls) and returns the pooled
 // calls and each trial's p50 and p99 per page in microseconds.
-func timeConfig(m *tier1.Model, docs []string, maxChars, batch, trials, calls, warmup int) ([]call, []float64, []float64) {
+// memory is what one configuration allocated per page, and how many GC cycles ran.
+type memory struct {
+	AllocsPerPage float64 `json:"allocs_per_page"`
+	BytesPerPage  float64 `json:"bytes_per_page"`
+	GCCycles      uint32  `json:"gc_cycles"`
+}
+
+// reuse picks the library path: FeaturizeInto and DecideInto with reused buffers (no
+// allocation per page once warm), or the allocating Featurize and Decide.
+var reuse = true
+
+func timeConfig(m *tier1.Model, docs []string, maxChars, batch, trials, calls, warmup int) ([]call, []float64, []float64, memory) {
 	var trialP50, trialP99 []float64
 	var pooled []call
-	prob := make([]float32, 0, len(m.Labels))
+	// the harness's own buffers, allocated once per configuration
+	xs := make([]tier1.Sparse, batch)
+	probs := make([][]float32, batch)
+	labels := make([][]string, batch)
+	var ms0, ms1 runtime.MemStats
+	runtime.GC()
+	runtime.ReadMemStats(&ms0)
 	for trial := 0; trial < trials; trial++ {
 		start := trial * 997
-		var timed []call
+		timed := make([]call, 0, calls)
 		for c := -warmup; c < calls; c++ {
 			k := start + (c+warmup)*batch
-			xs := make([]tier1.Sparse, batch)
-			probs := make([][]float32, batch)
 			t0 := time.Now()
 			for i := range batch {
-				xs[i] = m.Featurize(docs[(k+i)%len(docs)])
+				if reuse {
+					m.FeaturizeInto(docs[(k+i)%len(docs)], &xs[i])
+				} else {
+					xs[i] = m.Featurize(docs[(k+i)%len(docs)])
+				}
 			}
 			t1 := time.Now()
 			for i := range batch {
-				prob = m.Forward(xs[i], prob)
-				probs[i] = slices.Clone(prob)
+				probs[i] = m.Forward(xs[i], probs[i])
 			}
 			t2 := time.Now()
 			for i := range batch {
-				_ = m.Decide(probs[i])
+				if reuse {
+					labels[i] = m.DecideInto(probs[i], labels[i])
+				} else {
+					labels[i] = m.Decide(probs[i])
+				}
 			}
 			t3 := time.Now()
 			if c >= 0 {
@@ -255,7 +278,11 @@ func timeConfig(m *tier1.Model, docs []string, maxChars, batch, trials, calls, w
 		trialP99 = append(trialP99, percentile(tot, 99)/float64(batch))
 		pooled = append(pooled, timed...)
 	}
-	return pooled, trialP50, trialP99
+	runtime.ReadMemStats(&ms1)
+	pages := float64(trials * (calls + warmup) * batch)
+	mem := memory{math.Round(float64(ms1.Mallocs-ms0.Mallocs)/pages*100) / 100,
+		math.Round(float64(ms1.TotalAlloc-ms0.TotalAlloc)/pages*10) / 10, ms1.NumGC - ms0.NumGC}
+	return pooled, trialP50, trialP99, mem
 }
 
 // timeReference times the fixed reference configuration once (see reference.go).
@@ -264,7 +291,7 @@ func timeReference(m *tier1.Model, pages []parts, warmup int) reading {
 	for i, p := range pages {
 		docs[i] = tier1.PageInput(p.URL, p.Title, p.Description, p.Text, refMaxChars)
 	}
-	_, p50, p99 := timeConfig(m, docs, refMaxChars, refBatch, 1, refCalls, warmup)
+	_, p50, p99, _ := timeConfig(m, docs, refMaxChars, refBatch, 1, refCalls, warmup)
 	return reading{math.Round(p50[0]*100) / 100, math.Round(p99[0]*100) / 100}
 }
 
