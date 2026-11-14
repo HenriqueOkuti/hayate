@@ -1,0 +1,106 @@
+{
+ "step": "compare_students",
+ "commit": "fb0d8159666be68a618dc5bfec4fe2dbdf4a4022",
+ "created": "2026-11-14T10:13:03+00:00",
+ "config": {
+  "a": "tier1-v0",
+  "b": "tier1-v0-resiliparse",
+  "labels_run": "bulk-v2",
+  "labels_json": "data/taxonomy/labels.json",
+  "out": "results/compare-tier1-extractor.json"
+ },
+ "val": {
+  "a": {
+   "value": 0.451,
+   "ci95": [
+    0.434,
+    0.47
+   ],
+   "tier1": {
+    "value": 0.553,
+    "ci95": [
+     0.533,
+     0.575
+    ]
+   }
+  },
+  "b": {
+   "value": 0.434,
+   "ci95": [
+    0.415,
+    0.453
+   ],
+   "tier1": {
+    "value": 0.522,
+    "ci95": [
+     0.497,
+     0.547
+    ]
+   }
+  },
+  "a_minus_b": {
+   "pages": 1933,
+   "tier2": {
+    "value": 0.016,
+    "ci95": [
+     0.003,
+     0.03
+    ]
+   },
+   "tier1": {
+    "value": 0.031,
+    "ci95": [
+     0.016,
+     0.046
+    ]
+   }
+  }
+ },
+ "test": {
+  "a": {
+   "value": 0.44,
+   "ci95": [
+    0.423,
+    0.458
+   ],
+   "tier1": {
+    "value": 0.544,
+    "ci95": [
+     0.524,
+     0.566
+    ]
+   }
+  },
+  "b": {
+   "value": 0.425,
+   "ci95": [
+    0.405,
+    0.443
+   ],
+   "tier1": {
+    "value": 0.509,
+    "ci95": [
+     0.49,
+     0.529
+    ]
+   }
+  },
+  "a_minus_b": {
+   "pages": 1875,
+   "tier2": {
+    "value": 0.015,
+    "ci95": [
+     0.002,
+     0.029
+    ]
+   },
+   "tier1": {
+    "value": 0.035,
+    "ci95": [
+     0.02,
+     0.05
+    ]
+   }
+  }
+ }
+}
