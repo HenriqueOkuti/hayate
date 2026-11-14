@@ -33,8 +33,11 @@ def test_reference_check_keeps_quiet_baseline(tmp_path):
     r = reference.check(path, k, quiet, busy, False, "t1", "c1", "busy")
     assert r["status"] == "busy" and r["slowdown"] == 0.2 and not r["baseline_updated"]
     r = reference.check(path, k, quiet, {**quiet, "p50_us_per_page": 660.0}, False, "t2", "c2", "q")
-    assert r["status"] == "quiet" and r["slowdown"] == 0.1 and r["baseline"]["source"] == "first"
-    slower = {"p50_us_per_page": 800.0, "p99_us_per_page": 2000.0}  # 21% over the new 660
-    r = reference.check(path, k, slower, slower, True, "t3", "c3", "accepted")
-    assert r["status"] == "busy" and r["baseline"]["source"] == "q" and r["baseline_updated"]
+    assert r["status"] == "quiet" and r["slowdown"] == 0.1 and not r["baseline_updated"]
+    faster = {"p50_us_per_page": 580.0, "p99_us_per_page": 1400.0}
+    r = reference.check(path, k, faster, faster, False, "t3", "c3", "fast")
+    assert r["status"] == "quiet" and r["baseline_updated"]
+    slower = {"p50_us_per_page": 800.0, "p99_us_per_page": 2000.0}
+    r = reference.check(path, k, slower, slower, True, "t4", "c4", "accepted")
+    assert r["status"] == "busy" and r["baseline"]["source"] == "fast" and r["baseline_updated"]
     assert reference.judge(quiet, quiet, None) == (None, "no-baseline")

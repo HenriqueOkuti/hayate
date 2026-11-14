@@ -47,6 +47,10 @@ func TestReferenceCheckKeepsQuietBaseline(t *testing.T) {
 	if m[key].P50 != 600 || m[key].Source != "first" {
 		t.Fatalf("busy run replaced the baseline: %+v", m[key])
 	}
+	slower := reading{P50: 650, P99: 1600}
+	if c, _ = referenceCheck(path, key, slower, slower, false, "t1b", "c1b", "slower"); c.Status != "quiet" || c.BaselineUpdated {
+		t.Fatalf("a slower quiet run replaced the baseline: %+v", c)
+	}
 	c, err = referenceCheck(path, key, busy, busy, true, "t2", "c2", "accepted")
 	if err != nil || c.Status != "busy" || !c.BaselineUpdated {
 		t.Fatalf("accepted run: %+v, %v", c, err)
