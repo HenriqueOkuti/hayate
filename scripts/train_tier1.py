@@ -9,7 +9,11 @@ column's val pages: the learning rate (--lrs, picked by val micro F1 at Tier 2),
 epoch (lowest val loss), one temperature and per-label thresholds (hayate.evaluation.metrics).
 Test is scored once, after.
 A page's predicted labels are those at or above their threshold, most probable first, at most
---max-labels; none means "no topic", like the teacher's empty answer.
+--max-labels; none means "no topic", like the teacher's empty answer. With --top1-floors, a
+page where no label passes keeps its most probable label if that probability is at least the
+floor; the floor (or "off", -1) is chosen with the threshold policy by cross-fitted val F1, and
+test is also scored with the rule off on the same model (`test_rule_off`, `top1_rule_minus_off`,
+paired over the same pages; the val pairing is in-sample).
 
 Writes results/<name>.json (counts and scores only, no page text), and to artifacts/<name>/
 (never committed) the model (featurizer.joblib, head.pt) and predictions.jsonl (label ids per
@@ -108,6 +112,10 @@ def main() -> None:
     ap.add_argument("--char-bits", type=int, default=18)
     ap.add_argument("--max-labels", type=int, default=5)
     ap.add_argument(
+        "--top1-floors", type=float, nargs="+", default=[-1.0],
+        help="candidate floors for keeping the top label when none passes (-1: rule off)",
+    )  # fmt: skip
+    ap.add_argument(
         "--min-supports", type=int, nargs="+", default=[5, 20, 50, 10**9],
         help="candidate val positives for a label's own threshold (10**9: global only)",
     )  # fmt: skip
@@ -151,11 +159,15 @@ def main() -> None:
     def ref_sets(pages: list[str]) -> list[list[str]]:
         return [[i for i in ids(teacher[p]) if i in label_ids] for p in pages]
 
-    def decide(prob: np.ndarray, thr: np.ndarray) -> list[list[str]]:
+    def decide(prob: np.ndarray, thr: np.ndarray, floor: float | None = None) -> list[list[str]]:
+        """Labels at or above their threshold, most probable first. With a `floor`, a page where
+        none passes keeps its most probable label if that label's probability is >= floor."""
         out = []
         for row in prob:
             keep = np.flatnonzero(row >= thr)
             keep = keep[np.argsort(-row[keep])][: args.max_labels]
+            if not len(keep) and floor is not None and row.max() >= floor:
+                keep = [int(row.argmax())]
             out.append([label_ids[k] for k in keep])
         return out
 
@@ -183,15 +195,19 @@ def main() -> None:
     # seeded val halves by component, so pages of one site never sit on both sides
     half = np.array([metrics_half(component[p]) for p in part["val"]])
 
-    def cross_f1(prob: np.ndarray, min_support: int) -> float:
-        """Thresholds fitted on one val half and scored on the other, both ways, pooled. An
-        honest estimate of what tuned thresholds give on unseen pages, unlike in-sample F1."""
-        pred: list = [None] * len(val_ref)
+    floors = [None if f < 0 else f for f in args.top1_floors]
+
+    def cross_f1(prob: np.ndarray, min_support: int) -> dict:
+        """Thresholds fitted on one val half and scored on the other, both ways, pooled, for each
+        top-1 floor. An honest estimate of what the rule gives on unseen pages."""
+        preds = {f: [None] * len(val_ref) for f in floors}
         for fit_on in (half, ~half):
             thr, _ = metrics.fit_thresholds(y_val[fit_on], prob[fit_on], max(min_support // 2, 1))
-            for k, row in zip(np.flatnonzero(~fit_on), decide(prob[~fit_on], thr), strict=True):
-                pred[k] = row
-        return metrics.micro(val_ref, pred)["f1"]
+            idx = np.flatnonzero(~fit_on)
+            for f in floors:
+                for k, row in zip(idx, decide(prob[~fit_on], thr, f), strict=True):
+                    preds[f][k] = row
+        return {f: metrics.micro(val_ref, preds[f])["f1"] for f in floors}
 
     def tune(head: LinearHead) -> dict:
         """Temperature on val; the min support for a label's own threshold by cross-fitted val F1;
@@ -199,12 +215,18 @@ def main() -> None:
         z_val = logits(head, x_val)
         temp = metrics.fit_temperature(y_val, z_val)
         prob = metrics.sigmoid(z_val / temp)
-        cross = {ms: cross_f1(prob, ms) for ms in args.min_supports}
-        ms = max(cross, key=lambda m: (cross[m], m))  # ties go to the larger, simpler setting
+        grid = {(ms, f): v for ms in args.min_supports for f, v in cross_f1(prob, ms).items()}
+        # ties go to the larger min support and to no floor (off first, then higher floors)
+        (ms, floor) = max(
+            grid, key=lambda k: (grid[k], k[0], k[1] is None, k[1] if k[1] is not None else 0)
+        )
         thr, glob = metrics.fit_thresholds(y_val, prob, ms)
-        in_sample = metrics.micro(val_ref, decide(prob, thr))["f1"]
-        return {"temp": temp, "thr": thr, "glob": glob, "min_support": ms, "cross": cross,
-                "val_f1_cross": cross[ms], "val_f1_in_sample": in_sample}  # fmt: skip
+        in_sample = metrics.micro(val_ref, decide(prob, thr, floor))["f1"]
+        cross = {f"{m}|{'off' if f is None else f}": v for (m, f), v in grid.items()}
+        return {"temp": temp, "thr": thr, "glob": glob, "min_support": ms, "floor": floor,
+                "cross": cross, "val_f1_cross": grid[(ms, floor)],
+                "val_f1_cross_rule_off": grid[(ms, None)] if None in floors else None,
+                "val_f1_in_sample": in_sample}  # fmt: skip
 
     candidates, best = [], None
     for lr in args.lrs:
@@ -223,12 +245,12 @@ def main() -> None:
         if best is None or t["val_f1_cross"] > best[0]["val_f1_cross"]:
             best = (t, lr, head, fit_s, hist)
     t, lr, head, fit_s, hist = best
-    temp, thr, glob = t["temp"], t["thr"], t["glob"]
+    temp, thr, glob, floor = t["temp"], t["thr"], t["glob"], t["floor"]
 
     def predict(pages: list[str]) -> tuple[np.ndarray, np.ndarray, list[list[str]]]:
         z = logits(head, rows_x(pages))
         prob = metrics.sigmoid(z / temp)
-        return z, prob, decide(prob, thr)
+        return z, prob, decide(prob, thr, floor)
 
     def score(pages: list[str], pred: list[list[str]]) -> dict:
         return metrics.f1_report([full_ref[p] for p in pages], pred, tier1, names)
@@ -243,6 +265,19 @@ def main() -> None:
     pred_of = dict(zip(part["test"], pred_t, strict=True))
     y_test = metrics.to_matrix(ref_sets(part["test"]), label_ids)
     test = score(part["test"], pred_t)
+    pred_t_off = decide(prob_t, thr, None)  # the same model with the v0 rule, for a clean pairing
+    pred_v_off = decide(prob_v, thr, None)
+    rule_effect = {
+        split: agreement.f1_diff_paired(
+            [(a, full_ref[p]) for a, p in zip(on, pages, strict=True)],
+            [(b, full_ref[p]) for b, p in zip(off, pages, strict=True)],
+            tier1,
+        )
+        for split, pages, on, off in (
+            ("val", part["val"], pred_v, pred_v_off),
+            ("test", part["test"], pred_t, pred_t_off),
+        )
+    }
     by_lang = {
         lg: compact(score(ps, [pred_of[p] for p in ps]))
         for lg in sorted(set(lang.values()))
@@ -341,6 +376,7 @@ def main() -> None:
             "global_threshold": glob,
             "labels_learned": len(label_ids),
             "min_support": t["min_support"],
+            "top1_floor": floor,
             "labels_with_own_threshold": int((thr != glob).sum()),
             "fit_s": round(fit_s, 1),
             "note": "fit and featurize times are training costs, not inference latency",
@@ -354,6 +390,8 @@ def main() -> None:
             c["support"] > 0 and c["predicted"] == 0 for c in test["tier2"]["per_category"].values()
         ),
         "test_by_lang": by_lang,
+        "test_rule_off": compact(score(part["test"], pred_t_off)),
+        "top1_rule_minus_off": rule_effect,
         "test_no_topic": no_topic,
         "test_calibration": {
             "raw": metrics.calibration(y_test, metrics.sigmoid(z_t), label_ids),
