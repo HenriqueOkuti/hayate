@@ -1,0 +1,2664 @@
+{
+ "step": "panel_report",
+ "commit": "eeacb8407bd24ca3a46400c12016740360228232",
+ "created": "2026-11-14T02:08:08+00:00",
+ "config": {
+  "config": "configs/panel.toml",
+  "config_sha256": "814a36d33f0238b8b4fdf1a29fb9b05faca92c415062486bfd8872a536f3fd1c",
+  "out": "results/panel-v0.json"
+ },
+ "notes": [
+  "Agreement between models, not accuracy: no human checked these labels, and a mistake the panel members share is invisible.",
+  "Leave-one-out scores (member_vs_others, and other_runs with leave_out) drop the pages where the remaining members share no label (see coverage). Those are the hard pages, so the scores are flattered, and each member's row is on different pages.",
+  "Precision, recall and F1 depend on how many labels a run gives per page; the first-label match does not.",
+  "Intervals resample pages with the reference fixed; they do not include the reference's own run-to-run noise (see reference_stability).",
+  "Members differ in batch size and backend as well as model (see runs)."
+ ],
+ "panel": {
+  "members": [
+   "holdout-v2",
+   "holdout-opus-v2",
+   "holdout-argon-v2"
+  ],
+  "min_votes": 2,
+  "pages": 300
+ },
+ "runs": {
+  "holdout-v2": {
+   "model": "sonnet",
+   "backend": "claude",
+   "prompt": "prompt-v2.txt",
+   "prompt_sha256": "10f500c9165d5790d87e6030d44c7c7bb99d14ceb99ecf52c88158d514e69b44",
+   "text_field": "text_trafilatura",
+   "batch_size": 25,
+   "cli_version": "2.1.302 (Claude Code)",
+   "commit": "5656019e11712d0e4bc3ec98ebb142a9d4afe89a",
+   "created": "2026-10-18T09:02:59+00:00",
+   "taxonomy_sha256": "7212cdc496ba347a03e703b1932bdcdd4fd29089b058f4edeb4d3da1f1222ea7",
+   "labels_sha256": "19b89ab4a38741070471fef49dae98e3381d9ba54538477203fc2048cf4fabfa",
+   "calls_failed": 0,
+   "resolved_models": [
+    "claude-sonnet-5-5"
+   ],
+   "thinking_tokens": 0,
+   "pages": 300,
+   "labels_per_page": 1.2,
+   "empty_pages": 13
+  },
+  "holdout-opus-v2": {
+   "model": "opus",
+   "backend": "claude",
+   "prompt": "prompt-v2.txt",
+   "prompt_sha256": "10f500c9165d5790d87e6030d44c7c7bb99d14ceb99ecf52c88158d514e69b44",
+   "text_field": "text_trafilatura",
+   "batch_size": 25,
+   "cli_version": "2.1.325 (Claude Code)",
+   "commit": "d11497a70bb7782be5e9ba75d1ebf0b406e5abb3",
+   "created": "2026-11-14T01:52:35+00:00",
+   "taxonomy_sha256": "7212cdc496ba347a03e703b1932bdcdd4fd29089b058f4edeb4d3da1f1222ea7",
+   "labels_sha256": "b08b3393422e3df9d65457d8791ac662225586b857a31340e942c3eea2f5f9a2",
+   "calls_failed": 0,
+   "resolved_models": [
+    "claude-opus-5-5"
+   ],
+   "thinking_tokens": 2676,
+   "pages": 300,
+   "labels_per_page": 1.4,
+   "empty_pages": 12
+  },
+  "holdout-argon-v2": {
+   "model": "gemini-4-argon-low",
+   "backend": "agy",
+   "prompt": "prompt-v2.txt",
+   "prompt_sha256": "10f500c9165d5790d87e6030d44c7c7bb99d14ceb99ecf52c88158d514e69b44",
+   "text_field": "text_trafilatura",
+   "batch_size": 10,
+   "cli_version": "1.5.2",
+   "commit": "d11497a70bb7782be5e9ba75d1ebf0b406e5abb3",
+   "created": "2026-11-14T01:52:35+00:00",
+   "taxonomy_sha256": "7212cdc496ba347a03e703b1932bdcdd4fd29089b058f4edeb4d3da1f1222ea7",
+   "labels_sha256": "b0063857825524b44ff5110843761a2bfaccf375265f9ae11498e5dbac1f6ead",
+   "calls_failed": 0,
+   "resolved_models": null,
+   "thinking_tokens": null,
+   "pages": 300,
+   "labels_per_page": 1.76,
+   "empty_pages": 13
+  },
+  "holdout-v0": {
+   "model": "sonnet",
+   "backend": "claude",
+   "prompt": "prompt-v0.txt",
+   "prompt_sha256": "3a2291887130441c169a8781ad374d81e4adb89d90358db587bdeb6481195b7c",
+   "text_field": "text_trafilatura",
+   "batch_size": 25,
+   "cli_version": "2.1.302 (Claude Code)",
+   "commit": "5656019e11712d0e4bc3ec98ebb142a9d4afe89a",
+   "created": "2026-10-18T09:02:40+00:00",
+   "taxonomy_sha256": "7212cdc496ba347a03e703b1932bdcdd4fd29089b058f4edeb4d3da1f1222ea7",
+   "labels_sha256": "6d38525edc19daaa70e9c116ec9c6b124aae6b61e24ea0018970a25c7f464c4b",
+   "calls_failed": 0,
+   "resolved_models": [
+    "claude-sonnet-5-5"
+   ],
+   "thinking_tokens": 0,
+   "pages": 300,
+   "labels_per_page": 2.13,
+   "empty_pages": 23
+  },
+  "holdout-v2-resiliparse": {
+   "model": "sonnet",
+   "backend": "claude",
+   "prompt": "prompt-v2.txt",
+   "prompt_sha256": "10f500c9165d5790d87e6030d44c7c7bb99d14ceb99ecf52c88158d514e69b44",
+   "text_field": "text_resiliparse",
+   "batch_size": 25,
+   "cli_version": "2.1.302 (Claude Code)",
+   "commit": "59d8e182d8324eee88a286df9ec9f7ff9f5e3e79",
+   "created": "2026-10-18T10:32:46+00:00",
+   "taxonomy_sha256": "7212cdc496ba347a03e703b1932bdcdd4fd29089b058f4edeb4d3da1f1222ea7",
+   "labels_sha256": "ef459fd413fe54b53e4222d90e8d3e7adc6e102a3a814ea4919fbde0cfd58670",
+   "calls_failed": 0,
+   "resolved_models": [
+    "claude-sonnet-5-5"
+   ],
+   "thinking_tokens": 0,
+   "pages": 300,
+   "labels_per_page": 1.24,
+   "empty_pages": 14
+  },
+  "holdout-gemma-v2": {
+   "model": "gemma4:12b-it-qat",
+   "backend": "ollama",
+   "prompt": "prompt-v2.txt",
+   "prompt_sha256": "10f500c9165d5790d87e6030d44c7c7bb99d14ceb99ecf52c88158d514e69b44",
+   "text_field": "text_trafilatura",
+   "batch_size": 5,
+   "cli_version": "0.40.6",
+   "commit": "1f91b4e69202ea01bbde8ee8e5c6f2ee8cc3c7fc",
+   "created": "2026-10-18T10:18:43+00:00",
+   "taxonomy_sha256": "7212cdc496ba347a03e703b1932bdcdd4fd29089b058f4edeb4d3da1f1222ea7",
+   "labels_sha256": "87e29746120c6ab6eebba78a2a7813e0a72144251c4dd775b67f1f2e83727ee5",
+   "calls_failed": 0,
+   "resolved_models": null,
+   "thinking_tokens": null,
+   "pages": 300,
+   "labels_per_page": 1.62,
+   "empty_pages": 7
+  }
+ },
+ "pairwise": {
+  "holdout-v2 vs holdout-opus-v2": {
+   "pages": 300,
+   "both_empty": 10,
+   "tier2": {
+    "precision": {
+     "value": 0.783,
+     "ci95": [
+      0.738,
+      0.824
+     ]
+    },
+    "recall": {
+     "value": 0.669,
+     "ci95": [
+      0.627,
+      0.709
+     ]
+    },
+    "f1": {
+     "value": 0.721,
+     "ci95": [
+      0.681,
+      0.76
+     ]
+    },
+    "top_match": {
+     "value": 0.75,
+     "ci95": [
+      0.7,
+      0.797
+     ]
+    },
+    "top_in_reference": {
+     "value": 0.837,
+     "ci95": [
+      0.793,
+      0.877
+     ]
+    },
+    "exact_match": {
+     "value": 0.547,
+     "ci95": [
+      0.49,
+      0.603
+     ]
+    },
+    "jaccard": {
+     "value": 0.689,
+     "ci95": [
+      0.644,
+      0.732
+     ]
+    }
+   },
+   "tier1": {
+    "precision": {
+     "value": 0.895,
+     "ci95": [
+      0.865,
+      0.926
+     ]
+    },
+    "recall": {
+     "value": 0.804,
+     "ci95": [
+      0.766,
+      0.843
+     ]
+    },
+    "f1": {
+     "value": 0.847,
+     "ci95": [
+      0.816,
+      0.877
+     ]
+    },
+    "top_match": {
+     "value": 0.85,
+     "ci95": [
+      0.81,
+      0.89
+     ]
+    },
+    "top_in_reference": {
+     "value": 0.92,
+     "ci95": [
+      0.887,
+      0.95
+     ]
+    },
+    "exact_match": {
+     "value": 0.727,
+     "ci95": [
+      0.677,
+      0.777
+     ]
+    },
+    "jaccard": {
+     "value": 0.825,
+     "ci95": [
+      0.788,
+      0.86
+     ]
+    }
+   }
+  },
+  "holdout-v2 vs holdout-argon-v2": {
+   "pages": 300,
+   "both_empty": 10,
+   "tier2": {
+    "precision": {
+     "value": 0.833,
+     "ci95": [
+      0.791,
+      0.871
+     ]
+    },
+    "recall": {
+     "value": 0.566,
+     "ci95": [
+      0.531,
+      0.601
+     ]
+    },
+    "f1": {
+     "value": 0.674,
+     "ci95": [
+      0.639,
+      0.708
+     ]
+    },
+    "top_match": {
+     "value": 0.69,
+     "ci95": [
+      0.637,
+      0.743
+     ]
+    },
+    "top_in_reference": {
+     "value": 0.857,
+     "ci95": [
+      0.817,
+      0.897
+     ]
+    },
+    "exact_match": {
+     "value": 0.4,
+     "ci95": [
+      0.343,
+      0.457
+     ]
+    },
+    "jaccard": {
+     "value": 0.623,
+     "ci95": [
+      0.582,
+      0.663
+     ]
+    }
+   },
+   "tier1": {
+    "precision": {
+     "value": 0.933,
+     "ci95": [
+      0.906,
+      0.957
+     ]
+    },
+    "recall": {
+     "value": 0.71,
+     "ci95": [
+      0.677,
+      0.745
+     ]
+    },
+    "f1": {
+     "value": 0.807,
+     "ci95": [
+      0.779,
+      0.832
+     ]
+    },
+    "top_match": {
+     "value": 0.807,
+     "ci95": [
+      0.763,
+      0.85
+     ]
+    },
+    "top_in_reference": {
+     "value": 0.933,
+     "ci95": [
+      0.903,
+      0.96
+     ]
+    },
+    "exact_match": {
+     "value": 0.593,
+     "ci95": [
+      0.54,
+      0.647
+     ]
+    },
+    "jaccard": {
+     "value": 0.766,
+     "ci95": [
+      0.731,
+      0.799
+     ]
+    }
+   }
+  },
+  "holdout-opus-v2 vs holdout-argon-v2": {
+   "pages": 300,
+   "both_empty": 11,
+   "tier2": {
+    "precision": {
+     "value": 0.874,
+     "ci95": [
+      0.839,
+      0.904
+     ]
+    },
+    "recall": {
+     "value": 0.695,
+     "ci95": [
+      0.665,
+      0.724
+     ]
+    },
+    "f1": {
+     "value": 0.774,
+     "ci95": [
+      0.746,
+      0.8
+     ]
+    },
+    "top_match": {
+     "value": 0.783,
+     "ci95": [
+      0.733,
+      0.827
+     ]
+    },
+    "top_in_reference": {
+     "value": 0.923,
+     "ci95": [
+      0.893,
+      0.953
+     ]
+    },
+    "exact_match": {
+     "value": 0.483,
+     "ci95": [
+      0.423,
+      0.54
+     ]
+    },
+    "jaccard": {
+     "value": 0.721,
+     "ci95": [
+      0.685,
+      0.754
+     ]
+    }
+   },
+   "tier1": {
+    "precision": {
+     "value": 0.945,
+     "ci95": [
+      0.923,
+      0.966
+     ]
+    },
+    "recall": {
+     "value": 0.801,
+     "ci95": [
+      0.769,
+      0.834
+     ]
+    },
+    "f1": {
+     "value": 0.867,
+     "ci95": [
+      0.844,
+      0.889
+     ]
+    },
+    "top_match": {
+     "value": 0.883,
+     "ci95": [
+      0.847,
+      0.92
+     ]
+    },
+    "top_in_reference": {
+     "value": 0.977,
+     "ci95": [
+      0.96,
+      0.99
+     ]
+    },
+    "exact_match": {
+     "value": 0.687,
+     "ci95": [
+      0.633,
+      0.74
+     ]
+    },
+    "jaccard": {
+     "value": 0.839,
+     "ci95": [
+      0.81,
+      0.866
+     ]
+    }
+   }
+  }
+ },
+ "pairwise_first_label_differences": {
+  "(holdout-v2 and holdout-opus-v2) minus (holdout-v2 and holdout-argon-v2)": {
+   "value": 0.06,
+   "ci95": [
+    0.01,
+    0.107
+   ]
+  },
+  "(holdout-v2 and holdout-opus-v2) minus (holdout-opus-v2 and holdout-argon-v2)": {
+   "value": -0.033,
+   "ci95": [
+    -0.09,
+    0.027
+   ]
+  },
+  "(holdout-v2 and holdout-argon-v2) minus (holdout-opus-v2 and holdout-argon-v2)": {
+   "value": -0.093,
+   "ci95": [
+    -0.143,
+    -0.04
+   ]
+  }
+ },
+ "repeat": {
+  "holdout-v2": {
+   "pages": 100,
+   "both_empty": 4,
+   "tier2": {
+    "precision": {
+     "value": 0.812,
+     "ci95": [
+      0.736,
+      0.884
+     ]
+    },
+    "recall": {
+     "value": 0.798,
+     "ci95": [
+      0.722,
+      0.87
+     ]
+    },
+    "f1": {
+     "value": 0.805,
+     "ci95": [
+      0.731,
+      0.873
+     ]
+    },
+    "top_match": {
+     "value": 0.8,
+     "ci95": [
+      0.72,
+      0.87
+     ]
+    },
+    "top_in_reference": {
+     "value": 0.83,
+     "ci95": [
+      0.75,
+      0.9
+     ]
+    },
+    "exact_match": {
+     "value": 0.75,
+     "ci95": [
+      0.66,
+      0.83
+     ]
+    },
+    "jaccard": {
+     "value": 0.793,
+     "ci95": [
+      0.718,
+      0.863
+     ]
+    }
+   },
+   "tier1": {
+    "precision": {
+     "value": 0.904,
+     "ci95": [
+      0.852,
+      0.954
+     ]
+    },
+    "recall": {
+     "value": 0.904,
+     "ci95": [
+      0.852,
+      0.955
+     ]
+    },
+    "f1": {
+     "value": 0.904,
+     "ci95": [
+      0.856,
+      0.949
+     ]
+    },
+    "top_match": {
+     "value": 0.9,
+     "ci95": [
+      0.84,
+      0.96
+     ]
+    },
+    "top_in_reference": {
+     "value": 0.93,
+     "ci95": [
+      0.88,
+      0.98
+     ]
+    },
+    "exact_match": {
+     "value": 0.85,
+     "ci95": [
+      0.78,
+      0.92
+     ]
+    },
+    "jaccard": {
+     "value": 0.89,
+     "ci95": [
+      0.835,
+      0.942
+     ]
+    }
+   }
+  },
+  "holdout-opus-v2": {
+   "pages": 100,
+   "both_empty": 5,
+   "tier2": {
+    "precision": {
+     "value": 0.884,
+     "ci95": [
+      0.832,
+      0.931
+     ]
+    },
+    "recall": {
+     "value": 0.836,
+     "ci95": [
+      0.774,
+      0.896
+     ]
+    },
+    "f1": {
+     "value": 0.859,
+     "ci95": [
+      0.81,
+      0.908
+     ]
+    },
+    "top_match": {
+     "value": 0.89,
+     "ci95": [
+      0.83,
+      0.95
+     ]
+    },
+    "top_in_reference": {
+     "value": 0.95,
+     "ci95": [
+      0.9,
+      0.99
+     ]
+    },
+    "exact_match": {
+     "value": 0.72,
+     "ci95": [
+      0.63,
+      0.81
+     ]
+    },
+    "jaccard": {
+     "value": 0.833,
+     "ci95": [
+      0.777,
+      0.888
+     ]
+    }
+   },
+   "tier1": {
+    "precision": {
+     "value": 0.931,
+     "ci95": [
+      0.889,
+      0.969
+     ]
+    },
+    "recall": {
+     "value": 0.91,
+     "ci95": [
+      0.862,
+      0.954
+     ]
+    },
+    "f1": {
+     "value": 0.92,
+     "ci95": [
+      0.882,
+      0.956
+     ]
+    },
+    "top_match": {
+     "value": 0.95,
+     "ci95": [
+      0.9,
+      0.99
+     ]
+    },
+    "top_in_reference": {
+     "value": 0.99,
+     "ci95": [
+      0.97,
+      1.0
+     ]
+    },
+    "exact_match": {
+     "value": 0.84,
+     "ci95": [
+      0.77,
+      0.91
+     ]
+    },
+    "jaccard": {
+     "value": 0.912,
+     "ci95": [
+      0.87,
+      0.95
+     ]
+    }
+   }
+  },
+  "holdout-argon-v2": {
+   "pages": 100,
+   "both_empty": 5,
+   "tier2": {
+    "precision": {
+     "value": 0.876,
+     "ci95": [
+      0.827,
+      0.922
+     ]
+    },
+    "recall": {
+     "value": 0.846,
+     "ci95": [
+      0.791,
+      0.897
+     ]
+    },
+    "f1": {
+     "value": 0.86,
+     "ci95": [
+      0.815,
+      0.901
+     ]
+    },
+    "top_match": {
+     "value": 0.84,
+     "ci95": [
+      0.76,
+      0.91
+     ]
+    },
+    "top_in_reference": {
+     "value": 0.92,
+     "ci95": [
+      0.86,
+      0.97
+     ]
+    },
+    "exact_match": {
+     "value": 0.68,
+     "ci95": [
+      0.59,
+      0.77
+     ]
+    },
+    "jaccard": {
+     "value": 0.825,
+     "ci95": [
+      0.769,
+      0.877
+     ]
+    }
+   },
+   "tier1": {
+    "precision": {
+     "value": 0.922,
+     "ci95": [
+      0.88,
+      0.957
+     ]
+    },
+    "recall": {
+     "value": 0.904,
+     "ci95": [
+      0.863,
+      0.944
+     ]
+    },
+    "f1": {
+     "value": 0.913,
+     "ci95": [
+      0.882,
+      0.94
+     ]
+    },
+    "top_match": {
+     "value": 0.92,
+     "ci95": [
+      0.87,
+      0.97
+     ]
+    },
+    "top_in_reference": {
+     "value": 0.98,
+     "ci95": [
+      0.95,
+      1.0
+     ]
+    },
+    "exact_match": {
+     "value": 0.76,
+     "ci95": [
+      0.68,
+      0.84
+     ]
+    },
+    "jaccard": {
+     "value": 0.888,
+     "ci95": [
+      0.848,
+      0.925
+     ]
+    }
+   }
+  }
+ },
+ "reference": {
+  "status": {
+   "none": 13,
+   "agreed": 287
+  },
+  "status_by_language": {
+   "eng": {
+    "agreed": 143,
+    "none": 7
+   },
+   "por": {
+    "none": 6,
+    "agreed": 144
+   }
+  },
+  "unanimous_top_label": 190,
+  "label_shared_by_all": 233,
+  "identical_label_sets": 101,
+  "labels_per_agreed_page": 1.47,
+  "sha256": "8be6eb400a5b8fda0bad03189a1788005bf152474c2b6ed0ca665c923788ef06"
+ },
+ "member_vs_others_common_pages": {
+  "holdout-v2": {
+   "coverage": {
+    "pages": 243,
+    "tier2": 243,
+    "tier1": 243
+   },
+   "tier2_labels": {
+    "predicted": 298,
+    "reference": 324
+   },
+   "tier2": {
+    "precision": {
+     "value": 0.879,
+     "ci95": [
+      0.844,
+      0.913
+     ]
+    },
+    "recall": {
+     "value": 0.809,
+     "ci95": [
+      0.775,
+      0.843
+     ]
+    },
+    "f1": {
+     "value": 0.842,
+     "ci95": [
+      0.813,
+      0.868
+     ]
+    },
+    "top_match": {
+     "value": 0.889,
+     "ci95": [
+      0.848,
+      0.926
+     ]
+    },
+    "top_in_reference": {
+     "value": 0.967,
+     "ci95": [
+      0.942,
+      0.988
+     ]
+    },
+    "exact_match": {
+     "value": 0.679,
+     "ci95": [
+      0.621,
+      0.737
+     ]
+    },
+    "jaccard": {
+     "value": 0.825,
+     "ci95": [
+      0.792,
+      0.856
+     ]
+    }
+   },
+   "tier1": {
+    "precision": {
+     "value": 0.94,
+     "ci95": [
+      0.911,
+      0.967
+     ]
+    },
+    "recall": {
+     "value": 0.876,
+     "ci95": [
+      0.844,
+      0.908
+     ]
+    },
+    "f1": {
+     "value": 0.907,
+     "ci95": [
+      0.882,
+      0.93
+     ]
+    },
+    "top_match": {
+     "value": 0.914,
+     "ci95": [
+      0.877,
+      0.947
+     ]
+    },
+    "top_in_reference": {
+     "value": 0.988,
+     "ci95": [
+      0.971,
+      1.0
+     ]
+    },
+    "exact_match": {
+     "value": 0.802,
+     "ci95": [
+      0.749,
+      0.848
+     ]
+    },
+    "jaccard": {
+     "value": 0.896,
+     "ci95": [
+      0.868,
+      0.921
+     ]
+    }
+   }
+  },
+  "holdout-opus-v2": {
+   "coverage": {
+    "pages": 243,
+    "tier2": 243,
+    "tier1": 243
+   },
+   "tier2_labels": {
+    "predicted": 343,
+    "reference": 280
+   },
+   "tier2": {
+    "precision": {
+     "value": 0.764,
+     "ci95": [
+      0.729,
+      0.801
+     ]
+    },
+    "recall": {
+     "value": 0.936,
+     "ci95": [
+      0.908,
+      0.963
+     ]
+    },
+    "f1": {
+     "value": 0.841,
+     "ci95": [
+      0.815,
+      0.867
+     ]
+    },
+    "top_match": {
+     "value": 0.877,
+     "ci95": [
+      0.835,
+      0.914
+     ]
+    },
+    "top_in_reference": {
+     "value": 0.909,
+     "ci95": [
+      0.872,
+      0.942
+     ]
+    },
+    "exact_match": {
+     "value": 0.642,
+     "ci95": [
+      0.58,
+      0.704
+     ]
+    },
+    "jaccard": {
+     "value": 0.812,
+     "ci95": [
+      0.779,
+      0.845
+     ]
+    }
+   },
+   "tier1": {
+    "precision": {
+     "value": 0.854,
+     "ci95": [
+      0.82,
+      0.888
+     ]
+    },
+    "recall": {
+     "value": 0.961,
+     "ci95": [
+      0.937,
+      0.982
+     ]
+    },
+    "f1": {
+     "value": 0.904,
+     "ci95": [
+      0.88,
+      0.927
+     ]
+    },
+    "top_match": {
+     "value": 0.914,
+     "ci95": [
+      0.877,
+      0.951
+     ]
+    },
+    "top_in_reference": {
+     "value": 0.955,
+     "ci95": [
+      0.926,
+      0.979
+     ]
+    },
+    "exact_match": {
+     "value": 0.794,
+     "ci95": [
+      0.741,
+      0.844
+     ]
+    },
+    "jaccard": {
+     "value": 0.892,
+     "ci95": [
+      0.863,
+      0.917
+     ]
+    }
+   }
+  },
+  "holdout-argon-v2": {
+   "coverage": {
+    "pages": 243,
+    "tier2": 243,
+    "tier1": 243
+   },
+   "tier2_labels": {
+    "predicted": 439,
+    "reference": 266
+   },
+   "tier2": {
+    "precision": {
+     "value": 0.597,
+     "ci95": [
+      0.565,
+      0.63
+     ]
+    },
+    "recall": {
+     "value": 0.985,
+     "ci95": [
+      0.97,
+      0.996
+     ]
+    },
+    "f1": {
+     "value": 0.743,
+     "ci95": [
+      0.717,
+      0.769
+     ]
+    },
+    "top_match": {
+     "value": 0.831,
+     "ci95": [
+      0.782,
+      0.877
+     ]
+    },
+    "top_in_reference": {
+     "value": 0.864,
+     "ci95": [
+      0.819,
+      0.905
+     ]
+    },
+    "exact_match": {
+     "value": 0.428,
+     "ci95": [
+      0.366,
+      0.49
+     ]
+    },
+    "jaccard": {
+     "value": 0.695,
+     "ci95": [
+      0.66,
+      0.73
+     ]
+    }
+   },
+   "tier1": {
+    "precision": {
+     "value": 0.713,
+     "ci95": [
+      0.675,
+      0.75
+     ]
+    },
+    "recall": {
+     "value": 0.993,
+     "ci95": [
+      0.981,
+      1.0
+     ]
+    },
+    "f1": {
+     "value": 0.83,
+     "ci95": [
+      0.802,
+      0.855
+     ]
+    },
+    "top_match": {
+     "value": 0.893,
+     "ci95": [
+      0.852,
+      0.93
+     ]
+    },
+    "top_in_reference": {
+     "value": 0.934,
+     "ci95": [
+      0.901,
+      0.963
+     ]
+    },
+    "exact_match": {
+     "value": 0.613,
+     "ci95": [
+      0.551,
+      0.671
+     ]
+    },
+    "jaccard": {
+     "value": 0.802,
+     "ci95": [
+      0.77,
+      0.834
+     ]
+    }
+   }
+  }
+ },
+ "member_vs_others": {
+  "holdout-v2": {
+   "coverage": {
+    "pages": 300,
+    "tier2": 285,
+    "tier1": 296
+   },
+   "tier2_labels": {
+    "predicted": 345,
+    "reference": 367
+   },
+   "tier2": {
+    "precision": {
+     "value": 0.759,
+     "ci95": [
+      0.714,
+      0.801
+     ]
+    },
+    "recall": {
+     "value": 0.714,
+     "ci95": [
+      0.673,
+      0.751
+     ]
+    },
+    "f1": {
+     "value": 0.736,
+     "ci95": [
+      0.698,
+      0.773
+     ]
+    },
+    "top_match": {
+     "value": 0.758,
+     "ci95": [
+      0.709,
+      0.804
+     ]
+    },
+    "top_in_reference": {
+     "value": 0.825,
+     "ci95": [
+      0.782,
+      0.867
+     ]
+    },
+    "exact_match": {
+     "value": 0.579,
+     "ci95": [
+      0.516,
+      0.632
+     ]
+    },
+    "jaccard": {
+     "value": 0.704,
+     "ci95": [
+      0.658,
+      0.743
+     ]
+    }
+   },
+   "tier1": {
+    "precision": {
+     "value": 0.88,
+     "ci95": [
+      0.845,
+      0.913
+     ]
+    },
+    "recall": {
+     "value": 0.831,
+     "ci95": [
+      0.795,
+      0.866
+     ]
+    },
+    "f1": {
+     "value": 0.855,
+     "ci95": [
+      0.822,
+      0.884
+     ]
+    },
+    "top_match": {
+     "value": 0.845,
+     "ci95": [
+      0.801,
+      0.889
+     ]
+    },
+    "top_in_reference": {
+     "value": 0.909,
+     "ci95": [
+      0.875,
+      0.939
+     ]
+    },
+    "exact_match": {
+     "value": 0.743,
+     "ci95": [
+      0.693,
+      0.794
+     ]
+    },
+    "jaccard": {
+     "value": 0.831,
+     "ci95": [
+      0.794,
+      0.865
+     ]
+    }
+   },
+   "by_language": {
+    "eng": {
+     "coverage": {
+      "pages": 150,
+      "tier2": 142,
+      "tier1": 148
+     },
+     "tier2_labels": {
+      "predicted": 175,
+      "reference": 182
+     },
+     "tier2": {
+      "precision": {
+       "value": 0.737,
+       "ci95": [
+        0.67,
+        0.804
+       ]
+      },
+      "recall": {
+       "value": 0.709,
+       "ci95": [
+        0.647,
+        0.772
+       ]
+      },
+      "f1": {
+       "value": 0.723,
+       "ci95": [
+        0.663,
+        0.783
+       ]
+      },
+      "top_match": {
+       "value": 0.746,
+       "ci95": [
+        0.676,
+        0.817
+       ]
+      },
+      "top_in_reference": {
+       "value": 0.782,
+       "ci95": [
+        0.711,
+        0.845
+       ]
+      },
+      "exact_match": {
+       "value": 0.585,
+       "ci95": [
+        0.5,
+        0.662
+       ]
+      },
+      "jaccard": {
+       "value": 0.687,
+       "ci95": [
+        0.622,
+        0.752
+       ]
+      }
+     },
+     "tier1": {
+      "precision": {
+       "value": 0.892,
+       "ci95": [
+        0.845,
+        0.935
+       ]
+      },
+      "recall": {
+       "value": 0.863,
+       "ci95": [
+        0.816,
+        0.906
+       ]
+      },
+      "f1": {
+       "value": 0.877,
+       "ci95": [
+        0.837,
+        0.914
+       ]
+      },
+      "top_match": {
+       "value": 0.845,
+       "ci95": [
+        0.784,
+        0.899
+       ]
+      },
+      "top_in_reference": {
+       "value": 0.892,
+       "ci95": [
+        0.838,
+        0.939
+       ]
+      },
+      "exact_match": {
+       "value": 0.764,
+       "ci95": [
+        0.696,
+        0.831
+       ]
+      },
+      "jaccard": {
+       "value": 0.842,
+       "ci95": [
+        0.792,
+        0.89
+       ]
+      }
+     }
+    },
+    "por": {
+     "coverage": {
+      "pages": 150,
+      "tier2": 143,
+      "tier1": 148
+     },
+     "tier2_labels": {
+      "predicted": 170,
+      "reference": 185
+     },
+     "tier2": {
+      "precision": {
+       "value": 0.782,
+       "ci95": [
+        0.72,
+        0.841
+       ]
+      },
+      "recall": {
+       "value": 0.719,
+       "ci95": [
+        0.67,
+        0.773
+       ]
+      },
+      "f1": {
+       "value": 0.749,
+       "ci95": [
+        0.698,
+        0.798
+       ]
+      },
+      "top_match": {
+       "value": 0.769,
+       "ci95": [
+        0.699,
+        0.839
+       ]
+      },
+      "top_in_reference": {
+       "value": 0.867,
+       "ci95": [
+        0.811,
+        0.923
+       ]
+      },
+      "exact_match": {
+       "value": 0.573,
+       "ci95": [
+        0.497,
+        0.657
+       ]
+      },
+      "jaccard": {
+       "value": 0.72,
+       "ci95": [
+        0.666,
+        0.777
+       ]
+      }
+     },
+     "tier1": {
+      "precision": {
+       "value": 0.867,
+       "ci95": [
+        0.816,
+        0.921
+       ]
+      },
+      "recall": {
+       "value": 0.8,
+       "ci95": [
+        0.747,
+        0.854
+       ]
+      },
+      "f1": {
+       "value": 0.832,
+       "ci95": [
+        0.787,
+        0.88
+       ]
+      },
+      "top_match": {
+       "value": 0.845,
+       "ci95": [
+        0.784,
+        0.899
+       ]
+      },
+      "top_in_reference": {
+       "value": 0.926,
+       "ci95": [
+        0.878,
+        0.966
+       ]
+      },
+      "exact_match": {
+       "value": 0.723,
+       "ci95": [
+        0.649,
+        0.791
+       ]
+      },
+      "jaccard": {
+       "value": 0.82,
+       "ci95": [
+        0.768,
+        0.87
+       ]
+      }
+     }
+    }
+   }
+  },
+  "holdout-opus-v2": {
+   "coverage": {
+    "pages": 300,
+    "tier2": 263,
+    "tier1": 283
+   },
+   "tier2_labels": {
+    "predicted": 371,
+    "reference": 299
+   },
+   "tier2": {
+    "precision": {
+     "value": 0.706,
+     "ci95": [
+      0.663,
+      0.747
+     ]
+    },
+    "recall": {
+     "value": 0.876,
+     "ci95": [
+      0.838,
+      0.912
+     ]
+    },
+    "f1": {
+     "value": 0.782,
+     "ci95": [
+      0.743,
+      0.817
+     ]
+    },
+    "top_match": {
+     "value": 0.81,
+     "ci95": [
+      0.76,
+      0.856
+     ]
+    },
+    "top_in_reference": {
+     "value": 0.84,
+     "ci95": [
+      0.795,
+      0.882
+     ]
+    },
+    "exact_match": {
+     "value": 0.593,
+     "ci95": [
+      0.532,
+      0.65
+     ]
+    },
+    "jaccard": {
+     "value": 0.75,
+     "ci95": [
+      0.708,
+      0.788
+     ]
+    }
+   },
+   "tier1": {
+    "precision": {
+     "value": 0.825,
+     "ci95": [
+      0.787,
+      0.862
+     ]
+    },
+    "recall": {
+     "value": 0.938,
+     "ci95": [
+      0.912,
+      0.962
+     ]
+    },
+    "f1": {
+     "value": 0.878,
+     "ci95": [
+      0.849,
+      0.904
+     ]
+    },
+    "top_match": {
+     "value": 0.887,
+     "ci95": [
+      0.852,
+      0.922
+     ]
+    },
+    "top_in_reference": {
+     "value": 0.926,
+     "ci95": [
+      0.894,
+      0.954
+     ]
+    },
+    "exact_match": {
+     "value": 0.767,
+     "ci95": [
+      0.714,
+      0.816
+     ]
+    },
+    "jaccard": {
+     "value": 0.865,
+     "ci95": [
+      0.833,
+      0.893
+     ]
+    }
+   },
+   "by_language": {
+    "eng": {
+     "coverage": {
+      "pages": 150,
+      "tier2": 126,
+      "tier1": 141
+     },
+     "tier2_labels": {
+      "predicted": 180,
+      "reference": 149
+     },
+     "tier2": {
+      "precision": {
+       "value": 0.717,
+       "ci95": [
+        0.652,
+        0.776
+       ]
+      },
+      "recall": {
+       "value": 0.866,
+       "ci95": [
+        0.81,
+        0.914
+       ]
+      },
+      "f1": {
+       "value": 0.784,
+       "ci95": [
+        0.726,
+        0.835
+       ]
+      },
+      "top_match": {
+       "value": 0.833,
+       "ci95": [
+        0.762,
+        0.897
+       ]
+      },
+      "top_in_reference": {
+       "value": 0.857,
+       "ci95": [
+        0.794,
+        0.913
+       ]
+      },
+      "exact_match": {
+       "value": 0.619,
+       "ci95": [
+        0.532,
+        0.698
+       ]
+      },
+      "jaccard": {
+       "value": 0.758,
+       "ci95": [
+        0.696,
+        0.813
+       ]
+      }
+     },
+     "tier1": {
+      "precision": {
+       "value": 0.853,
+       "ci95": [
+        0.802,
+        0.899
+       ]
+      },
+      "recall": {
+       "value": 0.935,
+       "ci95": [
+        0.897,
+        0.967
+       ]
+      },
+      "f1": {
+       "value": 0.892,
+       "ci95": [
+        0.853,
+        0.925
+       ]
+      },
+      "top_match": {
+       "value": 0.887,
+       "ci95": [
+        0.83,
+        0.936
+       ]
+      },
+      "top_in_reference": {
+       "value": 0.929,
+       "ci95": [
+        0.887,
+        0.965
+       ]
+      },
+      "exact_match": {
+       "value": 0.787,
+       "ci95": [
+        0.716,
+        0.851
+       ]
+      },
+      "jaccard": {
+       "value": 0.877,
+       "ci95": [
+        0.833,
+        0.915
+       ]
+      }
+     }
+    },
+    "por": {
+     "coverage": {
+      "pages": 150,
+      "tier2": 137,
+      "tier1": 142
+     },
+     "tier2_labels": {
+      "predicted": 191,
+      "reference": 150
+     },
+     "tier2": {
+      "precision": {
+       "value": 0.696,
+       "ci95": [
+        0.644,
+        0.749
+       ]
+      },
+      "recall": {
+       "value": 0.887,
+       "ci95": [
+        0.837,
+        0.935
+       ]
+      },
+      "f1": {
+       "value": 0.78,
+       "ci95": [
+        0.735,
+        0.825
+       ]
+      },
+      "top_match": {
+       "value": 0.788,
+       "ci95": [
+        0.723,
+        0.854
+       ]
+      },
+      "top_in_reference": {
+       "value": 0.825,
+       "ci95": [
+        0.759,
+        0.891
+       ]
+      },
+      "exact_match": {
+       "value": 0.569,
+       "ci95": [
+        0.489,
+        0.65
+       ]
+      },
+      "jaccard": {
+       "value": 0.743,
+       "ci95": [
+        0.691,
+        0.796
+       ]
+      }
+     },
+     "tier1": {
+      "precision": {
+       "value": 0.796,
+       "ci95": [
+        0.741,
+        0.848
+       ]
+      },
+      "recall": {
+       "value": 0.941,
+       "ci95": [
+        0.904,
+        0.974
+       ]
+      },
+      "f1": {
+       "value": 0.862,
+       "ci95": [
+        0.821,
+        0.902
+       ]
+      },
+      "top_match": {
+       "value": 0.887,
+       "ci95": [
+        0.831,
+        0.937
+       ]
+      },
+      "top_in_reference": {
+       "value": 0.923,
+       "ci95": [
+        0.873,
+        0.965
+       ]
+      },
+      "exact_match": {
+       "value": 0.746,
+       "ci95": [
+        0.676,
+        0.817
+       ]
+      },
+      "jaccard": {
+       "value": 0.852,
+       "ci95": [
+        0.808,
+        0.894
+       ]
+      }
+     }
+    }
+   }
+  },
+  "holdout-argon-v2": {
+   "coverage": {
+    "pages": 300,
+    "tier2": 258,
+    "tier1": 280
+   },
+   "tier2_labels": {
+    "predicted": 459,
+    "reference": 281
+   },
+   "tier2": {
+    "precision": {
+     "value": 0.571,
+     "ci95": [
+      0.537,
+      0.605
+     ]
+    },
+    "recall": {
+     "value": 0.932,
+     "ci95": [
+      0.899,
+      0.962
+     ]
+    },
+    "f1": {
+     "value": 0.708,
+     "ci95": [
+      0.677,
+      0.739
+     ]
+    },
+    "top_match": {
+     "value": 0.783,
+     "ci95": [
+      0.733,
+      0.833
+     ]
+    },
+    "top_in_reference": {
+     "value": 0.814,
+     "ci95": [
+      0.764,
+      0.86
+     ]
+    },
+    "exact_match": {
+     "value": 0.403,
+     "ci95": [
+      0.341,
+      0.461
+     ]
+    },
+    "jaccard": {
+     "value": 0.655,
+     "ci95": [
+      0.616,
+      0.693
+     ]
+    }
+   },
+   "tier1": {
+    "precision": {
+     "value": 0.708,
+     "ci95": [
+      0.674,
+      0.744
+     ]
+    },
+    "recall": {
+     "value": 0.977,
+     "ci95": [
+      0.959,
+      0.993
+     ]
+    },
+    "f1": {
+     "value": 0.821,
+     "ci95": [
+      0.797,
+      0.848
+     ]
+    },
+    "top_match": {
+     "value": 0.875,
+     "ci95": [
+      0.839,
+      0.911
+     ]
+    },
+    "top_in_reference": {
+     "value": 0.918,
+     "ci95": [
+      0.886,
+      0.946
+     ]
+    },
+    "exact_match": {
+     "value": 0.607,
+     "ci95": [
+      0.55,
+      0.661
+     ]
+    },
+    "jaccard": {
+     "value": 0.79,
+     "ci95": [
+      0.758,
+      0.821
+     ]
+    }
+   },
+   "by_language": {
+    "eng": {
+     "coverage": {
+      "pages": 150,
+      "tier2": 126,
+      "tier1": 141
+     },
+     "tier2_labels": {
+      "predicted": 220,
+      "reference": 141
+     },
+     "tier2": {
+      "precision": {
+       "value": 0.586,
+       "ci95": [
+        0.534,
+        0.638
+       ]
+      },
+      "recall": {
+       "value": 0.915,
+       "ci95": [
+        0.862,
+        0.963
+       ]
+      },
+      "f1": {
+       "value": 0.715,
+       "ci95": [
+        0.665,
+        0.761
+       ]
+      },
+      "top_match": {
+       "value": 0.77,
+       "ci95": [
+        0.69,
+        0.841
+       ]
+      },
+      "top_in_reference": {
+       "value": 0.802,
+       "ci95": [
+        0.73,
+        0.873
+       ]
+      },
+      "exact_match": {
+       "value": 0.413,
+       "ci95": [
+        0.325,
+        0.5
+       ]
+      },
+      "jaccard": {
+       "value": 0.652,
+       "ci95": [
+        0.591,
+        0.707
+       ]
+      }
+     },
+     "tier1": {
+      "precision": {
+       "value": 0.737,
+       "ci95": [
+        0.689,
+        0.785
+       ]
+      },
+      "recall": {
+       "value": 0.975,
+       "ci95": [
+        0.949,
+        0.994
+       ]
+      },
+      "f1": {
+       "value": 0.84,
+       "ci95": [
+        0.806,
+        0.872
+       ]
+      },
+      "top_match": {
+       "value": 0.865,
+       "ci95": [
+        0.809,
+        0.922
+       ]
+      },
+      "top_in_reference": {
+       "value": 0.915,
+       "ci95": [
+        0.865,
+        0.957
+       ]
+      },
+      "exact_match": {
+       "value": 0.617,
+       "ci95": [
+        0.532,
+        0.695
+       ]
+      },
+      "jaccard": {
+       "value": 0.796,
+       "ci95": [
+        0.748,
+        0.84
+       ]
+      }
+     }
+    },
+    "por": {
+     "coverage": {
+      "pages": 150,
+      "tier2": 132,
+      "tier1": 139
+     },
+     "tier2_labels": {
+      "predicted": 239,
+      "reference": 140
+     },
+     "tier2": {
+      "precision": {
+       "value": 0.556,
+       "ci95": [
+        0.514,
+        0.599
+       ]
+      },
+      "recall": {
+       "value": 0.95,
+       "ci95": [
+        0.913,
+        0.985
+       ]
+      },
+      "f1": {
+       "value": 0.702,
+       "ci95": [
+        0.663,
+        0.74
+       ]
+      },
+      "top_match": {
+       "value": 0.795,
+       "ci95": [
+        0.727,
+        0.864
+       ]
+      },
+      "top_in_reference": {
+       "value": 0.826,
+       "ci95": [
+        0.758,
+        0.886
+       ]
+      },
+      "exact_match": {
+       "value": 0.394,
+       "ci95": [
+        0.311,
+        0.477
+       ]
+      },
+      "jaccard": {
+       "value": 0.658,
+       "ci95": [
+        0.606,
+        0.708
+       ]
+      }
+     },
+     "tier1": {
+      "precision": {
+       "value": 0.679,
+       "ci95": [
+        0.63,
+        0.731
+       ]
+      },
+      "recall": {
+       "value": 0.98,
+       "ci95": [
+        0.953,
+        1.0
+       ]
+      },
+      "f1": {
+       "value": 0.802,
+       "ci95": [
+        0.763,
+        0.84
+       ]
+      },
+      "top_match": {
+       "value": 0.885,
+       "ci95": [
+        0.827,
+        0.935
+       ]
+      },
+      "top_in_reference": {
+       "value": 0.921,
+       "ci95": [
+        0.878,
+        0.964
+       ]
+      },
+      "exact_match": {
+       "value": 0.597,
+       "ci95": [
+        0.518,
+        0.676
+       ]
+      },
+      "jaccard": {
+       "value": 0.784,
+       "ci95": [
+        0.739,
+        0.83
+       ]
+      }
+     }
+    }
+   }
+  }
+ },
+ "other_runs": {
+  "holdout-v0": {
+   "leave_out": "holdout-v2",
+   "coverage": {
+    "pages": 300,
+    "tier2": 285,
+    "tier1": 296
+   },
+   "tier2_labels": {
+    "predicted": 610,
+    "reference": 367
+   },
+   "tier2": {
+    "precision": {
+     "value": 0.544,
+     "ci95": [
+      0.517,
+      0.572
+     ]
+    },
+    "recall": {
+     "value": 0.905,
+     "ci95": [
+      0.871,
+      0.935
+     ]
+    },
+    "f1": {
+     "value": 0.68,
+     "ci95": [
+      0.653,
+      0.706
+     ]
+    },
+    "top_match": {
+     "value": 0.737,
+     "ci95": [
+      0.681,
+      0.786
+     ]
+    },
+    "top_in_reference": {
+     "value": 0.789,
+     "ci95": [
+      0.74,
+      0.835
+     ]
+    },
+    "exact_match": {
+     "value": 0.235,
+     "ci95": [
+      0.189,
+      0.284
+     ]
+    },
+    "jaccard": {
+     "value": 0.57,
+     "ci95": [
+      0.537,
+      0.605
+     ]
+    }
+   },
+   "tier1": {
+    "precision": {
+     "value": 0.688,
+     "ci95": [
+      0.655,
+      0.723
+     ]
+    },
+    "recall": {
+     "value": 0.931,
+     "ci95": [
+      0.9,
+      0.96
+     ]
+    },
+    "f1": {
+     "value": 0.791,
+     "ci95": [
+      0.764,
+      0.818
+     ]
+    },
+    "top_match": {
+     "value": 0.828,
+     "ci95": [
+      0.784,
+      0.872
+     ]
+    },
+    "top_in_reference": {
+     "value": 0.872,
+     "ci95": [
+      0.831,
+      0.909
+     ]
+    },
+    "exact_match": {
+     "value": 0.541,
+     "ci95": [
+      0.483,
+      0.595
+     ]
+    },
+    "jaccard": {
+     "value": 0.737,
+     "ci95": [
+      0.701,
+      0.772
+     ]
+    }
+   }
+  },
+  "holdout-v2-resiliparse": {
+   "leave_out": "holdout-v2",
+   "coverage": {
+    "pages": 300,
+    "tier2": 285,
+    "tier1": 296
+   },
+   "tier2_labels": {
+    "predicted": 358,
+    "reference": 367
+   },
+   "tier2": {
+    "precision": {
+     "value": 0.782,
+     "ci95": [
+      0.74,
+      0.824
+     ]
+    },
+    "recall": {
+     "value": 0.763,
+     "ci95": [
+      0.72,
+      0.807
+     ]
+    },
+    "f1": {
+     "value": 0.772,
+     "ci95": [
+      0.733,
+      0.812
+     ]
+    },
+    "top_match": {
+     "value": 0.765,
+     "ci95": [
+      0.716,
+      0.814
+     ]
+    },
+    "top_in_reference": {
+     "value": 0.839,
+     "ci95": [
+      0.796,
+      0.881
+     ]
+    },
+    "exact_match": {
+     "value": 0.628,
+     "ci95": [
+      0.572,
+      0.681
+     ]
+    },
+    "jaccard": {
+     "value": 0.745,
+     "ci95": [
+      0.703,
+      0.786
+     ]
+    }
+   },
+   "tier1": {
+    "precision": {
+     "value": 0.885,
+     "ci95": [
+      0.851,
+      0.916
+     ]
+    },
+    "recall": {
+     "value": 0.854,
+     "ci95": [
+      0.819,
+      0.887
+     ]
+    },
+    "f1": {
+     "value": 0.869,
+     "ci95": [
+      0.84,
+      0.897
+     ]
+    },
+    "top_match": {
+     "value": 0.851,
+     "ci95": [
+      0.807,
+      0.892
+     ]
+    },
+    "top_in_reference": {
+     "value": 0.916,
+     "ci95": [
+      0.878,
+      0.946
+     ]
+    },
+    "exact_match": {
+     "value": 0.753,
+     "ci95": [
+      0.703,
+      0.804
+     ]
+    },
+    "jaccard": {
+     "value": 0.849,
+     "ci95": [
+      0.814,
+      0.881
+     ]
+    }
+   }
+  },
+  "holdout-gemma-v2": {
+   "leave_out": null,
+   "coverage": {
+    "pages": 300,
+    "tier2": 300,
+    "tier1": 300
+   },
+   "tier2_labels": {
+    "predicted": 485,
+    "reference": 423
+   },
+   "tier2": {
+    "precision": {
+     "value": 0.452,
+     "ci95": [
+      0.411,
+      0.493
+     ]
+    },
+    "recall": {
+     "value": 0.518,
+     "ci95": [
+      0.474,
+      0.562
+     ]
+    },
+    "f1": {
+     "value": 0.482,
+     "ci95": [
+      0.441,
+      0.523
+     ]
+    },
+    "top_match": {
+     "value": 0.487,
+     "ci95": [
+      0.433,
+      0.543
+     ]
+    },
+    "top_in_reference": {
+     "value": 0.58,
+     "ci95": [
+      0.523,
+      0.637
+     ]
+    },
+    "exact_match": {
+     "value": 0.24,
+     "ci95": [
+      0.197,
+      0.287
+     ]
+    },
+    "jaccard": {
+     "value": 0.429,
+     "ci95": [
+      0.389,
+      0.471
+     ]
+    }
+   },
+   "tier1": {
+    "precision": {
+     "value": 0.629,
+     "ci95": [
+      0.586,
+      0.67
+     ]
+    },
+    "recall": {
+     "value": 0.702,
+     "ci95": [
+      0.659,
+      0.746
+     ]
+    },
+    "f1": {
+     "value": 0.663,
+     "ci95": [
+      0.624,
+      0.702
+     ]
+    },
+    "top_match": {
+     "value": 0.673,
+     "ci95": [
+      0.62,
+      0.727
+     ]
+    },
+    "top_in_reference": {
+     "value": 0.753,
+     "ci95": [
+      0.703,
+      0.803
+     ]
+    },
+    "exact_match": {
+     "value": 0.437,
+     "ci95": [
+      0.383,
+      0.493
+     ]
+    },
+    "jaccard": {
+     "value": 0.614,
+     "ci95": [
+      0.572,
+      0.655
+     ]
+    }
+   }
+  }
+ },
+ "reference_stability": {
+  "pages": 100,
+  "same_status": 99,
+  "identical_label_sets": 71,
+  "status_main": {
+   "agreed": 95,
+   "none": 5
+  },
+  "status_repeat": {
+   "agreed": 94,
+   "none": 5,
+   "tier1_only": 1
+  },
+  "tier2_where_both_have_a_reference": {
+   "pages": 99,
+   "both_empty": 5,
+   "tier2": {
+    "precision": {
+     "value": 0.89,
+     "ci95": [
+      0.841,
+      0.935
+     ]
+    },
+    "recall": {
+     "value": 0.858,
+     "ci95": [
+      0.801,
+      0.914
+     ]
+    },
+    "f1": {
+     "value": 0.874,
+     "ci95": [
+      0.83,
+      0.915
+     ]
+    },
+    "top_match": {
+     "value": 0.889,
+     "ci95": [
+      0.818,
+      0.949
+     ]
+    },
+    "top_in_reference": {
+     "value": 0.96,
+     "ci95": [
+      0.919,
+      0.99
+     ]
+    },
+    "exact_match": {
+     "value": 0.717,
+     "ci95": [
+      0.626,
+      0.808
+     ]
+    },
+    "jaccard": {
+     "value": 0.845,
+     "ci95": [
+      0.793,
+      0.896
+     ]
+    }
+   },
+   "tier1": {
+    "precision": {
+     "value": 0.929,
+     "ci95": [
+      0.885,
+      0.967
+     ]
+    },
+    "recall": {
+     "value": 0.914,
+     "ci95": [
+      0.869,
+      0.959
+     ]
+    },
+    "f1": {
+     "value": 0.921,
+     "ci95": [
+      0.886,
+      0.954
+     ]
+    },
+    "top_match": {
+     "value": 0.939,
+     "ci95": [
+      0.889,
+      0.98
+     ]
+    },
+    "top_in_reference": {
+     "value": 0.99,
+     "ci95": [
+      0.97,
+      1.0
+     ]
+    },
+    "exact_match": {
+     "value": 0.818,
+     "ci95": [
+      0.737,
+      0.889
+     ]
+    },
+    "jaccard": {
+     "value": 0.909,
+     "ci95": [
+      0.867,
+      0.946
+     ]
+    }
+   }
+  }
+ }
+}
