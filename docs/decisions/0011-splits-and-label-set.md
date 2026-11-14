@@ -39,6 +39,6 @@ A first split grouped by registered domain only. The `ml-reviewer` check found i
 
 - Val and test scores lose the easy wins from templates and mirrors. A few near-duplicate pairs can still cross, because MinHash misses some (2 of 3,183 pairs in the reviewer's own check, none involving a holdout page).
 - Test is about 9.4% of pages (8.8% for English, 10.0% for Portuguese) rather than exactly 10%. That is accepted in exchange for a split that stays put as the sample grows.
-- The by-page and component columns have different test sets, so a gap between them mixes leakage with sampling difference. W06 should report that gap on pages that are test in both columns.
+- The by-page and component columns have different test sets, so a gap between them mixes leakage with sampling difference. Pages that are test in both columns cannot measure leakage either: most are holdout pages, whose components are whole in test under both columns. The leakage measure is inside the by-page model's own test split: pages with a page of the same component in by-page train against those without (W06 review, [#7](https://github.com/HenriqueOkuti/hayate/issues/7)). By-page val leaks too, so the by-page model is also tuned on leaky val; that is part of the effect being measured.
 - A future `splits-v2` (for example at 100k pages) keeps the v1 assignment of every v1 page, so nothing trained or tuned on v1 reaches v2 test.
 - Revisit if a student shows an unexplained jump between val and test, or if larger near-duplicate clusters show up in a new sample.

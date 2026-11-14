@@ -13,7 +13,7 @@
 
 **Splits:**
 
-- Split **by domain**, so near-duplicate pages can't leak between train and test. Domains are joined into components first, by brand across suffixes and by identical or near-duplicate text ([decision 0011](decisions/0011-splits-and-label-set.md)). A by-page split is reported alongside for comparison, and the gap between the two is measured on pages that are test in both.
+- Split **by domain**, so near-duplicate pages can't leak between train and test. Domains are joined into components first, by brand across suffixes and by identical or near-duplicate text ([decision 0011](decisions/0011-splits-and-label-set.md)). A by-page split is reported alongside for comparison. Its leakage is measured inside the by-page model's test split, as the F1 of pages with a same-component page in by-page train minus the F1 of those without.
 - Thresholds and calibration are tuned on validation, never on test.
 
 **Metrics:**
