@@ -1,0 +1,55 @@
+{
+  "step": "go/cmd/tier1-parity on the #85 bundles (test split, Python reference from scripts/tier1_reference.py)",
+  "commit": "787c27552b7201f30f194e0d76abd53ca1cb3318",
+  "created": "2026-11-14T14:26:37Z",
+  "bundles": [
+    {
+      "bundle": "tier1-v2/cpu",
+      "max_abs_feature_diff": 0,
+      "max_abs_prob_diff": 1.1920928955078125E-7,
+      "mismatch_count": 0,
+      "ok": true,
+      "pages": 1875,
+      "same_feature_indices": 1875,
+      "same_input": 1875,
+      "same_labels": 1875,
+      "tolerance": 0.00001
+    },
+    {
+      "bundle": "tier1-v2/cpu-int8",
+      "max_abs_feature_diff": 0,
+      "max_abs_prob_diff": 3.5762786865234375E-7,
+      "mismatch_count": 0,
+      "ok": true,
+      "pages": 1875,
+      "same_feature_indices": 1875,
+      "same_input": 1875,
+      "same_labels": 1875,
+      "tolerance": 0.00001
+    },
+    {
+      "bundle": "tier1-v2-17/cpu",
+      "max_abs_feature_diff": 0,
+      "max_abs_prob_diff": 1.1920928955078125E-7,
+      "mismatch_count": 0,
+      "ok": true,
+      "pages": 1875,
+      "same_feature_indices": 1875,
+      "same_input": 1875,
+      "same_labels": 1875,
+      "tolerance": 0.00001
+    },
+    {
+      "bundle": "tier1-v2-17/cpu-int8",
+      "max_abs_feature_diff": 0,
+      "max_abs_prob_diff": 2.980232238769531E-7,
+      "mismatch_count": 0,
+      "ok": true,
+      "pages": 1875,
+      "same_feature_indices": 1875,
+      "same_input": 1875,
+      "same_labels": 1875,
+      "tolerance": 0.00001
+    }
+  ]
+}
