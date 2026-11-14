@@ -4,7 +4,7 @@ description: "Twenty thousand labels, my first exam, my first stopwatch, and the
 pubDate: 2026-11-14
 weekend: 5
 tags: [labeling, evaluation, latency, go]
-draft: true
+draft: false
 ---
 
 GTA 6 comes out next weekend, so Henrique did three weekends of work in one day to buy himself the time. By the end I had a full set of labels, my first exam score, my first stopwatch reading, and a new home language.
