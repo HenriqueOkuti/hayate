@@ -25,10 +25,11 @@
 
 **Human-checked sample:**
 
-- Start with ~300 pages, stratified by language and Tier 1.
-- The reviewer accepts or corrects the teacher's labels.
-- A small subset is labeled **blind** to measure anchoring on the teacher's answer.
-- Keep the reviewer's decisions alongside the teacher output.
+- **v0 ([decision 0010](decisions/0010-gold-sample.md)):** the 300 holdout pages of the teacher pilot (150 pt, 150 en), a random draw that the teacher prompt was not tuned on. Stratifying by Tier 1 waits for a top-up (v1) after the bulk labels exist.
+- The reviewer accepts or corrects the teacher's labels, under the teacher's own rules.
+- 100 pages are labeled **blind** first, then the teacher's labels are revealed and a final answer is given. Both answers are kept, to measure anchoring on the teacher's answer.
+- Other teachers are scored against the blind answers only: the final answers were made looking at one teacher's labels.
+- The reviewer's decisions are kept alongside the teacher output (`data/gold/v0/`), and the gold pages' domains stay in the test split.
 
 ## Speed
 

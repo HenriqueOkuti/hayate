@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hayate gold review</title>
+<link rel="icon" href="data:,">
+<style>
+  :root {
+    --bg: #f6f5f1; --panel: #ffffff; --ink: #1d1f24; --muted: #646a76; --line: #d9d6cd;
+    --accent: #1f6f8b; --accent-ink: #ffffff; --soft: #e6f1f5; --warn: #a4501a; --blind: #6b4fa3;
+    --ok: #2f7a4b;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #16181d; --panel: #1f2229; --ink: #e8e6e1; --muted: #9aa1ad; --line: #353a45;
+      --accent: #58b3d1; --accent-ink: #10222a; --soft: #24343c; --warn: #e2935a; --blind: #b39be0;
+      --ok: #6cc08d;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.5 system-ui, sans-serif; }
+  header {
+    display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; padding: 10px 16px;
+    border-bottom: 1px solid var(--line); background: var(--panel); position: sticky; top: 0; z-index: 2;
+  }
+  header h1 { font-size: 16px; margin: 0; }
+  #progress { color: var(--muted); font-variant-numeric: tabular-nums; }
+  .nav { margin-left: auto; display: flex; gap: 6px; align-items: center; }
+  .nav input { width: 64px; }
+  main { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 16px; padding: 16px; }
+  @media (max-width: 900px) { main { grid-template-columns: minmax(0, 1fr); } }
+  section { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; }
+  #side { display: flex; flex-direction: column; gap: 12px; }
+  @media (min-width: 901px) {
+    #side { position: sticky; top: 68px; align-self: start; max-height: calc(100vh - 84px); overflow: auto; }
+  }
+  a { color: var(--accent); }
+  h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin: 0 0 6px; }
+  button, input, textarea { font: inherit; color: inherit; }
+  button {
+    border: 1px solid var(--line); background: var(--panel); border-radius: 6px; padding: 4px 10px; cursor: pointer;
+  }
+  button:hover { border-color: var(--accent); }
+  button:disabled { opacity: 0.45; cursor: default; }
+  button.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 600; }
+  input, textarea {
+    background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 6px 8px; width: 100%;
+  }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .badge { border-radius: 999px; padding: 1px 10px; font-size: 12px; font-weight: 600; border: 1px solid currentColor; }
+  .badge.blind { color: var(--blind); }
+  .badge.assisted { color: var(--accent); }
+  .badge.done { color: var(--ok); }
+  .badge.skipped { color: var(--warn); }
+  #url { word-break: break-all; }
+  #title { font-size: 19px; font-weight: 650; margin: 8px 0 4px; line-height: 1.3; }
+  #description { color: var(--muted); margin: 0 0 10px; }
+  .text { white-space: pre-wrap; overflow-wrap: anywhere; margin: 0; font: inherit; }
+  details { margin-top: 10px; }
+  summary { cursor: pointer; color: var(--muted); }
+  .hint { color: var(--muted); margin: 0 0 8px; }
+  .hint.blind { color: var(--blind); }
+  #message { color: var(--warn); min-height: 1.5em; margin: 0; }
+  ul { list-style: none; margin: 0; padding: 0; }
+  .row { display: flex; gap: 8px; align-items: center; padding: 4px 0; border-bottom: 1px dashed var(--line); }
+  .row:last-child { border-bottom: 0; }
+  .row .name { flex: 1; min-width: 0; }
+  .row .tier1 { color: var(--muted); }
+  .row small { color: var(--muted); font-variant-numeric: tabular-nums; }
+  .main-mark { font-size: 11px; font-weight: 700; color: var(--accent); text-transform: uppercase; }
+  .empty { color: var(--muted); font-style: italic; }
+  #picker { max-height: 46vh; overflow: auto; border: 1px solid var(--line); border-radius: 6px; margin-top: 6px; padding: 4px 8px; }
+  .group { padding: 4px 0; border-bottom: 1px solid var(--line); }
+  .group:last-child { border-bottom: 0; }
+  .opt { margin: 2px 4px 2px 0; padding: 2px 8px; font-size: 14px; }
+  .opt.t1 { font-weight: 650; }
+  .opt.on { background: var(--soft); border-color: var(--accent); }
+  .opt.hl { outline: 2px solid var(--accent); }
+  .actions { display: flex; flex-wrap: wrap; gap: 8px; }
+  kbd { border: 1px solid var(--line); border-radius: 4px; padding: 0 4px; font-size: 12px; }
+  #guide { white-space: pre-wrap; margin: 8px 0 0; font: inherit; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Hayate gold review</h1>
+  <span id="progress"></span>
+  <div class="nav">
+    <button id="prev" title="Previous page">Previous</button>
+    <input id="jump" type="number" min="1" aria-label="Page number">
+    <button id="next" title="Next page">Next</button>
+    <button id="todo">Next unfinished</button>
+  </div>
+</header>
+<main>
+  <section id="page">
+    <div>
+      <span id="mode" class="badge"></span> <span id="status" class="badge"></span>
+      <span id="lang" class="hint"></span>
+    </div>
+    <div id="title"></div>
+    <p id="description"></p>
+    <a id="url" target="_blank" rel="noopener noreferrer"></a>
+    <h2 style="margin-top:14px">Text the teacher saw</h2>
+    <pre id="text" class="text"></pre>
+    <details id="more"><summary>Rest of the extracted text (the teacher did not see this)</summary><pre id="more-text" class="text"></pre></details>
+  </section>
+  <div id="side">
+    <section>
+      <p id="hint" class="hint"></p>
+      <h2>Your labels (main topic first)</h2>
+      <ul id="selected"></ul>
+      <div id="teacher-box" hidden>
+        <h2 style="margin-top:12px">Teacher's labels</h2>
+        <ul id="teacher"></ul>
+      </div>
+      <label id="void-box" class="hint" hidden><input id="void" type="checkbox" style="width:auto"> My blind answer was a slip (a misclick): leave it out of the blind scoring</label>
+      <p id="message" role="status"></p>
+      <input id="note" placeholder="Note (optional): why it was hard, what was ambiguous">
+      <div class="actions" style="margin-top:10px">
+        <button id="save" class="primary"></button>
+        <button id="none">No topic</button>
+        <button id="skip" title="Broken extraction, wrong language, nothing to judge">Can't judge: skip</button>
+      </div>
+      <p class="hint" style="margin:8px 0 0"><kbd>/</kbd> search, <kbd>Enter</kbd> add, <kbd>Ctrl</kbd>+<kbd>Enter</kbd> save</p>
+    </section>
+    <section>
+      <h2>Add a label</h2>
+      <input id="search" placeholder="Search the 330 labels, in English" autocomplete="off">
+      <div id="picker"></div>
+      <details><summary>Labeling rules (the teacher's instructions; follow the same ones)</summary><pre id="guide"></pre></details>
+    </section>
+  </div>
+</main>
+<script>
+"use strict";
+const $ = (id) => document.getElementById(id);
+const el = (tag, props = {}, ...kids) => {
+  const node = Object.assign(document.createElement(tag), props);
+  node.append(...kids);
+  return node;
+};
+const norm = (s) => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+
+let meta, byId, task, selected = [], index = 0, highlight = 0, visible = [];
+let busy = false, shownAt = 0, activeMs = 0, activeFrom = 0, moreOpened = false, linkClicked = false;
+const MIN_MS = 1000; // a save sooner than this after a page appears is a slip or a held key
+
+// Time with the page visible: a break in another tab does not count.
+const activeNow = () => activeMs + (document.hidden ? 0 : performance.now() - activeFrom);
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) activeMs += performance.now() - activeFrom;
+  else activeFrom = performance.now();
+});
+
+async function api(path, body) {
+  const res = await fetch(path, body ? {
+    method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body),
+  } : undefined);
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || res.statusText);
+  return data;
+}
+
+const stage = () => (task.mode === "blind" && task.blind_labels === null ? "blind" : "final");
+const name = (id) => byId[id].path[byId[id].path.length - 1];
+const say = (text) => { $("message").textContent = text; };
+
+function labelName(id) {
+  const lab = byId[id];
+  const span = el("span", { className: "name" });
+  if (lab.path.length > 1) span.append(el("span", { className: "tier1", textContent: lab.path[0] + " > " }));
+  span.append(name(id));
+  return span;
+}
+
+function add(id) {
+  const lab = byId[id];
+  if (selected.includes(id)) return remove(id);
+  if (selected.some((s) => byId[s].parent === id)) return say("A child of this label is already selected. Remove it first.");
+  const parentAt = lab.parent ? selected.indexOf(lab.parent) : -1;
+  if (parentAt >= 0) selected[parentAt] = id; // child over parent
+  else if (selected.length >= meta.max_labels) return say(`At most ${meta.max_labels} labels.`);
+  else selected.push(id);
+  say("");
+  render();
+}
+
+function remove(id) {
+  selected = selected.filter((s) => s !== id);
+  say("");
+  render();
+}
+
+function makeMain(id) {
+  selected = [id, ...selected.filter((s) => s !== id)];
+  render();
+}
+
+function renderSelected() {
+  const list = $("selected");
+  list.replaceChildren();
+  if (!selected.length) list.append(el("li", { className: "empty", textContent: "None yet." }));
+  selected.forEach((id, n) => {
+    const row = el("li", { className: "row" }, labelName(id));
+    if (n === 0) row.append(el("span", { className: "main-mark", textContent: "main" }));
+    else row.append(el("button", { textContent: "Make main", onclick: () => makeMain(id) }));
+    row.append(el("button", { textContent: "Remove", onclick: () => remove(id) }));
+    list.append(row);
+  });
+}
+
+function renderTeacher() {
+  $("teacher-box").hidden = task.teacher === null;
+  const list = $("teacher");
+  list.replaceChildren();
+  if (task.teacher === null) return;
+  if (!task.teacher.length) list.append(el("li", { className: "empty", textContent: "No labels: the teacher saw no topic." }));
+  for (const lab of task.teacher) {
+    const on = selected.includes(lab.id);
+    list.append(el("li", { className: "row" },
+      labelName(lab.id),
+      el("small", { textContent: lab.confidence.toFixed(2) }),
+      el("button", { textContent: on ? "Remove" : "Add", onclick: () => add(lab.id) })));
+  }
+}
+
+function renderPicker() {
+  const words = norm($("search").value).split(/\s+/).filter(Boolean);
+  const hit = (lab) => words.every((w) => norm(lab.path.join(" ")).includes(w));
+  const box = $("picker");
+  box.replaceChildren();
+  visible = [];
+  for (const top of meta.labels.filter((l) => !l.parent)) {
+    const kids = meta.labels.filter((l) => l.parent === top.id);
+    const shown = [top, ...kids].filter(hit);
+    if (!shown.length) continue;
+    const group = el("div", { className: "group" });
+    if (!shown.includes(top)) group.append(el("span", { className: "hint", textContent: top.path[0] + ": " }));
+    for (const lab of shown) {
+      const btn = el("button", {
+        className: "opt" + (lab.parent ? "" : " t1") + (selected.includes(lab.id) ? " on" : ""),
+        textContent: name(lab.id), title: lab.path.join(" > "), onclick: () => add(lab.id),
+      });
+      visible.push({ id: lab.id, btn });
+      group.append(btn);
+    }
+    box.append(group);
+  }
+  if (!visible.length) box.append(el("p", { className: "empty", textContent: "No label matches." }));
+  highlight = Math.min(highlight, Math.max(visible.length - 1, 0));
+  if (words.length && visible.length) {
+    visible[highlight].btn.classList.add("hl");
+    visible[highlight].btn.scrollIntoView({ block: "nearest" });
+  }
+}
+
+function renderProgress() {
+  const count = (fn) => meta.tasks.filter(fn).length;
+  const finished = (t) => t.status === "done" || t.status === "skipped";
+  const blind = (t) => t.mode === "blind";
+  $("progress").textContent =
+    `Page ${index + 1} of ${meta.tasks.length}. Reviewed ${count(finished)}` +
+    ` (blind ${count((t) => blind(t) && finished(t))} of ${count(blind)}), skipped ${count((t) => t.status === "skipped")}.` +
+    (count(finished) === meta.tasks.length ? " All done: run scripts/gold_report.py." : "");
+  $("jump").value = index + 1;
+  $("jump").max = meta.tasks.length;
+}
+
+function render() {
+  const blindStage = stage() === "blind";
+  $("mode").textContent = task.mode === "blind" ? "Blind" : "Assisted";
+  $("mode").className = "badge " + task.mode;
+  $("status").hidden = task.status === "todo" || task.status === "blind_done";
+  $("status").textContent = task.status === "skipped" ? "Skipped" : "Reviewed";
+  $("status").className = "badge " + task.status;
+  $("hint").className = "hint" + (task.mode === "blind" ? " blind" : "");
+  $("hint").textContent = blindStage
+    ? "Blind page: the teacher's labels are hidden. Choose your own, then lock your answer to see them."
+    : task.mode === "blind"
+      ? "Your blind answer is locked. Now compare with the teacher: add any of its labels you also accept, or keep yours."
+      : "The teacher's labels are preselected. Remove the wrong ones, add what is missing, and put the main topic first.";
+  $("save").textContent = blindStage ? "Lock blind answer" : "Save and next";
+  $("save").disabled = busy || !selected.length;
+  $("none").disabled = $("skip").disabled = busy;
+  $("void-box").hidden = !(task.mode === "blind" && task.blind_labels !== null);
+  $("none").title = blindStage ? "Lock an empty blind answer" : "Save with no labels";
+  renderSelected();
+  renderTeacher();
+  renderPicker();
+  renderProgress();
+}
+
+function show(data) {
+  task = data;
+  say("");
+  meta.tasks[task.i].status = task.status;
+  if (task.final && task.final.status === "labeled") selected = [...task.final.labels];
+  else if (task.blind_labels) selected = [...task.blind_labels];
+  else if (task.mode === "assisted") selected = task.teacher.map((l) => l.id);
+  else selected = [];
+  $("lang").textContent = task.lang === "por" ? "Portuguese" : "English";
+  $("title").textContent = task.title || "(no title)";
+  $("description").textContent = task.description;
+  $("url").textContent = task.url;
+  if (/^https?:\/\//.test(task.url)) $("url").href = task.url; else $("url").removeAttribute("href");
+  $("text").textContent = task.text || "(no text extracted)";
+  $("more").hidden = !task.more_text;
+  $("more").open = false;
+  $("more-text").textContent = task.more_text;
+  $("note").value = task.final ? task.final.note : "";
+  $("void").checked = Boolean(task.final && task.final.blind_void);
+  $("search").value = "";
+  highlight = 0;
+  shownAt = activeFrom = performance.now();
+  activeMs = 0;
+  moreOpened = linkClicked = false;
+  render();
+}
+
+async function load(i) {
+  index = Math.max(0, Math.min(i, meta.tasks.length - 1));
+  show(await api(`/api/task?i=${index}`));
+  window.scrollTo(0, 0);
+}
+
+function nextUnfinished(from) {
+  const n = meta.tasks.length;
+  for (let k = 0; k < n; k++) {
+    const i = (from + k) % n;
+    if (meta.tasks[i].status === "todo" || meta.tasks[i].status === "blind_done") return i;
+  }
+  return Math.min(from, n - 1);
+}
+
+async function save(status, labels) {
+  if (busy || performance.now() - shownAt < MIN_MS) return;
+  const wasBlind = status === "labeled" && stage() === "blind";
+  if (wasBlind && !labels.length && !confirm("Lock an empty blind answer (no topic)? It can't be changed afterwards.")) return;
+  const at = index;
+  busy = true;
+  render();
+  try {
+    const data = await api("/api/review", {
+      i: at, stage: wasBlind ? "blind" : "final", status, labels,
+      note: $("note").value, seconds: activeNow() / 1000,
+      more_opened: moreOpened, link_clicked: linkClicked, blind_void: $("void").checked,
+    });
+    busy = false;
+    if (wasBlind) show(data); // reveal the teacher's labels on the same page
+    else { meta.tasks[at].status = data.status; await load(nextUnfinished(at + 1)); }
+  } catch (err) {
+    say(err.message);
+  } finally {
+    busy = false;
+    render();
+  }
+}
+
+$("more").addEventListener("toggle", () => { if ($("more").open) moreOpened = true; });
+$("url").addEventListener("click", () => { linkClicked = true; });
+$("url").addEventListener("auxclick", () => { linkClicked = true; });
+$("save").onclick = () => save("labeled", selected);
+$("none").onclick = () => save("labeled", []);
+$("skip").onclick = () => save("skipped", []);
+$("prev").onclick = () => load(index - 1);
+$("next").onclick = () => load(index + 1);
+$("todo").onclick = () => load(nextUnfinished(index + 1));
+$("jump").onchange = () => load(Number($("jump").value) - 1);
+$("search").oninput = () => { highlight = 0; renderPicker(); };
+$("search").onkeydown = (e) => {
+  if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+    highlight = Math.max(0, Math.min(visible.length - 1, highlight + (e.key === "ArrowDown" ? 1 : -1)));
+    renderPicker();
+    e.preventDefault();
+  } else if (e.key === "Enter" && !e.ctrlKey && $("search").value.trim() && visible.length) {
+    add(visible[highlight].id);
+    $("search").value = "";
+    highlight = 0;
+    renderPicker();
+  } else if (e.key === "Escape") {
+    $("search").value = "";
+    renderPicker();
+  }
+};
+document.onkeydown = (e) => {
+  if (e.key === "Enter" && e.ctrlKey) {
+    if (!e.repeat && selected.length) save("labeled", selected);
+    e.preventDefault();
+  }
+  else if (e.key === "/" && !["INPUT", "TEXTAREA"].includes(document.activeElement.tagName)) {
+    $("search").focus();
+    e.preventDefault();
+  }
+};
+
+(async () => {
+  meta = await api("/api/meta");
+  byId = Object.fromEntries(meta.labels.map((l) => [l.id, l]));
+  $("guide").textContent = meta.guidelines;
+  await load(nextUnfinished(0));
+})().catch((err) => say(err.message));
+</script>
+</body>
+</html>

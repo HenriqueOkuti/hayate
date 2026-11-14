@@ -40,13 +40,11 @@ def pick_pages(
     path: str, n: int, seed: int, inp: dict, exclude_domains: set[str]
 ) -> list[claude.Page]:
     per_lang = n // len(LANGS)
-    field, fallback = inp["text_field"], inp["fallback_field"]
     rows = duckdb.sql(
         f"""
         select page_id, url, coalesce(title, '') title,
                coalesce(meta_description, '') description,
-               case when length(coalesce({field}, '')) >= {int(inp["min_chars"])}
-                    then {field} else coalesce({fallback}, '') end as text,
+               {claude.text_sql(inp)} as text,
                row_number() over (partition by lang order by md5(page_id || '{seed}')) rk
         from read_parquet('{path}')
         where not list_contains($exclude, domain)
