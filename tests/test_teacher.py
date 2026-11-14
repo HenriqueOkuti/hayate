@@ -20,6 +20,9 @@ VALID = {lab.id for lab in LABELS}
 # Stands in for `claude -p`: labels every page in its stdin with label 2.
 FAKE = """#!/usr/bin/env python3
 import json, re, sys
+if "/usage" in sys.argv:
+    print("Current session: 3% used - resets Nov 14, 3:19am")
+    sys.exit()
 ids = re.findall(r'<page id="(p\\d+)">', sys.stdin.read())
 out = {"pages": [{"page": i, "labels": [{"id": "2", "confidence": 0.9}]} for i in ids]}
 print(json.dumps({"is_error": False, "structured_output": out, "duration_ms": 5,
@@ -130,6 +133,9 @@ dir = "{tmp_path / "labels"}"
         "--prompt", str(tmp_path / "prompt.txt"), "--pages", str(n),
         "--repeat-frac", "0.5", "--claude-bin", str(fake),
     ]  # fmt: skip
+    first = subprocess.run(cmd + ["--slice-pages", "3"], check=True, capture_output=True,
+                           text=True, cwd=tmp_path)  # fmt: skip
+    assert "4 batch jobs (slice: first 2 of 3 batches)" in first.stdout  # 2 main + their 2 repeats
     subprocess.run(cmd, check=True, capture_output=True, cwd=tmp_path)
     rows = [json.loads(x) for x in (tmp_path / "labels/t/labels.jsonl").read_text().splitlines()]
     main = [r for r in rows if r["pass"] == "main"]
@@ -137,8 +143,12 @@ dir = "{tmp_path / "labels"}"
     assert len([r for r in rows if r["pass"] == "repeat"]) == 4  # 2 of 3 batches, rounded
     assert all(r["labels"] == [{"id": "2", "confidence": 0.9}] for r in rows)
 
-    rerun = subprocess.run(cmd, check=True, capture_output=True, text=True, cwd=tmp_path)
+    rerun = subprocess.run(cmd + ["--usage-snapshot"], check=True, capture_output=True,
+                           text=True, cwd=tmp_path)  # fmt: skip
     assert "5 already done" in rerun.stdout
+    snaps = [json.loads(x) for x in (tmp_path / "labels/t/usage.jsonl").read_text().splitlines()]
+    assert [s["when"] for s in snaps] == ["start", "end"]
+    assert snaps[0]["meters"] == {"Current session": {"pct": 3, "resets": "Nov 14, 3:19am"}}
     assert len((tmp_path / "labels/t/labels.jsonl").read_text().splitlines()) == len(rows)
 
     # a holdout that leaves out run t's domains has no pages left
@@ -190,3 +200,34 @@ def test_agy_call_with_fake_binary(tmp_path):
     assert res["usage"] == {"input_tokens": 60, "cache_read_input_tokens": 40, "output_tokens": 7}
     with pytest.raises(claude.CallError):
         agy.call("x" * (agy.MAX_PROMPT_CHARS + 1), "{}", "m", str(tmp_path), str(fake))
+
+
+USAGE_OUT = """You are currently using your subscription to power your Claude Code usage
+
+Current session: 27% used \u00b7 resets Nov 14, 3:19am (America/Sao_Paulo)
+Current week (all models): 59% used \u00b7 resets Nov 14, 12:59pm (America/Sao_Paulo)
+Current week (Fable): 48% used \u00b7 resets Nov 14, 12:59pm (America/Sao_Paulo)
+
+What's contributing to your usage?
+Last 24h \u00b7 437 requests \u00b7 4 sessions
+"""
+
+
+def test_parse_usage():
+    meters = claude.parse_usage(USAGE_OUT)
+    assert list(meters) == ["Current session", "Current week (all models)", "Current week (Fable)"]
+    assert meters["Current week (all models)"] == {
+        "pct": 59, "resets": "Nov 14, 12:59pm (America/Sao_Paulo)"
+    }  # fmt: skip
+    assert claude.parse_usage("Current session: 0% used") == {
+        "Current session": {"pct": 0, "resets": None}
+    }  # fmt: skip
+
+
+def test_usage_snapshot_never_raises(tmp_path):
+    fake = tmp_path / "claude"
+    fake.write_text("#!/bin/sh\necho 'not logged in' >&2\nexit 1\n")
+    fake.chmod(0o755)
+    snap = claude.usage_snapshot(str(fake))
+    assert snap["meters"] == {} and "not logged in" in snap["error"]
+    assert "error" in claude.usage_snapshot(str(tmp_path / "missing"))

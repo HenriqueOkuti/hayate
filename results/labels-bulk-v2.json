@@ -1,0 +1,927 @@
+{
+ "step": "label_summary",
+ "commit": "2c683d969e9652a1bf12057dd81db7ed0f1bb614",
+ "created": "2026-11-14T06:25:01+00:00",
+ "config": {
+  "run": "bulk-v2",
+  "splits": "splits-v1",
+  "pages": "data/pages/pages.parquet",
+  "labels_json": "data/taxonomy/labels.json",
+  "labels_dir": "data/labels",
+  "splits_dir": "data/splits",
+  "top_tlds": "12",
+  "out_dir": "results"
+ },
+ "manifest": {
+  "run": "bulk-v2",
+  "model_alias": "sonnet",
+  "served_models": {
+   "claude-sonnet-5-5": 840
+  },
+  "claude_version_last_invocation": "2.1.325 (Claude Code)",
+  "prompt": "configs/teacher/prompt-v2.txt",
+  "prompt_sha256": "10f500c9165d5790d87e6030d44c7c7bb99d14ceb99ecf52c88158d514e69b44",
+  "taxonomy_sha256": "7212cdc496ba347a03e703b1932bdcdd4fd29089b058f4edeb4d3da1f1222ea7",
+  "run_commit_last_invocation": "2c683d969e9652a1bf12057dd81db7ed0f1bb614",
+  "splits": "splits-v1",
+  "splits_stamp": "2c683d969e9652a1bf12057dd81db7ed0f1bb614",
+  "label_set_sha256": "afdb1cfd6190a5b2dd59abc32cab4bc339add3977a24a1218f7ae53354177072",
+  "files_sha256": {
+   "calls.jsonl": "72d0e28515152b3220d49d4008c82c40083230f1f2ca7519b819ec0071d8cc96",
+   "labels.jsonl": "ef9020141072cf8290e83db8a0256df5fc0f1e90e1b0f189e8010e8854d01667",
+   "run.json": "cf72167e1174658ec22ee0871b5fa331fd434f7c69a3d505bb511205a2cab086",
+   "system-prompt.txt": "68592b87ebf847e25412b619000120605b94af0d68763c88c59fc6159ca27b93",
+   "usage.jsonl": "5c7363d6a41dfdc66b5c10561e22361ccefd2f4d26ef8309f87e00926e7d7ec0"
+  }
+ },
+ "coverage": {
+  "sample_pages": 20000,
+  "labeled_pages": 20000,
+  "missing_pages": 0,
+  "unknown_pages": 0,
+  "duplicate_rows": {},
+  "repeat_pages": 1000
+ },
+ "shape": {
+  "all": {
+   "pages": 20000,
+   "labels_per_page": 1.191,
+   "labels_per_page_hist": {
+    "0": 681,
+    "1": 14817,
+    "2": 4495,
+    "3": 7
+   },
+   "empty_pages": 681
+  },
+  "eng": {
+   "pages": 10000,
+   "labels_per_page": 1.189,
+   "labels_per_page_hist": {
+    "0": 357,
+    "1": 7400,
+    "2": 2239,
+    "3": 4
+   },
+   "empty_pages": 357
+  },
+  "por": {
+   "pages": 10000,
+   "labels_per_page": 1.194,
+   "labels_per_page_hist": {
+    "0": 324,
+    "1": 7417,
+    "2": 2256,
+    "3": 3
+   },
+   "empty_pages": 324
+  }
+ },
+ "tier1_by_lang": {
+  "eng": {
+   "596 Technology & Computing": 916,
+   "52 Business and Finance": 905,
+   "274 Home & Garden": 726,
+   "483 Sports": 554,
+   "239 Hobbies & Interests": 473,
+   "JLBCU7 Entertainment": 471,
+   "150 Attractions": 442,
+   "552 Style & Fashion": 440,
+   "464 Science": 412,
+   "653 Travel": 407,
+   "132 Education": 401,
+   "391 Personal Finance": 397,
+   "201 Fine Art": 388,
+   "286 Medical Health": 380,
+   "1 Automotive": 366,
+   "453 Religion & Spirituality": 327,
+   "210 Food & Drink": 321,
+   "441 Real Estate": 320,
+   "123 Careers": 310,
+   "v9i3On Sensitive Topics": 287,
+   "386 Politics": 285,
+   "223 Healthy Living": 284,
+   "42 Books and Literature": 223,
+   "8VZQHL Events": 221,
+   "473 Shopping": 212,
+   "186 Family and Relationships": 184,
+   "163 Personal Celebrations & Life Events": 148,
+   "383 Law": 139,
+   "680 Video Gaming": 138,
+   "422 Pets": 104,
+   "432 Pop Culture": 54,
+   "389 War and Conflicts": 51,
+   "380 Crime": 47,
+   "381 Disasters": 23,
+   "1KXCLD Holidays": 18,
+   "80DV8O Communication": 17
+  },
+  "por": {
+   "52 Business and Finance": 1002,
+   "386 Politics": 765,
+   "274 Home & Garden": 718,
+   "552 Style & Fashion": 602,
+   "286 Medical Health": 587,
+   "132 Education": 567,
+   "483 Sports": 525,
+   "596 Technology & Computing": 507,
+   "1 Automotive": 459,
+   "JLBCU7 Entertainment": 387,
+   "150 Attractions": 365,
+   "473 Shopping": 359,
+   "441 Real Estate": 346,
+   "391 Personal Finance": 345,
+   "464 Science": 342,
+   "123 Careers": 326,
+   "223 Healthy Living": 315,
+   "453 Religion & Spirituality": 305,
+   "210 Food & Drink": 294,
+   "383 Law": 286,
+   "653 Travel": 285,
+   "380 Crime": 261,
+   "239 Hobbies & Interests": 212,
+   "8VZQHL Events": 208,
+   "42 Books and Literature": 192,
+   "201 Fine Art": 160,
+   "v9i3On Sensitive Topics": 142,
+   "186 Family and Relationships": 113,
+   "422 Pets": 109,
+   "680 Video Gaming": 78,
+   "432 Pop Culture": 68,
+   "163 Personal Celebrations & Life Events": 67,
+   "80DV8O Communication": 52,
+   "1KXCLD Holidays": 48,
+   "381 Disasters": 43,
+   "389 War and Conflicts": 23
+  }
+ },
+ "tier1_by_split": {
+  "test": {
+   "52 Business and Finance": 175,
+   "274 Home & Garden": 124,
+   "596 Technology & Computing": 113,
+   "483 Sports": 112,
+   "386 Politics": 107,
+   "552 Style & Fashion": 96,
+   "286 Medical Health": 93,
+   "132 Education": 88,
+   "150 Attractions": 77,
+   "464 Science": 74,
+   "239 Hobbies & Interests": 72,
+   "JLBCU7 Entertainment": 72,
+   "391 Personal Finance": 68,
+   "1 Automotive": 65,
+   "453 Religion & Spirituality": 64,
+   "441 Real Estate": 61,
+   "210 Food & Drink": 59,
+   "223 Healthy Living": 53,
+   "653 Travel": 51,
+   "383 Law": 51,
+   "42 Books and Literature": 49,
+   "123 Careers": 48,
+   "473 Shopping": 45,
+   "201 Fine Art": 45,
+   "8VZQHL Events": 41,
+   "v9i3On Sensitive Topics": 36,
+   "380 Crime": 26,
+   "680 Video Gaming": 23,
+   "163 Personal Celebrations & Life Events": 20,
+   "186 Family and Relationships": 17,
+   "422 Pets": 17,
+   "432 Pop Culture": 16,
+   "1KXCLD Holidays": 7,
+   "389 War and Conflicts": 7,
+   "381 Disasters": 7,
+   "80DV8O Communication": 4
+  },
+  "train": {
+   "52 Business and Finance": 1530,
+   "596 Technology & Computing": 1181,
+   "274 Home & Garden": 1179,
+   "483 Sports": 880,
+   "386 Politics": 866,
+   "552 Style & Fashion": 829,
+   "132 Education": 784,
+   "286 Medical Health": 775,
+   "JLBCU7 Entertainment": 684,
+   "1 Automotive": 670,
+   "150 Attractions": 643,
+   "464 Science": 612,
+   "391 Personal Finance": 602,
+   "653 Travel": 583,
+   "441 Real Estate": 537,
+   "239 Hobbies & Interests": 537,
+   "123 Careers": 533,
+   "453 Religion & Spirituality": 518,
+   "210 Food & Drink": 508,
+   "223 Healthy Living": 478,
+   "473 Shopping": 468,
+   "201 Fine Art": 457,
+   "v9i3On Sensitive Topics": 352,
+   "8VZQHL Events": 351,
+   "383 Law": 326,
+   "42 Books and Literature": 319,
+   "380 Crime": 260,
+   "186 Family and Relationships": 249,
+   "422 Pets": 177,
+   "163 Personal Celebrations & Life Events": 175,
+   "680 Video Gaming": 169,
+   "432 Pop Culture": 100,
+   "389 War and Conflicts": 63,
+   "1KXCLD Holidays": 55,
+   "381 Disasters": 54,
+   "80DV8O Communication": 54
+  },
+  "val": {
+   "52 Business and Finance": 202,
+   "274 Home & Garden": 141,
+   "596 Technology & Computing": 129,
+   "552 Style & Fashion": 117,
+   "JLBCU7 Entertainment": 102,
+   "286 Medical Health": 99,
+   "132 Education": 96,
+   "1 Automotive": 90,
+   "150 Attractions": 87,
+   "483 Sports": 87,
+   "386 Politics": 77,
+   "239 Hobbies & Interests": 76,
+   "391 Personal Finance": 72,
+   "464 Science": 68,
+   "223 Healthy Living": 68,
+   "441 Real Estate": 68,
+   "473 Shopping": 58,
+   "653 Travel": 58,
+   "123 Careers": 55,
+   "453 Religion & Spirituality": 50,
+   "210 Food & Drink": 48,
+   "383 Law": 48,
+   "42 Books and Literature": 47,
+   "201 Fine Art": 46,
+   "v9i3On Sensitive Topics": 41,
+   "8VZQHL Events": 37,
+   "186 Family and Relationships": 31,
+   "680 Video Gaming": 24,
+   "380 Crime": 22,
+   "163 Personal Celebrations & Life Events": 20,
+   "422 Pets": 19,
+   "80DV8O Communication": 11,
+   "432 Pop Culture": 6,
+   "381 Disasters": 5,
+   "1KXCLD Holidays": 4,
+   "389 War and Conflicts": 4
+  }
+ },
+ "tier1_by_tld": {
+  "br": {
+   "52 Business and Finance": 884,
+   "386 Politics": 666,
+   "274 Home & Garden": 603,
+   "286 Medical Health": 519,
+   "552 Style & Fashion": 484,
+   "132 Education": 440,
+   "483 Sports": 409,
+   "1 Automotive": 390,
+   "596 Technology & Computing": 373,
+   "391 Personal Finance": 314,
+   "JLBCU7 Entertainment": 312,
+   "441 Real Estate": 309,
+   "473 Shopping": 304,
+   "464 Science": 291,
+   "123 Careers": 270,
+   "453 Religion & Spirituality": 258,
+   "223 Healthy Living": 255,
+   "383 Law": 254,
+   "380 Crime": 247,
+   "210 Food & Drink": 232,
+   "150 Attractions": 217,
+   "653 Travel": 210,
+   "239 Hobbies & Interests": 179,
+   "8VZQHL Events": 171,
+   "42 Books and Literature": 143,
+   "201 Fine Art": 116,
+   "v9i3On Sensitive Topics": 109,
+   "186 Family and Relationships": 92,
+   "422 Pets": 90,
+   "680 Video Gaming": 63,
+   "163 Personal Celebrations & Life Events": 60,
+   "432 Pop Culture": 59,
+   "1KXCLD Holidays": 40,
+   "381 Disasters": 37,
+   "80DV8O Communication": 36,
+   "389 War and Conflicts": 20
+  },
+  "com": {
+   "52 Business and Finance": 690,
+   "596 Technology & Computing": 608,
+   "274 Home & Garden": 539,
+   "483 Sports": 389,
+   "552 Style & Fashion": 371,
+   "239 Hobbies & Interests": 353,
+   "JLBCU7 Entertainment": 346,
+   "653 Travel": 311,
+   "150 Attractions": 291,
+   "201 Fine Art": 279,
+   "391 Personal Finance": 276,
+   "1 Automotive": 276,
+   "210 Food & Drink": 265,
+   "123 Careers": 248,
+   "441 Real Estate": 243,
+   "286 Medical Health": 241,
+   "v9i3On Sensitive Topics": 209,
+   "132 Education": 204,
+   "223 Healthy Living": 203,
+   "464 Science": 191,
+   "453 Religion & Spirituality": 175,
+   "42 Books and Literature": 175,
+   "473 Shopping": 171,
+   "386 Politics": 132,
+   "186 Family and Relationships": 123,
+   "8VZQHL Events": 120,
+   "163 Personal Celebrations & Life Events": 116,
+   "680 Video Gaming": 103,
+   "383 Law": 94,
+   "422 Pets": 75,
+   "432 Pop Culture": 37,
+   "380 Crime": 36,
+   "389 War and Conflicts": 18,
+   "1KXCLD Holidays": 14,
+   "80DV8O Communication": 13,
+   "381 Disasters": 13
+  },
+  "pt": {
+   "132 Education": 99,
+   "483 Sports": 94,
+   "274 Home & Garden": 84,
+   "552 Style & Fashion": 81,
+   "386 Politics": 74,
+   "52 Business and Finance": 71,
+   "596 Technology & Computing": 59,
+   "1 Automotive": 54,
+   "653 Travel": 54,
+   "JLBCU7 Entertainment": 52,
+   "286 Medical Health": 46,
+   "464 Science": 43,
+   "150 Attractions": 41,
+   "210 Food & Drink": 41,
+   "223 Healthy Living": 40,
+   "42 Books and Literature": 38,
+   "473 Shopping": 37,
+   "201 Fine Art": 32,
+   "123 Careers": 32,
+   "441 Real Estate": 29,
+   "8VZQHL Events": 27,
+   "453 Religion & Spirituality": 25,
+   "383 Law": 24,
+   "239 Hobbies & Interests": 22,
+   "391 Personal Finance": 16,
+   "186 Family and Relationships": 14,
+   "422 Pets": 14,
+   "v9i3On Sensitive Topics": 11,
+   "80DV8O Communication": 10,
+   "680 Video Gaming": 7,
+   "432 Pop Culture": 7,
+   "381 Disasters": 6,
+   "380 Crime": 6,
+   "163 Personal Celebrations & Life Events": 4,
+   "1KXCLD Holidays": 3,
+   "389 War and Conflicts": 1
+  },
+  "org": {
+   "464 Science": 114,
+   "132 Education": 107,
+   "453 Religion & Spirituality": 105,
+   "596 Technology & Computing": 102,
+   "386 Politics": 94,
+   "286 Medical Health": 72,
+   "52 Business and Finance": 66,
+   "8VZQHL Events": 61,
+   "150 Attractions": 60,
+   "201 Fine Art": 47,
+   "JLBCU7 Entertainment": 46,
+   "483 Sports": 42,
+   "391 Personal Finance": 39,
+   "239 Hobbies & Interests": 37,
+   "223 Healthy Living": 30,
+   "123 Careers": 30,
+   "v9i3On Sensitive Topics": 26,
+   "42 Books and Literature": 22,
+   "186 Family and Relationships": 22,
+   "274 Home & Garden": 16,
+   "653 Travel": 15,
+   "383 Law": 14,
+   "441 Real Estate": 13,
+   "422 Pets": 12,
+   "389 War and Conflicts": 11,
+   "1 Automotive": 11,
+   "210 Food & Drink": 10,
+   "552 Style & Fashion": 9,
+   "163 Personal Celebrations & Life Events": 7,
+   "380 Crime": 7,
+   "680 Video Gaming": 6,
+   "381 Disasters": 4,
+   "432 Pop Culture": 4,
+   "1KXCLD Holidays": 4,
+   "80DV8O Communication": 4,
+   "473 Shopping": 2
+  },
+  "uk": {
+   "274 Home & Garden": 91,
+   "150 Attractions": 58,
+   "52 Business and Finance": 55,
+   "483 Sports": 55,
+   "552 Style & Fashion": 44,
+   "653 Travel": 41,
+   "239 Hobbies & Interests": 41,
+   "596 Technology & Computing": 40,
+   "286 Medical Health": 38,
+   "1 Automotive": 37,
+   "223 Healthy Living": 34,
+   "391 Personal Finance": 33,
+   "473 Shopping": 30,
+   "JLBCU7 Entertainment": 29,
+   "441 Real Estate": 28,
+   "210 Food & Drink": 27,
+   "132 Education": 26,
+   "201 Fine Art": 25,
+   "453 Religion & Spirituality": 20,
+   "123 Careers": 19,
+   "464 Science": 19,
+   "186 Family and Relationships": 18,
+   "v9i3On Sensitive Topics": 14,
+   "42 Books and Literature": 14,
+   "8VZQHL Events": 13,
+   "386 Politics": 13,
+   "383 Law": 13,
+   "163 Personal Celebrations & Life Events": 11,
+   "422 Pets": 10,
+   "680 Video Gaming": 5,
+   "432 Pop Culture": 5,
+   "381 Disasters": 3,
+   "380 Crime": 2,
+   "389 War and Conflicts": 2,
+   "80DV8O Communication": 1
+  },
+  "net": {
+   "596 Technology & Computing": 50,
+   "JLBCU7 Entertainment": 40,
+   "52 Business and Finance": 30,
+   "150 Attractions": 30,
+   "v9i3On Sensitive Topics": 30,
+   "239 Hobbies & Interests": 23,
+   "274 Home & Garden": 22,
+   "453 Religion & Spirituality": 21,
+   "680 Video Gaming": 20,
+   "483 Sports": 20,
+   "132 Education": 20,
+   "386 Politics": 15,
+   "653 Travel": 14,
+   "201 Fine Art": 14,
+   "391 Personal Finance": 14,
+   "464 Science": 13,
+   "552 Style & Fashion": 12,
+   "186 Family and Relationships": 11,
+   "223 Healthy Living": 10,
+   "210 Food & Drink": 10,
+   "286 Medical Health": 9,
+   "123 Careers": 9,
+   "441 Real Estate": 8,
+   "1 Automotive": 7,
+   "8VZQHL Events": 7,
+   "473 Shopping": 7,
+   "42 Books and Literature": 6,
+   "432 Pop Culture": 5,
+   "163 Personal Celebrations & Life Events": 4,
+   "380 Crime": 4,
+   "389 War and Conflicts": 3,
+   "383 Law": 3,
+   "422 Pets": 2,
+   "1KXCLD Holidays": 2,
+   "80DV8O Communication": 2,
+   "381 Disasters": 1
+  },
+  "au": {
+   "274 Home & Garden": 42,
+   "52 Business and Finance": 17,
+   "1 Automotive": 16,
+   "483 Sports": 13,
+   "441 Real Estate": 12,
+   "150 Attractions": 10,
+   "653 Travel": 8,
+   "391 Personal Finance": 7,
+   "163 Personal Celebrations & Life Events": 7,
+   "JLBCU7 Entertainment": 7,
+   "473 Shopping": 7,
+   "223 Healthy Living": 6,
+   "210 Food & Drink": 6,
+   "596 Technology & Computing": 5,
+   "383 Law": 5,
+   "422 Pets": 5,
+   "552 Style & Fashion": 5,
+   "389 War and Conflicts": 4,
+   "386 Politics": 4,
+   "239 Hobbies & Interests": 4,
+   "132 Education": 4,
+   "453 Religion & Spirituality": 4,
+   "286 Medical Health": 4,
+   "201 Fine Art": 3,
+   "123 Careers": 3,
+   "42 Books and Literature": 2,
+   "186 Family and Relationships": 2,
+   "464 Science": 2,
+   "8VZQHL Events": 2,
+   "432 Pop Culture": 1
+  },
+  "news": {
+   "386 Politics": 25,
+   "52 Business and Finance": 15,
+   "596 Technology & Computing": 11,
+   "483 Sports": 10,
+   "391 Personal Finance": 8,
+   "464 Science": 7,
+   "286 Medical Health": 6,
+   "389 War and Conflicts": 4,
+   "8VZQHL Events": 4,
+   "432 Pop Culture": 3,
+   "680 Video Gaming": 3,
+   "653 Travel": 3,
+   "380 Crime": 3,
+   "1 Automotive": 3,
+   "186 Family and Relationships": 2,
+   "v9i3On Sensitive Topics": 2,
+   "239 Hobbies & Interests": 2,
+   "381 Disasters": 2,
+   "150 Attractions": 2,
+   "210 Food & Drink": 2,
+   "383 Law": 1,
+   "552 Style & Fashion": 1,
+   "201 Fine Art": 1,
+   "JLBCU7 Entertainment": 1,
+   "453 Religion & Spirituality": 1,
+   "42 Books and Literature": 1,
+   "1KXCLD Holidays": 1
+  },
+  "in": {
+   "274 Home & Garden": 13,
+   "552 Style & Fashion": 11,
+   "596 Technology & Computing": 10,
+   "52 Business and Finance": 6,
+   "150 Attractions": 6,
+   "132 Education": 5,
+   "473 Shopping": 5,
+   "383 Law": 5,
+   "391 Personal Finance": 4,
+   "v9i3On Sensitive Topics": 4,
+   "42 Books and Literature": 3,
+   "483 Sports": 3,
+   "186 Family and Relationships": 3,
+   "453 Religion & Spirituality": 3,
+   "123 Careers": 2,
+   "210 Food & Drink": 2,
+   "1 Automotive": 2,
+   "JLBCU7 Entertainment": 2,
+   "464 Science": 2,
+   "386 Politics": 2,
+   "441 Real Estate": 2,
+   "223 Healthy Living": 2,
+   "1KXCLD Holidays": 1,
+   "201 Fine Art": 1,
+   "286 Medical Health": 1,
+   "8VZQHL Events": 1,
+   "389 War and Conflicts": 1
+  },
+  "nz": {
+   "52 Business and Finance": 10,
+   "274 Home & Garden": 9,
+   "464 Science": 7,
+   "483 Sports": 7,
+   "132 Education": 6,
+   "239 Hobbies & Interests": 5,
+   "150 Attractions": 5,
+   "210 Food & Drink": 4,
+   "201 Fine Art": 4,
+   "1 Automotive": 4,
+   "596 Technology & Computing": 4,
+   "386 Politics": 4,
+   "441 Real Estate": 4,
+   "286 Medical Health": 4,
+   "653 Travel": 3,
+   "v9i3On Sensitive Topics": 3,
+   "552 Style & Fashion": 3,
+   "453 Religion & Spirituality": 3,
+   "123 Careers": 2,
+   "163 Personal Celebrations & Life Events": 2,
+   "473 Shopping": 2,
+   "383 Law": 2,
+   "186 Family and Relationships": 2,
+   "223 Healthy Living": 2,
+   "422 Pets": 1,
+   "389 War and Conflicts": 1,
+   "8VZQHL Events": 1,
+   "42 Books and Literature": 1,
+   "JLBCU7 Entertainment": 1
+  },
+  "io": {
+   "596 Technology & Computing": 36,
+   "52 Business and Finance": 10,
+   "391 Personal Finance": 7,
+   "464 Science": 5,
+   "286 Medical Health": 5,
+   "123 Careers": 4,
+   "680 Video Gaming": 4,
+   "274 Home & Garden": 4,
+   "223 Healthy Living": 3,
+   "483 Sports": 3,
+   "383 Law": 2,
+   "239 Hobbies & Interests": 2,
+   "1 Automotive": 2,
+   "552 Style & Fashion": 2,
+   "v9i3On Sensitive Topics": 1,
+   "8VZQHL Events": 1,
+   "201 Fine Art": 1,
+   "473 Shopping": 1,
+   "441 Real Estate": 1,
+   "132 Education": 1,
+   "1KXCLD Holidays": 1,
+   "453 Religion & Spirituality": 1,
+   "210 Food & Drink": 1,
+   "653 Travel": 1
+  },
+  "edu": {
+   "132 Education": 32,
+   "464 Science": 12,
+   "596 Technology & Computing": 8,
+   "286 Medical Health": 6,
+   "453 Religion & Spirituality": 6,
+   "123 Careers": 5,
+   "52 Business and Finance": 4,
+   "274 Home & Garden": 3,
+   "8VZQHL Events": 3,
+   "483 Sports": 3,
+   "380 Crime": 2,
+   "201 Fine Art": 2,
+   "552 Style & Fashion": 2,
+   "42 Books and Literature": 2,
+   "386 Politics": 2,
+   "223 Healthy Living": 2,
+   "163 Personal Celebrations & Life Events": 2,
+   "150 Attractions": 2,
+   "383 Law": 1,
+   "653 Travel": 1,
+   "239 Hobbies & Interests": 1,
+   "391 Personal Finance": 1,
+   "JLBCU7 Entertainment": 1,
+   "389 War and Conflicts": 1
+  }
+ },
+ "pages_by_tld": {
+  "br": 8226,
+  "com": 6986,
+  "pt": 1143,
+  "org": 1090,
+  "uk": 792,
+  "net": 450,
+  "au": 193,
+  "news": 101,
+  "in": 94,
+  "nz": 92,
+  "io": 89,
+  "edu": 82
+ },
+ "repeat_consistency": {
+  "pages": 1000,
+  "both_empty": 26,
+  "tier2": {
+   "precision": {
+    "value": 0.805,
+    "ci95": [
+     0.784,
+     0.827
+    ]
+   },
+   "recall": {
+    "value": 0.829,
+    "ci95": [
+     0.809,
+     0.851
+    ]
+   },
+   "f1": {
+    "value": 0.817,
+    "ci95": [
+     0.798,
+     0.837
+    ]
+   },
+   "top_match": {
+    "value": 0.857,
+    "ci95": [
+     0.836,
+     0.879
+    ]
+   },
+   "top_in_reference": {
+    "value": 0.885,
+    "ci95": [
+     0.866,
+     0.904
+    ]
+   },
+   "exact_match": {
+    "value": 0.713,
+    "ci95": [
+     0.684,
+     0.741
+    ]
+   },
+   "jaccard": {
+    "value": 0.805,
+    "ci95": [
+     0.785,
+     0.826
+    ]
+   }
+  },
+  "tier1": {
+   "precision": {
+    "value": 0.88,
+    "ci95": [
+     0.863,
+     0.898
+    ]
+   },
+   "recall": {
+    "value": 0.899,
+    "ci95": [
+     0.882,
+     0.917
+    ]
+   },
+   "f1": {
+    "value": 0.89,
+    "ci95": [
+     0.875,
+     0.904
+    ]
+   },
+   "top_match": {
+    "value": 0.917,
+    "ci95": [
+     0.899,
+     0.934
+    ]
+   },
+   "top_in_reference": {
+    "value": 0.94,
+    "ci95": [
+     0.925,
+     0.954
+    ]
+   },
+   "exact_match": {
+    "value": 0.805,
+    "ci95": [
+     0.781,
+     0.83
+    ]
+   },
+   "jaccard": {
+    "value": 0.878,
+    "ci95": [
+     0.862,
+     0.894
+    ]
+   }
+  }
+ },
+ "calls": {
+  "ok": 840,
+  "failed": 1,
+  "failures_by_kind": {
+   "limit": 1
+  },
+  "tokens": {
+   "input_tokens": 1682,
+   "cache_creation_input_tokens": 17512225,
+   "cache_read_input_tokens": 6458683,
+   "output_tokens": 722274
+  },
+  "tokens_per_labeled_page": 1234.7,
+  "wall_s_sum": 5216.7
+ },
+ "usage_snapshots": [
+  {
+   "when": "start",
+   "jobs_todo": 105,
+   "t": 1794635122.6583173,
+   "meters": {
+    "Current session": {
+     "pct": 30,
+     "resets": "Nov 14, 3:19am (America/Sao_Paulo)"
+    },
+    "Current week (all models)": {
+     "pct": 59,
+     "resets": "Nov 14, 12:59pm (America/Sao_Paulo)"
+    },
+    "Current week (Fable)": {
+     "pct": 48,
+     "resets": "Nov 14, 12:59pm (America/Sao_Paulo)"
+    }
+   }
+  },
+  {
+   "when": "end",
+   "jobs_todo": 105,
+   "t": 1794635215.3564694,
+   "meters": {
+    "Current session": {
+     "pct": 43,
+     "resets": "Nov 14, 3:20am (America/Sao_Paulo)"
+    },
+    "Current week (all models)": {
+     "pct": 61,
+     "resets": "Nov 14, 1pm (America/Sao_Paulo)"
+    },
+    "Current week (Fable)": {
+     "pct": 48,
+     "resets": "Nov 14, 1pm (America/Sao_Paulo)"
+    }
+   }
+  },
+  {
+   "when": "start",
+   "jobs_todo": 735,
+   "t": 1794635248.5986967,
+   "meters": {
+    "Current session": {
+     "pct": 43,
+     "resets": "Nov 14, 3:20am (America/Sao_Paulo)"
+    },
+    "Current week (all models)": {
+     "pct": 61,
+     "resets": "Nov 14, 1pm (America/Sao_Paulo)"
+    },
+    "Current week (Fable)": {
+     "pct": 48,
+     "resets": "Nov 14, 1pm (America/Sao_Paulo)"
+    }
+   }
+  },
+  {
+   "when": "end",
+   "jobs_todo": 735,
+   "t": 1794635609.8570192,
+   "meters": {
+    "Current session": {
+     "pct": 100,
+     "resets": "Nov 14, 3:19am (America/Sao_Paulo)"
+    },
+    "Current week (all models)": {
+     "pct": 65,
+     "resets": "Nov 14, 12:59pm (America/Sao_Paulo)"
+    },
+    "Current week (Fable)": {
+     "pct": 48,
+     "resets": "Nov 14, 12:59pm (America/Sao_Paulo)"
+    }
+   }
+  },
+  {
+   "when": "start",
+   "jobs_todo": 276,
+   "t": 1794637269.2899313,
+   "meters": {
+    "Current session": {
+     "pct": 0,
+     "resets": "Nov 14, 8:20am (America/Sao_Paulo)"
+    },
+    "Current week (all models)": {
+     "pct": 65,
+     "resets": "Nov 14, 1pm (America/Sao_Paulo)"
+    },
+    "Current week (Fable)": {
+     "pct": 48,
+     "resets": "Nov 14, 1pm (America/Sao_Paulo)"
+    }
+   }
+  },
+  {
+   "when": "end",
+   "jobs_todo": 276,
+   "t": 1794637489.8249753,
+   "meters": {
+    "Current session": {
+     "pct": 35,
+     "resets": "Nov 14, 8:19am (America/Sao_Paulo)"
+    },
+    "Current week (all models)": {
+     "pct": 68,
+     "resets": "Nov 14, 12:59pm (America/Sao_Paulo)"
+    },
+    "Current week (Fable)": {
+     "pct": 48,
+     "resets": "Nov 14, 12:59pm (America/Sao_Paulo)"
+    }
+   }
+  }
+ ]
+}
