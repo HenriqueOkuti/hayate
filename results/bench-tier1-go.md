@@ -38,4 +38,4 @@ Per-page numbers at batch 8 and above are per-call times divided by the batch si
 
 - **Forward pass:** fewer hashed features or int8 weights would shrink the matrix and its cache misses.
 - **Tail:** measure with `GOGC=off` or a memory limit to see how much of p99 is the garbage collector.
-- **Reference check:** each run should first time one fixed configuration and compare it with the last quiet run (decision 0008).
+- **Reference check:** each run should first time one fixed configuration and compare it with the last quiet run (decision 0008). Done in [#84](https://github.com/HenriqueOkuti/hayate/issues/84); the runs here seeded `results/bench-reference.json`.

@@ -14,6 +14,10 @@ and trial: a warm-up, then raw per-call timings. Writes the raw timings to
 artifacts/bench/<name>.parquet and results/<name>.json with percentiles per call and per page,
 throughput, the spread over trials, and the environment (CPU model and ISA flags, affinity,
 threads, versions, model hash, taxonomy SHA).
+
+Before and after the grid it times one fixed reference configuration and compares it with the
+last quiet reading in results/bench-reference.json (hayate.bench.reference, shared with the Go
+harness); a run more than 10% slower is marked busy. --accept-reference stores the reading anyway.
 """
 
 import os
@@ -26,6 +30,7 @@ import argparse  # noqa: E402
 import hashlib  # noqa: E402
 import json  # noqa: E402
 import platform  # noqa: E402
+import sys  # noqa: E402
 from pathlib import Path  # noqa: E402
 
 import duckdb  # noqa: E402
@@ -37,6 +42,7 @@ import sklearn  # noqa: E402
 from threadpoolctl import threadpool_info, threadpool_limits  # noqa: E402
 
 from hayate import provenance  # noqa: E402
+from hayate.bench import reference  # noqa: E402
 from hayate.bench.micro import cpu_info, percentile, summarize, time_stages  # noqa: E402
 from hayate.students.features import page_input  # noqa: E402
 from hayate.students.hashed_infer import Tier1  # noqa: E402
@@ -69,6 +75,8 @@ def main() -> None:
     ap.add_argument("--splits", type=Path, default=Path("data/splits/splits-v1.parquet"))
     ap.add_argument("--out-dir", type=Path, default=Path("results"))
     ap.add_argument("--raw-dir", type=Path, default=Path("artifacts/bench"))
+    ap.add_argument("--reference", type=Path, help=f"default <out-dir>/{reference.FILE}")
+    ap.add_argument("--accept-reference", action="store_true", help="store the reading if busy")
     args = ap.parse_args()
 
     if args.cpus:
@@ -87,8 +95,21 @@ def main() -> None:
         ("decide", model.decide),
     ]
 
+    ref_docs = [page_input(r[1], r[2], r[3], r[4], reference.MAX_CHARS) for r in rows]
+
+    def time_reference(when: str) -> dict:
+        timed = time_stages(stages, ref_docs, reference.BATCH, reference.CALLS, args.warmup)
+        tot = summarize(timed, reference.BATCH, STAGES)["us_per_page_total"]
+        reading = {"p50_us_per_page": tot["p50"], "p99_us_per_page": tot["p99"]}
+        print(
+            f"reference (chars {reference.MAX_CHARS} batch {reference.BATCH}) {when}: per page "
+            f"p50 {tot['p50']:8.1f} us p99 {tot['p99']:8.1f} us"
+        )
+        return reading
+
     raw, configs = [], []
     with threadpool_limits(args.threads):
+        before = time_reference("before")
         pools = [
             {k: p.get(k) for k in ("user_api", "internal_api", "num_threads")}
             for p in threadpool_info()
@@ -124,14 +145,46 @@ def main() -> None:
                     f"chars {max_chars:5d} batch {batch:3d}: per page p50 {tot['p50']:8.1f} us "
                     f"p99 {tot['p99']:8.1f} us, {pooled['pages_per_s']:9.1f} pages/s"
                 )
+        after = time_reference("after")
+
+    stamp = provenance.stamp(
+        {k: str(v) if isinstance(v, Path) else v for k, v in vars(args).items()}, "bench_tier1"
+    )
+    sha = bundle_sha256(args.bundle)
+    args.out_dir.mkdir(exist_ok=True)
+    ref = reference.check(
+        args.reference or args.out_dir / reference.FILE,
+        reference.key("python", args.profile, sha),
+        before,
+        after,
+        args.accept_reference,
+        stamp["created"],
+        stamp["commit"],
+        f"{args.name}.json",
+    )
+    if ref["status"] == "busy":
+        print(
+            f"WARNING: reference {ref['slowdown']:.0%} slower than the last quiet run "
+            f"({ref['baseline']['source']}, {ref['baseline']['created']}): the machine looks "
+            "busy; this result is marked busy. Close heavy apps and rerun.",
+            file=sys.stderr,
+        )
+    elif ref["status"] == "no-baseline":
+        print(
+            "note: no quiet reference stored for this profile and bundle yet; this run's "
+            "reading is now the baseline",
+            file=sys.stderr,
+        )
+    else:
+        print(
+            f"reference check: quiet ({ref['slowdown']:+.1%} against {ref['baseline']['source']})"
+        )
 
     args.raw_dir.mkdir(parents=True, exist_ok=True)
     pq.write_table(pa.Table.from_pylist(raw), args.raw_dir / f"{args.name}.parquet")
     doc_chars = [len(page_input(r[1], r[2], r[3], r[4], 3000)) for r in rows]
     report = {
-        **provenance.stamp(
-            {k: str(v) if isinstance(v, Path) else v for k, v in vars(args).items()}, "bench_tier1"
-        ),
+        **stamp,
         "measures": "inference: extracted text to labels (no extraction, no fetch)",
         "profile": args.profile,
         "environment": {
@@ -149,8 +202,9 @@ def main() -> None:
                 else None
             ),
         },
+        "reference": ref,
         "model": {
-            "bundle_sha256": bundle_sha256(args.bundle),
+            "bundle_sha256": sha,
             "source_run": meta["source_run"],
             "source_commit": meta["source_commit"],
             "features": meta["features"],
@@ -174,7 +228,6 @@ def main() -> None:
         },
         "configs": configs,
     }
-    args.out_dir.mkdir(exist_ok=True)
     (args.out_dir / f"{args.name}.json").write_text(json.dumps(report, indent=1) + "\n")
 
 
