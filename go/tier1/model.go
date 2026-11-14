@@ -117,6 +117,13 @@ func Load(dir string) (*Model, error) {
 // counts (word features first, char features offset by WordN), 1 + log(tf), times the IDF, l2
 // normalized, all in float64, then cast to float32.
 func (m *Model) Featurize(doc string) Sparse {
+	idx, counts := m.Counts(doc)
+	return m.Weigh(idx, counts)
+}
+
+// Counts returns the hashed n-gram counts of one input string: sorted feature indices (word
+// features first, char features offset by WordN) and how often each occurs.
+func (m *Model) Counts(doc string) ([]int32, []float64) {
 	m.touched = m.touched[:0]
 	add := func(i int) {
 		if m.counts[i] == 0 {
@@ -129,13 +136,24 @@ func (m *Model) Featurize(doc string) Sparse {
 	m.charHashes(lower, func(h int32) { add(m.WordN + bucket(h, m.CharN)) })
 	idx := slices.Clone(m.touched)
 	slices.Sort(idx)
+	counts := make([]float64, len(idx))
+	for k, i := range idx {
+		counts[k] = m.counts[i]
+		m.counts[i] = 0
+	}
+	return idx, counts
+}
+
+// Weigh turns counts into TF-IDF features like scikit-learn's TfidfTransformer with
+// sublinear_tf and l2 norm: 1 + log(tf), times the IDF, l2 normalized, all in float64, then
+// cast to float32.
+func (m *Model) Weigh(idx []int32, counts []float64) Sparse {
 	vals := make([]float64, len(idx))
 	var sq float64
 	for k, i := range idx {
-		v := (math.Log(m.counts[i]) + 1) * m.IDF[i]
+		v := (math.Log(counts[k]) + 1) * m.IDF[i]
 		vals[k] = v
 		sq += v * v
-		m.counts[i] = 0
 	}
 	norm := math.Sqrt(sq)
 	out := Sparse{Idx: idx, Val: make([]float32, len(idx))}
@@ -146,6 +164,23 @@ func (m *Model) Featurize(doc string) Sparse {
 		out.Val[k] = float32(v)
 	}
 	return out
+}
+
+// FitIDF is scikit-learn's smoothed IDF over the given pages' feature indices:
+// ln((1 + n) / (1 + df)) + 1 for each of nFeatures features.
+func FitIDF(pages [][]int32, nFeatures int) []float64 {
+	df := make([]float64, nFeatures)
+	for _, idx := range pages {
+		for _, i := range idx {
+			df[i]++
+		}
+	}
+	n := float64(len(pages))
+	idf := make([]float64, nFeatures)
+	for i, d := range df {
+		idf[i] = math.Log((1+n)/(1+d)) + 1
+	}
+	return idf
 }
 
 // wordHashes hashes the word n-grams of an already lowercased document without building a
