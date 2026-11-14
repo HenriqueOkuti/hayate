@@ -45,7 +45,7 @@ This is an independent personal project, not affiliated with any company. Privat
 
 - Stack and how to run things: [docs/stack.md](docs/stack.md).
 - Record decisions in [docs/decisions/](docs/decisions/README.md). For a routine open choice inside an issue, pick the sensible default yourself and list the weighed alternatives under "Options considered" ([0005](docs/decisions/0005-page-sample.md) is the model). Ask Henrique before spending money (a paid run needs a budget in its decision record) or changing scope.
-- Run `make lint` before finishing; Markdown and Python must both pass.
+- Run `make lint` before finishing; Markdown and Python must both pass. When Go code changes, run `make go-test` too (gofmt, go vet and the tests in `go/`; CI's `go` check runs it and is required on `main`).
 - **No emojis anywhere:** docs, code, blog posts, commit messages, PR text. `make lint` and the edit hook enforce it (`.claude/hooks/no-emoji.sh`).
 - **No hard-wrapped prose:** write each paragraph and list item as one line, in Markdown files, issue and PR bodies, templates and commit message bodies. Never wrap at a fixed width, even next to old wrapped text. `make lint` and the edit hook enforce it for Markdown (`.claude/hooks/no-hard-wrap.py`); `make fix` unwraps.
 - Never commit page text, the IAB taxonomy file, data or model artifacts; `.gitignore` covers them.

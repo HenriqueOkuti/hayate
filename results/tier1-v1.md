@@ -10,13 +10,14 @@ The v0 student gave no label to 733 test pages, where the teacher gives none to 
 
 | Tier-2 micro F1 | Rule off | v1 rule | v1 minus off |
 | --- | --- | --- | --- |
-| Val, cross-fitted | 0.438 | 0.452 | in-sample +0.011 (0.002 to 0.020) |
+| Val, cross-fitted | 0.438 | 0.452 | in-sample +0.011 (0.002 to 0.020), optimistic since the floor was chosen on this val |
 | Test, against the teacher | 0.440 | 0.442 | +0.002 (-0.006 to 0.011) |
 
 - **At Tier 1, test:** 0.544 to 0.554, +0.010 (-0.001 to 0.021).
-- **Test precision and recall at Tier 2** move from 0.474 and 0.411 to 0.417 and 0.471: more labels, about as many of them right.
+- **Test precision and recall at Tier 2** move from 0.474 and 0.411 to 0.417 and 0.471: about 30% more labels and about 15% more correct ones, so precision falls by 5.7 points.
 - **Panel** (without Sonnet's vote, 285 and 296 pages): Tier-2 F1 0.408 (0.363 to 0.452), Tier-1 F1 0.556 (0.507 to 0.601). The teacher scores 0.771 and 0.875 on the same pages.
-- **"No topic":** the student now gives no label to 165 test pages, close to the teacher's 114, but the two sets barely overlap (precision 0.02, recall 0.04). The tier-1 student cannot tell which pages have no topic; the rule only fixes how often it says so.
+- **"No topic":** the student now gives no label to 165 test pages, close to the teacher's 114, but the two sets barely overlap (precision 0.02, recall 0.04), below what a random choice of 165 pages would give. v0 had some signal here (precision 0.13, recall 0.81, about twice the base rate); the rule throws it away, so v1 says "no topic" about as often as the teacher but cannot tell which pages have none.
+- **Intervals** resample pages, not domains (1,875 test pages on 1,602 domains), so they are slightly too narrow. The idea for the rule came from a test diagnostic in v0 (the 733 empty pages); the floor itself was chosen on val.
 
 ## Verdict
 

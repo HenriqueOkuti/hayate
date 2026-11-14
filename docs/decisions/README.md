@@ -4,7 +4,7 @@ One file per decision, `NNNN-short-title.md`, copied from [0000-template.md](000
 
 ## Accepted
 
-- [0001: Stack](0001-stack.md): Python for ML, TS/Go at the edges.
+- [0001: Stack](0001-stack.md): Python for ML, TS/Go at the edges; updated by 0012.
 - [0002: Label depth and scope](0002-label-depth.md): Tiers 1-2 (330 labels), Genres excluded, SCD nodes kept and flagged.
 - [0003: Teacher](0003-teacher.md): Sonnet 5.5 through headless `claude -p` on the Claude Code plan, prompt v2, Opus 5.5 as reference; publishing Claude-made labels still open.
 - [0004: Taxonomy prompting](0004-taxonomy-prompting.md): one flat pass with all 330 labels in the cached system prompt and a schema enum of ids; no hierarchical pass.

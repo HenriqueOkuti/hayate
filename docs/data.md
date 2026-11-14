@@ -45,7 +45,7 @@ The quality filters in cleaned corpora drop product and listing pages, which shi
 | resiliparse (Apache-2.0) | 0.859 | ~4.5 MB/s/core (8× faster), ~28 ms/page |
 
 - Extraction costs about 100× the sub-ms inference target, so it is **reported as its own stage**.
-- Choose between the two by **student F1**, not extraction F1.
+- Chosen by **student F1**, not extraction F1: trafilatura, with resiliparse as fallback ([decision 0006](decisions/0006-extractor.md)).
 - Also test **URL + title + meta description** as a near-free input. It doubles as the cache-miss fallback.
 
 ## Public labeled sets (sanity checks, never the reference)

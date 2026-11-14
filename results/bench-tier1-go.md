@@ -11,7 +11,7 @@ Before timing, `go/cmd/tier1-parity` ran the Go implementation on all 1,875 test
 ## Setup
 
 - **Same method as Python:** per configuration, 20 warm-up calls, then 3 trials of at least 2,000 pages (and at least 50 calls) each; every call timed per stage; nearest-rank percentiles on the raw calls.
-- **One thread:** `GOMAXPROCS=1`, and the timing goroutine locked to an OS thread pinned to one CPU (2 locally, 0 in the container).
+- **One thread:** `GOMAXPROCS=1`, and the timing goroutine locked to an OS thread pinned to one CPU (2 locally, 0 in the container). Only that thread is pinned; Go's runtime threads can still run on the container's second CPU.
 - **Local:** Go 1.27.1. **Small VPS:** Docker, 2 CPUs (`--cpuset-cpus=0,1`), 4 GB, a static binary built with Go 1.27.4 (the `golang:1.27` image).
 - **Code:** featurizing hashes each n-gram in place from byte ranges (no string per n-gram) into a reused count array; the forward pass adds one weight row per feature with gonum's assembly `Axpy`.
 - **Machine:** heavy apps closed, as for the Python quiet run. No reference check was built yet (decision 0008), so the two runs are comparable only as far as the desktop stayed equally quiet.
@@ -26,11 +26,13 @@ Per page, p50 / p99 in milliseconds, small-VPS profile:
 | 1,000 chars | 0.43 / 0.79 | 0.39 / 0.64 | 0.41 / 0.64 | 0.38 / 0.60 |
 | 3,000 chars | 0.62 / 1.75 | 0.65 / 1.06 | 0.62 / 0.83 | 0.57 / 0.72 |
 
-Local numbers are within a few percent of these. Against Python at the same settings, Go is 2.0 to 3.6 times faster at p50, most at batch 1 and short inputs, where Python's per-call overhead weighs most.
+Local p50 numbers are within 15% of these, and p99 up to about 50% apart (3,000 characters, batch 8: 1.59 ms locally, 1.06 ms on the small VPS). Against the quiet Python runs at the same settings, Go is 1.9 to 3.6 times faster at p50 on the small-VPS profile and 1.5 to 3.3 times locally, most at batch 1 and short inputs. The Python and Go runs were about 20 minutes apart with no reference check, and closing apps alone moved Python's p50 by 12 to 27%, so the ratios carry about that much uncertainty.
+
+Per-page numbers at batch 8 and above are per-call times divided by the batch size: a page in a batch of 128 waits for the whole call.
 
 **Where the time goes** (3,000 characters, batch 1, p50): featurizing 0.26 ms (Python 1.24 ms), forward pass 0.35 ms (Python 0.40 ms), decision under 0.01 ms. The forward pass is now the larger part: it reads about 2,700 rows of 317 floats from a 665 MB matrix per page, so memory access bounds it.
 
-**Tier 1 is sub-millisecond at p50** in every configuration, about 1,600 pages per second per thread at full input length. The p99 at batch 1 and 3,000 characters (1.75 ms) is a long tail, likely garbage collection and the longest pages.
+**Tier 1 is sub-millisecond at p50** in every configuration (at most 0.72 ms), and measured throughput at full input length and batch 1 is about 1,450 pages per second per thread (mean, not 1/p50). The p99 at batch 1 and 3,000 characters (1.75 ms) is a long tail, likely garbage collection and the longest pages.
 
 ## What next
 

@@ -23,7 +23,7 @@ Per page, p50 and p99 in milliseconds, small-VPS profile:
 | 1,000 chars | 1.30 / 2.08 | 0.86 / 1.20 | 0.78 / 1.10 | 0.74 / 0.87 |
 | 3,000 chars | 1.67 / 3.43 | 1.41 / 2.14 | 1.28 / 1.71 | 1.26 / 1.70 |
 
-The local profile is within about 5% of these at every setting (for example 1.63 / 3.23 ms at 3,000 characters and batch 1). At 3,000 characters and batch 1 that is about 600 pages per second per thread.
+The small-VPS profile is 3 to 13% slower than the local one at p50, and up to 28% at p99 (for example 1.63 / 3.23 ms locally at 3,000 characters and batch 1). At 3,000 characters and batch 1, measured throughput is about 550 pages per second per thread (mean, not 1/p50). Per-page numbers at batch 8 and above are per-call times divided by the batch size: a page in a batch of 128 waits for the whole call, about 160 ms at p50 for 3,000 characters.
 
 **Where the time goes** (3,000 characters, batch 1, p50, small VPS): tokenization (hashing and TF-IDF) 1.24 ms, forward pass 0.40 ms, decision 0.02 ms. Tokenization is three quarters of the cost: scikit-learn's `char_wb` analyzer builds every character n-gram as a Python string. The forward pass gathers about 2,700 rows of a 665 MB weight matrix per page.
 
@@ -31,9 +31,9 @@ The local profile is within about 5% of these at every setting (for example 1.63
 
 ## Busy against quiet
 
-Closing heavy apps made every configuration faster by about 20% at both p50 and p99, in both profiles (range 12% to 34%). At 3,000 characters and batch 1 on the small VPS: 2.22 / 5.16 ms busy, 1.67 / 3.43 ms quiet.
+Closing heavy apps made every configuration faster: by 12 to 27% at p50 (median about 21%) and by 4 to 34% at p99. At 3,000 characters and batch 1 on the small VPS: 2.22 / 5.16 ms busy, 1.67 / 3.43 ms quiet. This is one pair of runs, busy first and quiet a few minutes later, so the condition is confounded with time; it is evidence of a slowdown, not a measured 20% effect.
 
-- **The trial spread did not show it.** Within each run the three trials agreed closely (the p50 spread was usually under 50 microseconds per page busy and quiet alike), so a busy desktop slows every trial by the same amount. A run cannot tell on its own that it ran busy; it has to be compared with a known reference.
+- **The trial spread did not reliably show it.** Locally the three trials agreed about as closely busy as quiet. On the small-VPS profile the spread was wider when busy in 9 of 12 configurations (at 3,000 characters and batch 1 the p99 ranged 4.4 to 6.1 ms busy, 3.37 to 3.44 ms quiet), but not by a margin a run could use to flag itself. A run has to be compared with a known reference.
 - **The forward pass suffers most:** 0.70 ms busy against 0.40 ms quiet locally (-42%), against -15% for tokenization. Gathering rows of a 665 MB matrix depends on cache and memory bandwidth, which other apps share.
 - Whether the Windows power mode also changed between the runs was not recorded, so the difference is "heavy apps closed, possibly with the power mode".
 

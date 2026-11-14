@@ -83,6 +83,12 @@ uv run python scripts/<step>.py --config configs/<step>.toml
 uv run pytest
 make lint                    # markdownlint + ruff check + ruff format --check
 make fix                     # auto-fix what can be fixed
+make go-test                 # gofmt, go vet, go test in go/
+make go-parity               # Go tier 1 against the Python reference
+make bench-go-local          # Go tier-1 benchmark, pinned local run
+make bench-go-vps            # same in the Docker small-VPS profile
+make bench-local             # Python reference benchmark, local
+make bench-vps               # Python reference benchmark, small VPS
 npm install                  # once, for the Markdown linter
 ```
 

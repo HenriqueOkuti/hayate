@@ -47,6 +47,7 @@ Commit and PR bodies say what changed and why, one line per paragraph or list it
 | --- | --- | --- |
 | `lint` | Every PR and push to `main` | `make lint`: markdownlint, ruff, no emojis, no hard wrapping |
 | `test` | Every PR and push to `main` | `uv sync --locked` and `uv run pytest`: the Python tests pass against the committed `uv.lock` |
+| `go` | Every PR and push to `main` | `make go-test`: gofmt, go vet and the Go tests in `go/` pass |
 | `site` | Every PR and push to `main` | The blog in `site/` builds (`npm ci && npm run build`) |
 | `conventions` | Every PR | Branch name, PR title, `Closes #N`, no emojis or Claude attribution in the title, body or commits (`.github/scripts/check-pr.sh`) |
 
