@@ -1,0 +1,44 @@
+references: hayate-base.png hayate-sheet.png
+generated: 2026-11-14T12:34:14Z with codex exec (OpenAI image generation)
+
+CHARACTER CANON (Hayate). The attached hayate-base.png and hayate-sheet.png are the authority for her face, proportions, outfit and colors. Draw exactly this character; do not redesign her.
+
+Style: contemporary Japanese anime character art, crisp controlled linework, appealing consistent facial features, expressive eyes, clean anatomy, flat colors with restrained cel shading, polished but not over-rendered.
+
+Body: a tall, slender, athletic young adult woman, long limbs, narrow waist, subtle believable muscle, built for speed and agility, not bulk. Keep the slim proportions of hayate-base.png; do not exaggerate hips or bust.
+
+Hair: vibrant cyan, thick, wild and deliberately messy, uneven spiky locks framing the face, a few rebellious strands. A medium-length messy ponytail tied high on the back of the head with a small orange hair tie.
+
+Face: vivid cyan-blue eyes, slightly narrowed and mischievous. Signature expression: a playful, asymmetrical smug grin showing one small pointed canine fang. Natural skin with a subtle warm blush.
+
+Outfit (identical in every image):
+- Fitted cyan zip-up track jacket, stand-up collar, white central zipper, exactly two white stripes down each sleeve, both sleeves pushed up to just below the elbow, forearms bare. A plain white undershirt shows at the open neckline.
+- Matching cyan track pants, relaxed athletic cut, exactly two white stripes down each outer seam, cuffed ankles.
+- Vivid orange scarf, loosely wrapped, with fringed (tasseled) ends.
+- Lightweight running sneakers: white base, cyan panels, orange laces and orange sole accents.
+
+Palette: cyan (primary), white (stripes, zipper, sneakers, undershirt), orange (scarf, hair tie, laces). No other dominant colors.
+
+Never: other outfits or hairstyles, extra accessories, logos, watermarks, signatures, or text unless the scene asks for it.
+
+Background: simple and calm, never busy. A soft flat color or gentle gradient, at most one or two large simple shapes that support the scene. No furnished rooms, clutter, crowds of objects or detailed scenery. She and the one key prop are the focus.
+
+SCENE:
+Pose: Hayate-chan sprinting to the right in a three-quarter view, full body, mid-stride with one foot off the ground, ponytail and scarf ends streaming behind her from the speed. Her right arm is stretched forward, holding up a large round silver stopwatch toward the viewer, its single hand only just past the top, as if she has barely started and is already done. The stopwatch face is plain white with a few tick marks: no numbers, no letters, no logos. Her expression is the smug grin from the reference sheet: half-lidded confident eyes, a one-sided smirk, fang visible, glancing at the viewer.
+
+Framing: landscape 3:2, she fills about three quarters of the height, the whole body and the stopwatch clearly visible, a little empty space ahead of her in the running direction.
+
+Background: a soft, flat pale-cyan to white gradient with one large, faint pale-orange circle behind her. Nothing else: no ground details, no furniture, no floating objects, no speed-line clutter, no text.
+
+The references are on white only to show the design; use the simple background the scene describes. Save the result as weekend-05.png in the current folder.
+
+---
+Codex rewrote this into the prompt it gave its image tool, saved here as it wrote it:
+
+Create a landscape 3:2 anime illustration. The two input images are character-design references for Hayate, authoritative for face, proportions, outfit and colors; do not redesign her.
+Contemporary Japanese anime art, crisp controlled linework, expressive consistent facial features, clean anatomy, flat colors and restrained cel shading, polished not over-rendered.
+Hayate is a tall slender athletic young adult woman with long limbs, narrow waist, subtle muscle, slim reference proportions without exaggerated hips or bust. Vibrant cyan thick wild messy hair with uneven spiky face-framing locks and rebellious strands; medium-length messy high ponytail with small orange hair tie. Vivid cyan-blue half-lidded confident eyes, subtle warm blush, playful asymmetrical smug grin showing one small pointed canine fang.
+Identical reference outfit: fitted cyan track jacket with stand-up collar, white central zipper and EXACTLY TWO white stripes down each sleeve. Both sleeves pushed to just below elbows, bare forearms. Plain white undershirt visible at open neckline. Matching relaxed cyan athletic track pants with exactly two white stripes each outer seam and cuffed ankles. Vivid orange loosely wrapped scarf with fringed ends. White running sneakers with cyan panels, orange laces and orange sole accents.
+Scene: sprinting toward the RIGHT in three-quarter view, full body mid-stride with one foot off ground. Dynamic long-limbed running pose, ponytail and fringed scarf ends streaming behind to left. Her anatomical RIGHT arm stretched forward holding up a large round SILVER STOPWATCH toward viewer, face clearly visible, plain white dial with a few tick marks, exactly ONE hand pointing only just clockwise past the top (near 12:01), NO numbers letters logos or subdials. She glances at viewer with signature half-lidded smug one-sided grin and visible small fang, as if barely started and already finished.
+Framing: landscape 3:2, entire character including all hair, scarf, both sneakers and stopwatch visible with comfortable margins; she fills about three quarters of canvas height, some empty space ahead toward right.
+Background: soft pale-cyan to white gradient with ONE large faint pale-orange circle behind her. No ground details, scenery, furniture, floating objects, speed lines, text, logos, watermark, signature, extra accessories. Preserve the references' character identity.
