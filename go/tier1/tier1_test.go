@@ -1,6 +1,7 @@
 package tier1
 
 import (
+	"math"
 	"reflect"
 	"slices"
 	"testing"
@@ -157,5 +158,34 @@ func TestWarmPathDoesNotAllocate(t *testing.T) {
 	run() // grow the buffers
 	if n := testing.AllocsPerRun(20, run); n != 0 {
 		t.Errorf("warm featurize, forward and decide allocate %.1f times per run", n)
+	}
+}
+
+func TestForwardInt8MatchesDequantized(t *testing.T) {
+	m := synthetic()
+	nl := len(m.Labels)
+	nf := len(m.W) / nl
+	q := make([]int8, len(m.W))
+	scale := make([]float32, nf)
+	deq := make([]float32, len(m.W))
+	for r := range nf {
+		scale[r] = float32(r%7+1) / 1000
+		for j := range nl {
+			q[r*nl+j] = int8((r*31+j*17)%255 - 127)
+			deq[r*nl+j] = scale[r] * float32(q[r*nl+j])
+		}
+	}
+	fl := synthetic()
+	fl.W = deq
+	qm := synthetic()
+	qm.W, qm.Q, qm.Scale = nil, q, scale
+	for _, d := range docs {
+		x := fl.Featurize(d)
+		a, b := fl.Forward(x, nil), qm.Forward(x, nil)
+		for j := range a {
+			if math.Abs(float64(a[j]-b[j])) > 1e-6 {
+				t.Fatalf("%q label %d: float %v, int8 %v", d, j, a[j], b[j])
+			}
+		}
 	}
 }

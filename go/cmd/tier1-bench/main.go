@@ -361,7 +361,11 @@ func environment() map[string]any {
 
 func bundleSHA(dir string) string {
 	h := sha256.New()
-	for _, f := range []string{"weights.npy", "bias.npy", "meta.json"} {
+	files := []string{"weights.npy", "bias.npy", "meta.json"}
+	if _, err := os.Stat(filepath.Join(dir, "weights_int8.npy")); err == nil {
+		files = []string{"weights_int8.npy", "scales.npy", "bias.npy", "meta.json"}
+	}
+	for _, f := range files {
 		b, err := os.ReadFile(filepath.Join(dir, f))
 		check(err)
 		h.Write(b)

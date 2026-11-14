@@ -48,7 +48,9 @@ type Model struct {
 	CharMin, CharMax int
 	MaxChars         int
 	IDF              []float64
-	W                []float32 // features x labels, row-major
+	W                []float32 // features x labels, row-major (nil for an int8 bundle)
+	Q                []int8    // int8 bundle: features x labels, row-major; weight = Scale[row] * Q
+	Scale            []float32 // int8 bundle: one scale per feature row
 	Bias             []float32
 	Labels           []string
 	Temperature      float32
@@ -88,8 +90,20 @@ func Load(dir string) (*Model, error) {
 	if err != nil {
 		return nil, err
 	}
-	w, shape, err := ReadFloat32(filepath.Join(dir, "weights.npy"))
-	if err != nil {
+	var w, scale []float32
+	var q []int8
+	var shape []int
+	if _, err := os.Stat(filepath.Join(dir, "weights_int8.npy")); err == nil {
+		if q, shape, err = ReadInt8(filepath.Join(dir, "weights_int8.npy")); err != nil {
+			return nil, err
+		}
+		if scale, _, err = ReadFloat32(filepath.Join(dir, "scales.npy")); err != nil {
+			return nil, err
+		}
+		if len(shape) == 2 && len(scale) != shape[0] {
+			return nil, fmt.Errorf("%d scales for %d weight rows", len(scale), shape[0])
+		}
+	} else if w, shape, err = ReadFloat32(filepath.Join(dir, "weights.npy")); err != nil {
 		return nil, err
 	}
 	bias, _, err := ReadFloat32(filepath.Join(dir, "bias.npy"))
@@ -106,7 +120,7 @@ func Load(dir string) (*Model, error) {
 		WordN: f.Word.NFeatures, CharN: f.Char.NFeatures,
 		WordMin: f.Word.NgramRange[0], WordMax: f.Word.NgramRange[1],
 		CharMin: f.Char.NgramRange[0], CharMax: f.Char.NgramRange[1],
-		MaxChars: m.MaxChars, IDF: idf, W: w, Bias: bias, Labels: m.LabelIDs,
+		MaxChars: m.MaxChars, IDF: idf, W: w, Q: q, Scale: scale, Bias: bias, Labels: m.LabelIDs,
 		Temperature: float32(m.Temperature), Thresholds: m.Thresholds, MaxLabels: m.MaxLabels,
 		counts: make([]float64, nf), touched: make([]int32, 0, 8192),
 		buf: make([]byte, 0, 256), offs: make([]int, 0, 256),
@@ -305,9 +319,13 @@ func (m *Model) Forward(x Sparse, out []float32) []float32 {
 	}
 	out = out[:nl]
 	clear(out)
-	y := blas32.Vector{N: nl, Data: out, Inc: 1}
-	for k, i := range x.Idx {
-		blas32.Axpy(x.Val[k], blas32.Vector{N: nl, Data: m.W[int(i)*nl : int(i)*nl+nl], Inc: 1}, y)
+	if m.Q != nil {
+		m.forwardInt8(x, out)
+	} else {
+		y := blas32.Vector{N: nl, Data: out, Inc: 1}
+		for k, i := range x.Idx {
+			blas32.Axpy(x.Val[k], blas32.Vector{N: nl, Data: m.W[int(i)*nl : int(i)*nl+nl], Inc: 1}, y)
+		}
 	}
 	for j := range out {
 		z := (out[j] + m.Bias[j]) / m.Temperature
@@ -315,6 +333,30 @@ func (m *Model) Forward(x Sparse, out []float32) []float32 {
 		out[j] = float32(1 / (1 + math.Exp(-float64(z))))
 	}
 	return out
+}
+
+// forwardInt8 adds each feature's int8 row, scaled by value times row scale, to out: a quarter
+// of the bytes of a float32 row, converted in plain Go (no SIMD), four lanes at a time.
+func (m *Model) forwardInt8(x Sparse, out []float32) {
+	nl := len(out)
+	for k, i := range x.Idx {
+		a := x.Val[k] * m.Scale[i]
+		if a == 0 {
+			continue
+		}
+		row := m.Q[int(i)*nl : int(i)*nl+nl]
+		o := out[:len(row)]
+		j := 0
+		for ; j+4 <= len(row); j += 4 {
+			o[j] += a * float32(row[j])
+			o[j+1] += a * float32(row[j+1])
+			o[j+2] += a * float32(row[j+2])
+			o[j+3] += a * float32(row[j+3])
+		}
+		for ; j < len(row); j++ {
+			o[j] += a * float32(row[j])
+		}
+	}
 }
 
 // Decide returns the labels at or above their threshold, most probable first, at most

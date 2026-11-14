@@ -2,7 +2,8 @@
 
 A bundle (written by scripts/export_tier1.py) is a directory with:
 - featurizer.joblib: the fitted hayate.students.hashed.Featurizer (hashing parameters, IDF);
-- weights.npy (features x labels, float32) and bias.npy (labels);
+- weights.npy (features x labels, float32), or for an int8 bundle (scripts/quantize_tier1.py)
+  weights_int8.npy and scales.npy (one per feature row), dequantized on load; bias.npy (labels);
 - meta.json: label ids, temperature, per-label thresholds, top-1 floor, max labels.
 The stages are separate methods so the benchmark can time tokenization (`featurize`), the
 forward pass (`forward`) and the decision (`decide`) apart (docs/measurement.md).
@@ -15,6 +16,14 @@ from pathlib import Path
 import joblib
 import numpy as np
 import scipy.sparse as sp
+
+
+def load_weights(path: Path) -> np.ndarray:
+    """Float32 weights; an int8 bundle's are dequantized (scale per row times the int8 value)."""
+    if (path / "weights_int8.npy").exists():
+        q = np.load(path / "weights_int8.npy")
+        return q.astype(np.float32) * np.load(path / "scales.npy")[:, None]
+    return np.load(path / "weights.npy")
 
 
 @dataclass
@@ -33,7 +42,7 @@ class Tier1:
         meta = json.loads((path / "meta.json").read_text())
         return cls(
             featurizer=joblib.load(path / "featurizer.joblib"),
-            weights=np.load(path / "weights.npy"),
+            weights=load_weights(path),
             bias=np.load(path / "bias.npy"),
             label_ids=meta["label_ids"],
             temperature=meta["temperature"],
