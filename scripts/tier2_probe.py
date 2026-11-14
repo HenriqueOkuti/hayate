@@ -15,6 +15,7 @@ gets the same head and tuning; only the tokenizer and the embedding table change
   vocabulary is one token, any other word is split by the Unigram model alone;
 - wordonly: the same, but words outside the vocabulary are dropped, so the table holds only the
   vocabulary's rows.
+No variant truncates: every page's whole input (3,000 characters of text) is tokenized.
 The head is one linear layer to the label set, trained with binary cross-entropy and Adam
 (epsilon 1e-7) on the train pages, the learning rate and epoch chosen by val loss; then one
 temperature and per-label thresholds as in scripts/train_tier1.py, scored cross-fitted on val
@@ -222,6 +223,7 @@ def main() -> None:
         t0 = time.time()
         m = model({"potion": "potion", "distill": "plain"}.get(variant, "words"))
         emb = np.asarray(m.embedding, dtype=np.float32)
+        m.tokenizer.no_truncation()  # potion's tokenizer.json truncates at 512 tokens; use it all
         stats = {}
         if variant in ("potion", "distill"):
 

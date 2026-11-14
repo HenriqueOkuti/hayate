@@ -38,6 +38,7 @@ def main() -> None:
     vocab = json.loads((args.art / "vocab.json").read_text())
     (args.art / "words" / "vocab.txt").write_text("\n".join(vocab) + "\n")
     potion = StaticModel.from_pretrained(args.potion)
+    potion.tokenizer.no_truncation()  # its tokenizer.json truncates at 512 tokens
     words = StaticModel.from_pretrained(str(args.art / "words"))
     wf = probe.WordFirst(words.tokenizer, vocab, fallback=True)
     wo = probe.WordFirst(words.tokenizer, vocab, fallback=False)

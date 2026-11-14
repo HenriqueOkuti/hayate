@@ -1,0 +1,112 @@
+{
+ "commit": "0166b8ed3a1b0019c3502c40a18446967db9eb93",
+ "created": "2026-11-14T14:38:48Z",
+ "go": "go1.27.1",
+ "gomaxprocs": 1,
+ "measures": "tier-2 inference: input string to logits, batch 1, one thread",
+ "pages": 500,
+ "pinned_cpu": 2,
+ "trials": 3,
+ "variants": {
+  "potion-map": {
+   "first_mismatch_page": 1,
+   "same_ids_as_python": 306,
+   "tokens_per_page_p50": 367,
+   "us_per_page_head": {
+    "p50": 9.8,
+    "p90": 17.1,
+    "p99": 37.5
+   },
+   "us_per_page_pool": {
+    "p50": 69.1,
+    "p90": 147.9,
+    "p99": 223.9
+   },
+   "us_per_page_tokenize": {
+    "p50": 2334,
+    "p90": 5427.9,
+    "p99": 8747.9
+   },
+   "us_per_page_total": {
+    "p50": 2414.3,
+    "p90": 5600.4,
+    "p99": 8993.6
+   }
+  },
+  "potion-trie": {
+   "first_mismatch_page": 1,
+   "same_ids_as_python": 306,
+   "tokens_per_page_p50": 367,
+   "us_per_page_head": {
+    "p50": 5.8,
+    "p90": 8.4,
+    "p99": 14.7
+   },
+   "us_per_page_pool": {
+    "p50": 58.7,
+    "p90": 127.9,
+    "p99": 182.9
+   },
+   "us_per_page_tokenize": {
+    "p50": 268.7,
+    "p90": 596.7,
+    "p99": 795.6
+   },
+   "us_per_page_total": {
+    "p50": 334.6,
+    "p90": 727.7,
+    "p99": 955.4
+   }
+  },
+  "wordfirst": {
+   "first_mismatch_page": -1,
+   "same_ids_as_python": 500,
+   "tokens_per_page_p50": 263,
+   "us_per_page_head": {
+    "p50": 5.1,
+    "p90": 8.3,
+    "p99": 14.7
+   },
+   "us_per_page_pool": {
+    "p50": 35.2,
+    "p90": 79.3,
+    "p99": 108.7
+   },
+   "us_per_page_tokenize": {
+    "p50": 47.8,
+    "p90": 117.8,
+    "p99": 267.9
+   },
+   "us_per_page_total": {
+    "p50": 91.4,
+    "p90": 202.3,
+    "p99": 357.1
+   }
+  },
+  "wordonly": {
+   "first_mismatch_page": -1,
+   "same_ids_as_python": 500,
+   "tokens_per_page_p50": 212,
+   "us_per_page_head": {
+    "p50": 4.7,
+    "p90": 7.2,
+    "p99": 13.9
+   },
+   "us_per_page_pool": {
+    "p50": 25.8,
+    "p90": 60.8,
+    "p99": 83.9
+   },
+   "us_per_page_tokenize": {
+    "p50": 20.6,
+    "p90": 43.7,
+    "p99": 77.5
+   },
+   "us_per_page_total": {
+    "p50": 52.2,
+    "p90": 110.8,
+    "p99": 158.5
+   }
+  }
+ }
+}

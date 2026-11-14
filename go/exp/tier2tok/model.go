@@ -270,3 +270,6 @@ func (w *WordFirst) Encode(text string, dst []int32, s *Scratch, buf []byte) ([]
 	}
 	return dst, buf
 }
+
+// Normalize applies the model's normalizer chain.
+func (m *Static) Normalize(text string) string { return m.normalize(text) }

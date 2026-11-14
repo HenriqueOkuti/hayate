@@ -1,0 +1,147 @@
+{
+ "step": "tier2_probe",
+ "commit": "0166b8ed3a1b0019c3502c40a18446967db9eb93",
+ "created": "2026-11-14T14:38:32+00:00",
+ "config": {
+  "variants": [
+   "potion",
+   "distill",
+   "wordfirst",
+   "wordonly"
+  ],
+  "vocab_size": 100000,
+  "min_df": 3,
+  "max_chars": 3000,
+  "lrs": [
+   0.001,
+   0.003,
+   0.01,
+   0.03
+  ],
+  "potion": "minishlab/potion-multilingual-128M",
+  "teacher": "BAAI/bge-m3",
+  "labels_run": "bulk-v2",
+  "splits": "data/splits/splits-v1.parquet",
+  "pages": "data/pages/pages.parquet",
+  "art": "artifacts/tier2-probe",
+  "out": "results/tier2-probe-v0.json"
+ },
+ "pages": {
+  "train": 16192,
+  "val": 1933
+ },
+ "labels": 317,
+ "vocabulary_words": 54166,
+ "note": "val only; cross-fitted thresholds, no top-label floor; test never read",
+ "variants": {
+  "potion": {
+   "val_f1_cross": 0.4992,
+   "min_support": 1000000000,
+   "temperature": 1.0,
+   "val_bce": 0.010852,
+   "lr": 0.003,
+   "best_epoch": 90,
+   "table_rows": 500353,
+   "dims": 256,
+   "table_mb_float32": 512.4,
+   "val_tokens_per_page_p50": 409.0,
+   "seconds": 48.3
+  },
+  "distill": {
+   "val_f1_cross": 0.4393,
+   "min_support": 1000000000,
+   "temperature": 1.0,
+   "val_bce": 0.012438,
+   "lr": 0.003,
+   "best_epoch": 144,
+   "table_rows": 249999,
+   "dims": 256,
+   "table_mb_float32": 256.0,
+   "val_tokens_per_page_p50": 415.0,
+   "seconds": 42.4
+  },
+  "wordfirst": {
+   "val_f1_cross": 0.4736,
+   "min_support": 50,
+   "temperature": 1.0,
+   "val_bce": 0.011333,
+   "lr": 0.003,
+   "best_epoch": 139,
+   "vocab_words_in_table": 54166,
+   "val_word_coverage": 0.9307,
+   "table_rows": 293188,
+   "dims": 256,
+   "table_mb_float32": 300.2,
+   "val_tokens_per_page_p50": 295.0,
+   "seconds": 25.0
+  },
+  "wordonly": {
+   "val_f1_cross": 0.4801,
+   "min_support": 1000000000,
+   "temperature": 1.0,
+   "val_bce": 0.011503,
+   "lr": 0.003,
+   "best_epoch": 139,
+   "vocab_words_in_table": 54166,
+   "val_word_coverage": 0.9307,
+   "table_rows": 54166,
+   "dims": 256,
+   "table_mb_float32": 55.5,
+   "val_tokens_per_page_p50": 244.0,
+   "seconds": 26.4
+  }
+ },
+ "val_minus_potion_paired": {
+  "distill": {
+   "pages": 1933,
+   "tier2": {
+    "value": -0.06,
+    "ci95": [
+     -0.073,
+     -0.047
+    ]
+   },
+   "tier1": {
+    "value": -0.056,
+    "ci95": [
+     -0.069,
+     -0.043
+    ]
+   }
+  },
+  "wordfirst": {
+   "pages": 1933,
+   "tier2": {
+    "value": -0.026,
+    "ci95": [
+     -0.039,
+     -0.012
+    ]
+   },
+   "tier1": {
+    "value": -0.024,
+    "ci95": [
+     -0.038,
+     -0.01
+    ]
+   }
+  },
+  "wordonly": {
+   "pages": 1933,
+   "tier2": {
+    "value": -0.019,
+    "ci95": [
+     -0.033,
+     -0.006
+    ]
+   },
+   "tier1": {
+    "value": -0.014,
+    "ci95": [
+     -0.028,
+     -0.0
+    ]
+   }
+  }
+ }
+}
