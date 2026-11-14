@@ -48,7 +48,7 @@ These are added to `pyproject.toml` when first used, not up front.
 | Data | `duckdb`, `pyarrow`, `httpx`, `warcio`/`fastwarc`, `trafilatura`, `resiliparse`, `datasets` | DuckDB queries the Common Crawl Parquet index and our own files with SQL. httpx does range reads. Both extractors get compared. |
 | Teacher (local) | **Ollama** for the pilot; **vLLM** only if bulk throughput needs it | Ollama: one-command install, JSON-schema `format`, OpenAI-compatible API. vLLM: much higher batch throughput, xgrammar-constrained decoding. Both run on the 4070 under WSL2. |
 | Teacher (API) | `anthropic` SDK (Message Batches + structured outputs) | 50% batch discount and schema-valid output |
-| Tier 1 | `scikit-learn` | `HashingVectorizer` + linear models, maintained (unlike fastText) |
+| Tier 1 | `scikit-learn`, `torch` | `HashingVectorizer` and TF-IDF features; one linear layer over all labels trained on the GPU ([decision 0007](decisions/0007-tier1-implementation.md)) |
 | Tier 2 | `model2vec`, `sentence-transformers` | Static embedding models and distillation |
 | Tier 3 | `torch` (CUDA), `transformers`, `sentence-transformers` | Fine-tune on the GPU |
 | Export + CPU inference | `optimum`, `onnxruntime` (+ `openvino` to compare) | ONNX int8 for CPU |
