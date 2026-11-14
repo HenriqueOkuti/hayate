@@ -10,6 +10,7 @@ package tier1
 import (
 	"strings"
 	"unicode"
+	"unicode/utf8"
 )
 
 // isSpace matches Python's str.isspace: Unicode White_Space plus the four information
@@ -170,4 +171,45 @@ func CharWbNgrams(doc string, minN, maxN int, emit func(string)) {
 			}
 		}
 	}
+}
+
+// lowerAppend appends Lower(s) to dst, reusing the model's rune scratch.
+func (m *Model) lowerAppend(dst []byte, s string) []byte {
+	ascii := true
+	for i := 0; i < len(s); i++ {
+		if s[i] >= 0x80 {
+			ascii = false
+			break
+		}
+	}
+	if ascii {
+		for i := 0; i < len(s); i++ {
+			c := s[i]
+			if 'A' <= c && c <= 'Z' {
+				c += 'a' - 'A'
+			}
+			dst = append(dst, c)
+		}
+		return dst
+	}
+	rs := m.runes[:0]
+	for _, r := range s {
+		rs = append(rs, r)
+	}
+	m.runes = rs
+	for i, r := range rs {
+		switch {
+		case r == 0x130:
+			dst = append(dst, "i̇"...)
+		case r == 0x3a3:
+			if finalSigma(rs, i) {
+				dst = utf8.AppendRune(dst, 0x3c2)
+			} else {
+				dst = utf8.AppendRune(dst, 0x3c3)
+			}
+		default:
+			dst = utf8.AppendRune(dst, unicode.ToLower(r))
+		}
+	}
+	return dst
 }

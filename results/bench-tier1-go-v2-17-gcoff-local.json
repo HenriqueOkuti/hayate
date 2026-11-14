@@ -1,0 +1,239 @@
+{
+ "commit": "787c27552b7201f30f194e0d76abd53ca1cb3318",
+ "config": {
+  "batches": [
+   1
+  ],
+  "bundle": "../artifacts/tier1-v2-17/cpu",
+  "max_chars": [
+   500,
+   3000
+  ],
+  "min_calls": 50,
+  "pages_per_config": 2000,
+  "reference_bundle": "../artifacts/tier1-v2/cpu",
+  "reuse": true,
+  "trials": 3,
+  "warmup": 20
+ },
+ "configs": [
+  {
+   "batch": 1,
+   "calls": 6000,
+   "max_chars": 500,
+   "memory": {
+    "allocs_per_page": 0.12,
+    "bytes_per_page": 426.1,
+    "gc_cycles": 0
+   },
+   "pages_per_s": 4012.6,
+   "trial_spread_us_per_page": {
+    "p50": [
+     231.467,
+     250.894
+    ],
+    "p99": [
+     501.897,
+     558.418
+    ]
+   },
+   "us_per_call_decide": {
+    "max": 52.981,
+    "mean": 0.40109899999999976,
+    "p50": 0.36,
+    "p90": 0.527,
+    "p99": 0.857
+   },
+   "us_per_call_featurize": {
+    "max": 1611.686,
+    "mean": 92.0538083333333,
+    "p50": 89.067,
+    "p90": 117.348,
+    "p99": 213.436
+   },
+   "us_per_call_forward": {
+    "max": 1861.319,
+    "mean": 156.76076716666654,
+    "p50": 151.275,
+    "p90": 206.913,
+    "p99": 339.243
+   },
+   "us_per_call_total": {
+    "max": 3473.653,
+    "mean": 249.21567449999927,
+    "p50": 242.446,
+    "p90": 323.552,
+    "p99": 542.38
+   },
+   "us_per_page_decide": {
+    "max": 52.98,
+    "mean": 0.4,
+    "p50": 0.36,
+    "p90": 0.53,
+    "p99": 0.86
+   },
+   "us_per_page_featurize": {
+    "max": 1611.69,
+    "mean": 92.05,
+    "p50": 89.07,
+    "p90": 117.35,
+    "p99": 213.44
+   },
+   "us_per_page_forward": {
+    "max": 1861.32,
+    "mean": 156.76,
+    "p50": 151.28,
+    "p90": 206.91,
+    "p99": 339.24
+   },
+   "us_per_page_total": {
+    "max": 3473.65,
+    "mean": 249.22,
+    "p50": 242.45,
+    "p90": 323.55,
+    "p99": 542.38
+   }
+  },
+  {
+   "batch": 1,
+   "calls": 6000,
+   "max_chars": 3000,
+   "memory": {
+    "allocs_per_page": 0.25,
+    "bytes_per_page": 303.5,
+    "gc_cycles": 0
+   },
+   "pages_per_s": 1645.6,
+   "trial_spread_us_per_page": {
+    "p50": [
+     515.853,
+     571.697
+    ],
+    "p99": [
+     1406.068,
+     1856.729
+    ]
+   },
+   "us_per_call_decide": {
+    "max": 8.852,
+    "mean": 0.44692133333333445,
+    "p50": 0.403,
+    "p90": 0.607,
+    "p99": 1.076
+   },
+   "us_per_call_featurize": {
+    "max": 36501.264,
+    "mean": 234.4732105,
+    "p50": 202.494,
+    "p90": 410.793,
+    "p99": 562.172
+   },
+   "us_per_call_forward": {
+    "max": 16240.566,
+    "mean": 372.7727968333336,
+    "p50": 327.428,
+    "p90": 663.44,
+    "p99": 1080.846
+   },
+   "us_per_call_total": {
+    "max": 36746.889,
+    "mean": 607.6929286666658,
+    "p50": 533.063,
+    "p90": 1076.468,
+    "p99": 1614.804
+   },
+   "us_per_page_decide": {
+    "max": 8.85,
+    "mean": 0.45,
+    "p50": 0.4,
+    "p90": 0.61,
+    "p99": 1.08
+   },
+   "us_per_page_featurize": {
+    "max": 36501.26,
+    "mean": 234.47,
+    "p50": 202.49,
+    "p90": 410.79,
+    "p99": 562.17
+   },
+   "us_per_page_forward": {
+    "max": 16240.57,
+    "mean": 372.77,
+    "p50": 327.43,
+    "p90": 663.44,
+    "p99": 1080.85
+   },
+   "us_per_page_total": {
+    "max": 36746.89,
+    "mean": 607.69,
+    "p50": 533.06,
+    "p90": 1076.47,
+    "p99": 1614.8
+   }
+  }
+ ],
+ "created": "2026-11-14T14:16:25Z",
+ "environment": {
+  "cgroup_cpu_max": "max 100000",
+  "cpu": {
+   "affinity": "2",
+   "isa": [
+    "sse4_2",
+    "avx",
+    "avx2",
+    "fma",
+    "avx_vnni"
+   ],
+   "logical_cpus": 1,
+   "model": "13th Gen Intel(R) Core(TM) i7-13700F",
+   "os": "linux/amd64"
+  },
+  "go": "go1.27.1",
+  "gogc": "off",
+  "gomaxprocs": 1,
+  "memory_limit": 9223372036854775807,
+  "pinned_thread_cpu": 2
+ },
+ "inputs": {
+  "pages": 1875,
+  "split": "test (component split)"
+ },
+ "measures": "inference: extracted text to labels (no extraction, no fetch)",
+ "model": {
+  "bundle_sha256": "558bc953f42344bf382a2e59b5aeee79f93274adbc735aaf16b72ad09ed98fa4",
+  "dtype": "float32",
+  "features": 262144,
+  "labels": 317,
+  "quantization": null,
+  "taxonomy_sha256": "7212cdc496ba347a03e703b1932bdcdd4fd29089b058f4edeb4d3da1f1222ea7"
+ },
+ "profile": "local-1thread",
+ "reference": {
+  "config": {
+   "batch": 1,
+   "calls": 2000,
+   "max_chars": 3000
+  },
+  "before": {
+   "p50_us_per_page": 535.79,
+   "p99_us_per_page": 1448.02
+  },
+  "after": {
+   "p50_us_per_page": 553.76,
+   "p99_us_per_page": 1512.53
+  },
+  "baseline": {
+   "p50_us_per_page": 545.27,
+   "p99_us_per_page": 1484.16,
+   "created": "2026-11-14T14:16:12Z",
+   "commit": "787c27552b7201f30f194e0d76abd53ca1cb3318",
+   "source": "bench-tier1-go-v2-17-int8-local.json"
+  },
+  "slowdown": 0.0156,
+  "threshold": 0.1,
+  "status": "quiet",
+  "baseline_updated": false,
+  "accept_reference": false
+ },
+ "step": "tier1-bench (go)"
+}

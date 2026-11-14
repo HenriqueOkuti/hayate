@@ -4,7 +4,8 @@ A busy desktop slows every configuration by about the same amount while the tria
 so the trial spread cannot catch it. Each run times one fixed configuration before and after the
 grid and compares the slower reading with the last quiet one of the same harness, profile and
 model bundle, kept in results/bench-reference.json. A run more than THRESHOLD slower is marked
-busy and does not replace the stored reading.
+busy. A quiet run replaces the stored reading only if it is faster, so the baseline is the
+quietest reading seen and cannot creep up run by run.
 """
 
 import json
@@ -46,7 +47,8 @@ def check(
     commit: str,
     source: str,
 ) -> dict:
-    """Judge a run; store its reading under k when it is quiet, has no baseline yet or accept."""
+    """Judge a run; store its reading under k with no baseline yet, with accept, or when the run
+    is quiet and faster than the stored reading."""
     stored = json.loads(path.read_text()) if path.exists() else {}
     base = stored.get(k)
     slow, status = judge(before, after, base)
@@ -59,9 +61,15 @@ def check(
         "threshold": THRESHOLD,
         "status": status,
         "baseline_updated": False,
+        "accept_reference": accept,
     }
-    if status != "busy" or accept:
-        stored[k] = {**worse(before, after), "created": created, "commit": commit, "source": source}
+    w = worse(before, after)
+    if (
+        base is None
+        or accept
+        or (status == "quiet" and w["p50_us_per_page"] < base["p50_us_per_page"])
+    ):
+        stored[k] = {**w, "created": created, "commit": commit, "source": source}
         path.write_text(
             json.dumps(dict(sorted(stored.items())), indent=1) + "\n"
         )  # as Go writes it

@@ -1,7 +1,9 @@
 package tier1
 
 import (
+	"math"
 	"reflect"
+	"slices"
 	"testing"
 )
 
@@ -83,5 +85,107 @@ func TestNpyRoundTrip(t *testing.T) {
 	got64, shape, err := ReadFloat64(dir + "/v.npy")
 	if err != nil || !reflect.DeepEqual(got64, v) || !reflect.DeepEqual(shape, []int{3}) {
 		t.Fatalf("float64 round trip: %v %v %v", got64, shape, err)
+	}
+}
+
+func synthetic() *Model {
+	m := NewHashing(1<<10, 1<<10, 3000)
+	nf, nl := m.WordN+m.CharN, 7
+	m.IDF = make([]float64, nf)
+	m.W = make([]float32, nf*nl)
+	for i := range m.IDF {
+		m.IDF[i] = 1 + float64(i%5)/3
+	}
+	for i := range m.W {
+		m.W[i] = float32((i*7919)%13-6) / 10
+	}
+	m.Bias = make([]float32, nl)
+	m.Thresholds = []float32{0.5, 0.5, 0.6, 0.7, 0.5, 0.9, 0.5}
+	m.Labels = []string{"a", "b", "c", "d", "e", "f", "g"}
+	m.Temperature, m.MaxLabels = 1, 3
+	fl := float32(0.01)
+	m.Floor = &fl
+	return m
+}
+
+var docs = []string{
+	"Hello World, hello again\nhttps example com",
+	"São Paulo É CAPITAL\tdo ΟΔΟΣ estado İstanbul",
+	"日本語のテキスト 混在 mixed ASCII",
+	"bad \xff\xfe utf8 \x1c sep",
+	"",
+}
+
+func TestLowerAppendMatchesLower(t *testing.T) {
+	m := synthetic()
+	for _, d := range docs {
+		if got := string(m.lowerAppend(nil, d)); got != Lower(d) {
+			t.Errorf("lowerAppend(%q) = %q, want %q", d, got, Lower(d))
+		}
+	}
+}
+
+func TestIntoMatchesAllocating(t *testing.T) {
+	m := synthetic()
+	var x Sparse
+	var labels []string
+	for _, d := range docs {
+		want := m.Featurize(d)
+		m.FeaturizeInto(d, &x)
+		if !slices.Equal(x.Idx, want.Idx) || !slices.Equal(x.Val, want.Val) {
+			t.Fatalf("FeaturizeInto(%q) differs from Featurize", d)
+		}
+		prob := m.Forward(x, nil)
+		labels = m.DecideInto(prob, labels)
+		if want := m.Decide(prob); !slices.Equal(labels, want) {
+			t.Fatalf("DecideInto(%q) = %v, Decide = %v", d, labels, want)
+		}
+	}
+}
+
+func TestWarmPathDoesNotAllocate(t *testing.T) {
+	m := synthetic()
+	var x Sparse
+	var prob []float32
+	var labels []string
+	run := func() {
+		for _, d := range docs {
+			m.FeaturizeInto(d, &x)
+			prob = m.Forward(x, prob)
+			labels = m.DecideInto(prob, labels)
+		}
+	}
+	run() // grow the buffers
+	if n := testing.AllocsPerRun(20, run); n != 0 {
+		t.Errorf("warm featurize, forward and decide allocate %.1f times per run", n)
+	}
+}
+
+func TestForwardInt8MatchesDequantized(t *testing.T) {
+	m := synthetic()
+	nl := len(m.Labels)
+	nf := len(m.W) / nl
+	q := make([]int8, len(m.W))
+	scale := make([]float32, nf)
+	deq := make([]float32, len(m.W))
+	for r := range nf {
+		scale[r] = float32(r%7+1) / 1000
+		for j := range nl {
+			q[r*nl+j] = int8((r*31+j*17)%255 - 127)
+			deq[r*nl+j] = scale[r] * float32(q[r*nl+j])
+		}
+	}
+	fl := synthetic()
+	fl.W = deq
+	qm := synthetic()
+	qm.W, qm.Q, qm.Scale = nil, q, scale
+	for _, d := range docs {
+		x := fl.Featurize(d)
+		a, b := fl.Forward(x, nil), qm.Forward(x, nil)
+		for j := range a {
+			if math.Abs(float64(a[j]-b[j])) > 1e-6 {
+				t.Fatalf("%q label %d: float %v, int8 %v", d, j, a[j], b[j])
+			}
+		}
 	}
 }

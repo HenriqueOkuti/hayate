@@ -1,10 +1,24 @@
 {
+ "go/local-1thread/9d30c3af47a9a7e7": {
+  "p50_us_per_page": 545.27,
+  "p99_us_per_page": 1484.16,
+  "created": "2026-11-14T14:16:12Z",
+  "commit": "787c27552b7201f30f194e0d76abd53ca1cb3318",
+  "source": "bench-tier1-go-v2-17-int8-local.json"
+ },
  "go/local-1thread/e12a016e5b4241ae": {
   "p50_us_per_page": 613.86,
   "p99_us_per_page": 1743.05,
   "created": "2026-11-14T11:24:49Z",
   "commit": "6162ac9270af90b36a5a7476e16a57957503906c",
   "source": "bench-tier1-go-local.json (3000 chars, batch 1 of the grid; seeded)"
+ },
+ "go/vps-docker-2vcpu/9d30c3af47a9a7e7": {
+  "p50_us_per_page": 554.84,
+  "p99_us_per_page": 1486.12,
+  "created": "2026-11-14T14:18:54Z",
+  "commit": "787c27552b7201f30f194e0d76abd53ca1cb3318",
+  "source": "bench-tier1-go-v2-vps.json"
  },
  "go/vps-docker-2vcpu/e12a016e5b4241ae": {
   "p50_us_per_page": 621.53,

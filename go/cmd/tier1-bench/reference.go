@@ -5,7 +5,8 @@ package main
 // therefore times one fixed configuration before and after the grid and compares the slower of
 // the two readings with the last quiet reading of the same harness, profile and model bundle,
 // kept in results/bench-reference.json (shared with scripts/bench_tier1.py). A run more than
-// refThreshold slower is marked busy and does not replace the stored reading.
+// refThreshold slower is marked busy. A quiet run replaces the stored reading only if it is
+// faster, so the baseline is the quietest reading seen and cannot creep up run by run.
 
 import (
 	"encoding/json"
@@ -44,6 +45,7 @@ type refCheck struct {
 	Threshold       float64        `json:"threshold"`
 	Status          string         `json:"status"`
 	BaselineUpdated bool           `json:"baseline_updated"`
+	Accepted        bool           `json:"accept_reference"`
 }
 
 func baselineKey(harness, profile, bundleSHA string) string {
@@ -88,8 +90,8 @@ func saveBaselines(path string, m map[string]baseline) error {
 	return os.WriteFile(path, append(b, '\n'), 0o644)
 }
 
-// referenceCheck judges a run and, when it is quiet, has no baseline yet or accept is set,
-// stores its reading as the new baseline under key.
+// referenceCheck judges a run and stores its reading as the new baseline under key when there is
+// no baseline yet, when accept is set, or when the run is quiet and faster than the baseline.
 func referenceCheck(path, key string, before, after reading, accept bool, created, commit, source string) (refCheck, error) {
 	m, err := loadBaselines(path)
 	if err != nil {
@@ -108,9 +110,11 @@ func referenceCheck(path, key string, before, after reading, accept bool, create
 		Slowdown:  slow,
 		Threshold: refThreshold,
 		Status:    status,
+		Accepted:  accept,
 	}
-	if status != "busy" || accept {
-		m[key] = baseline{worse(before, after), created, commit, source}
+	w := worse(before, after)
+	if base == nil || accept || (status == "quiet" && w.P50 < base.P50) {
+		m[key] = baseline{w, created, commit, source}
 		if err := saveBaselines(path, m); err != nil {
 			return c, err
 		}

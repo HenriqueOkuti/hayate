@@ -121,3 +121,19 @@ func WriteFloat64(path string, v []float64, shape ...int) error {
 	}
 	return writeNpy(path, "<f8", shape, b)
 }
+
+// ReadInt8 reads an int8 .npy file.
+func ReadInt8(path string) ([]int8, []int, error) {
+	descr, shape, data, err := readNpy(path)
+	if err != nil {
+		return nil, nil, err
+	}
+	if descr != "|i1" && descr != "<i1" {
+		return nil, nil, fmt.Errorf("%s: dtype %s, want int8", path, descr)
+	}
+	out := make([]int8, len(data))
+	for i, b := range data {
+		out[i] = int8(b)
+	}
+	return out, shape, nil
+}

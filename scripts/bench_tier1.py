@@ -53,7 +53,10 @@ STAGES = ("featurize", "forward", "decide")
 
 def bundle_sha256(path: Path) -> str:
     h = hashlib.sha256()
-    for name in ("weights.npy", "bias.npy", "meta.json"):
+    names = ("weights.npy", "bias.npy", "meta.json")
+    if (path / "weights_int8.npy").exists():
+        names = ("weights_int8.npy", "scales.npy", "bias.npy", "meta.json")
+    for name in names:
         h.update((path / name).read_bytes())
     return h.hexdigest()
 
