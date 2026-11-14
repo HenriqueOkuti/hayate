@@ -1,0 +1,166 @@
+{
+ "step": "make_splits",
+ "commit": "2c683d969e9652a1bf12057dd81db7ed0f1bb614",
+ "created": "2026-11-14T04:05:52+00:00",
+ "config": {
+  "name": "splits-v1",
+  "pages": "data/pages/pages.parquet",
+  "labels_dir": "data/labels",
+  "teacher_config": "configs/teacher.toml",
+  "threshold": 0.8,
+  "train_runs": [
+   "pilot-*"
+  ],
+  "test_runs": [
+   "holdout-*"
+  ],
+  "seed": 20261114,
+  "val_frac": 0.1,
+  "test_frac": 0.08,
+  "out_dir": "data/splits",
+  "report_dir": "results",
+  "train_runs_matched": [
+   "pilot-argon-v2",
+   "pilot-gemma-v2",
+   "pilot-opus-v2",
+   "pilot-v0",
+   "pilot-v1",
+   "pilot-v2"
+  ],
+  "test_runs_matched": [
+   "holdout-argon-v2",
+   "holdout-gemma-v2",
+   "holdout-opus-v2",
+   "holdout-v0",
+   "holdout-v2",
+   "holdout-v2-resiliparse"
+  ],
+  "text_field": "text_trafilatura",
+  "fallback_field": "text_resiliparse",
+  "min_chars": 200
+ },
+ "assignment_sha256": "af101301b560212115453d143d60cdc00c8662915cbaecc13ccfe6bbf73677df",
+ "inputs_sha256": {
+  "data/pages/pages.parquet": "c75b404c36ef68f9105df4aafc67be70038417ce3079e33f15e4525089e8a2f9",
+  "data/labels/pilot-argon-v2/labels.jsonl": "d0e4abd444369b1ddc08254ba85252265fc35bbdedfbf4c3742d87caccc8fff1",
+  "data/labels/pilot-gemma-v2/labels.jsonl": "9c44487038b2e4cc7104434cd153d4a3ef2b1c1735a89c1ecb6d9028bdbdf71c",
+  "data/labels/pilot-opus-v2/labels.jsonl": "89de792521d3eaf2c98c82efcafd5b43974f8922312c6779b933156bcec4357a",
+  "data/labels/pilot-v0/labels.jsonl": "8c6b9b6daf44ecded3346e0495a56418f5f0008b53f7fd83a6146e3d7020f6be",
+  "data/labels/pilot-v1/labels.jsonl": "1b44fdde6dea42232af9ee23ea8168e03a7155e9041bd1a19c790913bcb05601",
+  "data/labels/pilot-v2/labels.jsonl": "d51f8036db106ce434ec580c577b30e2fd1f62b8d3ea45ed5f7515a84abfaec7",
+  "data/labels/holdout-argon-v2/labels.jsonl": "b0063857825524b44ff5110843761a2bfaccf375265f9ae11498e5dbac1f6ead",
+  "data/labels/holdout-gemma-v2/labels.jsonl": "87e29746120c6ab6eebba78a2a7813e0a72144251c4dd775b67f1f2e83727ee5",
+  "data/labels/holdout-opus-v2/labels.jsonl": "b08b3393422e3df9d65457d8791ac662225586b857a31340e942c3eea2f5f9a2",
+  "data/labels/holdout-v0/labels.jsonl": "6d38525edc19daaa70e9c116ec9c6b124aae6b61e24ea0018970a25c7f464c4b",
+  "data/labels/holdout-v2/labels.jsonl": "19b89ab4a38741070471fef49dae98e3381d9ba54538477203fc2048cf4fabfa",
+  "data/labels/holdout-v2-resiliparse/labels.jsonl": "ef459fd413fe54b53e4222d90e8d3e7adc6e102a3a814ea4919fbde0cfd58670"
+ },
+ "pages": 20000,
+ "domains": 17460,
+ "bilingual_domains": 6,
+ "components": {
+  "count": 17171,
+  "links": {
+   "brand": 43,
+   "same_text": 161,
+   "near_duplicate": 85
+  },
+  "multi_domain": 91,
+  "largest_pages": [
+   57,
+   42,
+   34,
+   31,
+   20
+  ]
+ },
+ "forced": {
+  "train": {
+   "runs": [
+    "pilot-argon-v2",
+    "pilot-gemma-v2",
+    "pilot-opus-v2",
+    "pilot-v0",
+    "pilot-v1",
+    "pilot-v2"
+   ],
+   "labeled_pages": 500,
+   "domains": 498,
+   "pages_in_their_components": 770
+  },
+  "test": {
+   "runs": [
+    "holdout-argon-v2",
+    "holdout-gemma-v2",
+    "holdout-opus-v2",
+    "holdout-v0",
+    "holdout-v2",
+    "holdout-v2-resiliparse"
+   ],
+   "labeled_pages": 300,
+   "domains": 300,
+   "pages_in_their_components": 466
+  }
+ },
+ "checks": {
+  "test_run_pages_in_test": 300,
+  "train_run_pages_in_train": 500,
+  "pages_where_splits_differ": 5788
+ },
+ "by_component": {
+  "train": {
+   "pages": 16192,
+   "domains": 14166,
+   "pages_by_lang": {
+    "eng": 8139,
+    "por": 8053
+   }
+  },
+  "val": {
+   "pages": 1933,
+   "domains": 1692,
+   "pages_by_lang": {
+    "eng": 984,
+    "por": 949
+   }
+  },
+  "test": {
+   "pages": 1875,
+   "domains": 1602,
+   "pages_by_lang": {
+    "eng": 877,
+    "por": 998
+   }
+  },
+  "domains_in_two_or_more_splits": 0,
+  "components_in_two_or_more_splits": 0
+ },
+ "by_page": {
+  "train": {
+   "pages": 16219,
+   "domains": 14447,
+   "pages_by_lang": {
+    "eng": 8150,
+    "por": 8069
+   }
+  },
+  "val": {
+   "pages": 1871,
+   "domains": 1839,
+   "pages_by_lang": {
+    "eng": 954,
+    "por": 917
+   }
+  },
+  "test": {
+   "pages": 1910,
+   "domains": 1790,
+   "pages_by_lang": {
+    "eng": 896,
+    "por": 1014
+   }
+  },
+  "domains_in_two_or_more_splits": 593,
+  "components_in_two_or_more_splits": 619
+ }
+}
