@@ -7,7 +7,9 @@ to the label set, and `validate` checks the answer again, since a schema is not 
 
 import json
 import os
+import re
 import subprocess
+import time
 from dataclasses import dataclass
 
 API_KEY_VARS = ("ANTHROPIC_API_KEY", "ANTHROPIC_AUTH_TOKEN")
@@ -166,3 +168,35 @@ def call(
     if not isinstance(result.get("structured_output"), dict):
         raise CallError("bad", "no structured_output")
     return result
+
+
+USAGE_LINE = re.compile(r"^(Current [^:]+):\s*(\d+)% used(?:\s*\S\s*resets (.+))?$")
+
+
+def parse_usage(text: str) -> dict[str, dict]:
+    """Meters of `/usage` output: {"Current session": {"pct": 27, "resets": ...}}."""
+    meters = {}
+    for line in text.splitlines():
+        if m := USAGE_LINE.match(line.strip()):
+            meters[m[1]] = {"pct": int(m[2]), "resets": m[3]}
+    return meters
+
+
+def usage_snapshot(binary: str = "claude", timeout: float = 60) -> dict:
+    """Read the plan meter with `claude -p "/usage"` (no tokens used). Never raises.
+
+    The meter is plan-wide (other sessions and devices count too) and in whole percent, so a
+    run's change is an upper bound on its cost, read to the nearest percent.
+    """
+    snap: dict = {"t": time.time()}
+    try:
+        proc = subprocess.run(
+            [binary, "-p", "/usage"], stdin=subprocess.DEVNULL, capture_output=True, text=True,
+            timeout=timeout,
+        )  # fmt: skip
+    except (OSError, subprocess.TimeoutExpired) as e:
+        return snap | {"error": str(e)[:300]}
+    snap["meters"] = parse_usage(proc.stdout)
+    if not snap["meters"]:
+        snap["error"] = (proc.stdout + proc.stderr)[:300]
+    return snap

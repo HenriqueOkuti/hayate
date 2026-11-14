@@ -6,7 +6,7 @@ Each step is a GitHub issue on the [Hayate roadmap board](https://github.com/use
 
 ## Phase 1: first trade-off curve (PT + EN)
 
-Goal by early January 2027: three students on one accuracy vs latency plot, measured locally. Weekends 1 to 3 ran on plan or early; weekends 4 and 5 were then missed, so from weekend 4 on every date moved two weekends on 2026-11-13. That used up the buffer weekend (Dec 19–20) and puts the write-up after the holiday break.
+Goal by early January 2027: three students on one accuracy vs latency plot, measured locally. Weekends 1 to 3 ran on plan or early; weekends 4 and 5 were then missed, so from weekend 4 on every date moved two weekends on 2026-11-13. That used up the buffer weekend (Dec 19–20) and puts the write-up after the holiday break. Weekend 4 then finished on Friday 2026-11-13, so weekend 5 runs on Nov 14–15 and weekends 5 to 9 moved one weekend earlier; that gives the Dec 19–20 buffer back, and the write-up stays on Jan 9–10.
 
 | # | Weekend | Work | Done when | Issue |
 | --- | --- | --- | --- | --- |
@@ -14,11 +14,12 @@ Goal by early January 2027: three students on one accuracy vs latency plot, meas
 | 2 | Oct 17–18 | Page sample: DuckDB query on the CC index (PT + EN, per-domain cap), WARC range fetch, extraction with trafilatura **and** resiliparse | ~20k pages with URL, HTML pointer and both texts in `data/` | [#3](https://github.com/HenriqueOkuti/hayate/issues/3) |
 | 3 | Oct 24–25 | Teacher pilot: prompt + JSON schema; 500 pages on a local open model (4070) and one API model; measure tokens, cost, agreement, repeat consistency. Decide the teacher (0003). | Pilot report in `results/`; teacher chosen | [#4](https://github.com/HenriqueOkuti/hayate/issues/4) |
 | 4 | Nov 14–15 | Reference sample: a panel of three models from two vendors labels the 300 holdout pages; no hand labeling ([decision 0010](decisions/0010-reference-sample.md)) | Panel reference v0 saved, teacher-vs-panel agreement known | [#5](https://github.com/HenriqueOkuti/hayate/issues/5) |
-| 5 | Nov 21–22 | Bulk labeling (≥ 20k pages, scale toward 100k if cheap), splits by domain | Versioned label set + train/val/test splits | [#6](https://github.com/HenriqueOkuti/hayate/issues/6) |
-| 6 | Nov 28–29 | Evaluation harness (all metrics in [measurement.md](measurement.md)) + **tier-1 student** (hashed n-grams) | First F1 numbers vs teacher and vs the panel reference | [#7](https://github.com/HenriqueOkuti/hayate/issues/7) |
-| 7 | Dec 5–6 | Benchmark harness: micro-benchmarks, Docker "small VPS" profile, raw timings → percentiles | Tier-1 latency p50/p99 at batch 1 and 32 | [#8](https://github.com/HenriqueOkuti/hayate/issues/8) |
-| 8 | Dec 12–13 | **Tier-2 student** (Model2Vec / static embeddings + linear head) | Tier 2 on the plot | [#9](https://github.com/HenriqueOkuti/hayate/issues/9) |
-| 9 | Dec 19–20 | **Tier-3 student**: fine-tune a small encoder on the GPU, export ONNX int8 | Tier 3 on the plot | [#10](https://github.com/HenriqueOkuti/hayate/issues/10) |
+| 5 | Nov 14–15 | Bulk labeling (≥ 20k pages, scale toward 100k if cheap), splits by domain | Versioned label set + train/val/test splits | [#6](https://github.com/HenriqueOkuti/hayate/issues/6) |
+| 6 | Nov 21–22 | Evaluation harness (all metrics in [measurement.md](measurement.md)) + **tier-1 student** (hashed n-grams) | First F1 numbers vs teacher and vs the panel reference | [#7](https://github.com/HenriqueOkuti/hayate/issues/7) |
+| 7 | Nov 28–29 | Benchmark harness: micro-benchmarks, Docker "small VPS" profile, raw timings → percentiles | Tier-1 latency p50/p99 at batch 1 and 32 | [#8](https://github.com/HenriqueOkuti/hayate/issues/8) |
+| 8 | Dec 5–6 | **Tier-2 student** (Model2Vec / static embeddings + linear head) | Tier 2 on the plot | [#9](https://github.com/HenriqueOkuti/hayate/issues/9) |
+| 9 | Dec 12–13 | **Tier-3 student**: fine-tune a small encoder on the GPU, export ONNX int8 | Tier 3 on the plot | [#10](https://github.com/HenriqueOkuti/hayate/issues/10) |
+| — | Dec 19–20 | Buffer weekend | | |
 | — | Dec 26 – Jan 3 | Holiday break | | |
 | 10 | Jan 9–10 | Write-up v0: the trade-off curve, what broke first as the model shrank, the teacher-noise ceiling | `results/` report + updated README | [#11](https://github.com/HenriqueOkuti/hayate/issues/11) |
 

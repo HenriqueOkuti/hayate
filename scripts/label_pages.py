@@ -5,11 +5,16 @@ Usage:
       --run pilot-v1 --prompt configs/teacher/prompt-v1.txt --pages 500 --repeat-frac 0.1
 
 Pages are drawn per language (half pt, half en) in seeded page-id hash order, so two runs with
-the same --pages and --seed see the same pages. Writes to data/labels/<run>/:
+the same --pages and --seed see the same pages. --repeat-frac batches, spread evenly over the
+run, are labeled twice. --slice-pages N runs only the batches that hold the first N pages (and
+the repeats among them) of the run --pages describes, so the same command without it resumes the
+rest with the same batches. Writes to data/labels/<run>/:
 - labels.jsonl: one row per page and pass (main, or repeat for the re-labeled batches, sent
   with their pages shuffled);
 - calls.jsonl: one row per call attempt, with usage, timing and errors;
-- run.json: the provenance stamp.
+- run.json: the provenance stamp;
+- usage.jsonl, with --usage-snapshot: the plan meter (`claude -p "/usage"`) at the start and
+  end of every invocation, appended, so a resumed run keeps the readings of each leg.
 --exclude-runs leaves out every domain an earlier run labeled, for a holdout. --backend ollama
 labels with a local model instead (the [ollama] section of the config), --backend agy with a
 model served by the Antigravity CLI (the [agy] section). A rerun skips
@@ -97,6 +102,10 @@ def main() -> None:
     ap.add_argument("--claude-bin", default="claude")
     ap.add_argument("--agy-bin", default="agy")
     ap.add_argument("--exclude-runs", nargs="*", default=[], help="skip these runs' domains")
+    ap.add_argument(
+        "--slice-pages", type=int, help="run only the batches of the first N pages; resume later"
+    )
+    ap.add_argument("--usage-snapshot", action="store_true", help="log the plan meter, start/end")
     args = ap.parse_args()
 
     claude.check_env()
@@ -143,11 +152,26 @@ def main() -> None:
     size = args.batch_size or cfg.get(args.backend, {}).get("batch_size") or tch["batch_size"]
     batches = [pages[i : i + size] for i in range(0, len(pages), size)]
     n_repeat = round(len(batches) * args.repeat_frac)
-    jobs = [("main", b) for b in batches] + [("repeat", b) for b in batches[:n_repeat]]
+    repeat_idx = [i * len(batches) // n_repeat for i in range(n_repeat)]  # spread evenly
+    n_slice = -(-args.slice_pages // size) if args.slice_pages else len(batches)
+    jobs = [("main", b) for b in batches[:n_slice]]
+    jobs += [("repeat", batches[i]) for i in repeat_idx if i < n_slice]
     labels_path, calls_path = out / "labels.jsonl", out / "calls.jsonl"
     done = done_batches(labels_path)
     todo = [(ps, b) for ps, b in jobs if (batch_key(b), ps) not in done]
-    print(f"{len(pages)} pages, {len(jobs)} batch jobs, {len(jobs) - len(todo)} already done")
+    sliced = f" (slice: first {n_slice} of {len(batches)} batches)" * (n_slice < len(batches))
+    n_done = len(jobs) - len(todo)
+    print(f"{len(pages)} pages, {len(jobs)} batch jobs{sliced}, {n_done} already done")
+
+    def snapshot(when: str) -> None:
+        if not args.usage_snapshot:
+            return
+        snap = {"when": when, "jobs_todo": len(todo)} | claude.usage_snapshot(args.claude_bin)
+        with (out / "usage.jsonl").open("a") as f:
+            f.write(json.dumps(snap) + "\n")
+        print(f"usage {when}: {snap.get('meters') or snap.get('error')}")
+
+    snapshot("start")
 
     lock = threading.Lock()
     stop = threading.Event()
@@ -217,6 +241,7 @@ def main() -> None:
             elapsed = time.time() - t_start
             eta = elapsed / i * (len(todo) - i)
             print(f"{i}/{len(todo)} batches, {pages_done} pages, {elapsed:.0f}s, eta {eta:.0f}s")
+    snapshot("end")
     print("stopped on usage limit; rerun to resume" if stop.is_set() else "done")
 
 
