@@ -12,7 +12,7 @@ Decision 0001 put all of Phase 1 in Python and kept Go for the Phase 2 request p
 
 1. **Keep 0001.** Phase 1 latency stays a Python number; Go arrives in Phase 2. The curve would mislead on exactly the point it exists to show.
 2. **Go for everything that serves,** Python for all training. Inference, latency benchmarks and the request path in Go, loading weights exported by Python.
-3. **Go first, training included, with [GoMLX](https://github.com/gomlx/gomlx).** GoMLX (Apache-2.0, v0.28.0) has autodiff and AdamW, CUDA through XLA PJRT plugins it installs itself, a pure-Go CPU backend, ONNX import for fine-tuning pretrained models, and pure-Go Hugging Face tokenizers (README, read 2026-11-14). Not yet verified here: sparse or embedding-bag inputs (tier 1), throughput on the 4070, and which encoders onnx-gomlx converts. The first draft of this record said no Go training stack existed; that was wrong, and Henrique pointed to GoMLX.
+3. **Go first, training included, with [GoMLX](https://github.com/gomlx/gomlx).** GoMLX (Apache-2.0, v0.28.0) has autodiff and AdamW, CUDA through XLA PJRT plugins it installs itself, a pure-Go CPU backend, ONNX import for fine-tuning pretrained models, and pure-Go Hugging Face tokenizers (README, read 2026-11-14). Tested on 2026-11-14 ([research note](../research/2026-11-14-gomlx-fit-test.md)): CUDA runs on the 4070 under WSL2, tier 1 trains in Go with an embedding bag at least as well as the PyTorch head, a Model2Vec model and multilingual-e5-small run in Go with the same outputs as Python, and the encoder fine-tunes. go-huggingface's Unigram tokenizer was wrong (greedy, and no Precompiled normalizer) and had to be fixed. The first draft of this record said no Go training stack existed; that was wrong, and Henrique pointed to GoMLX.
 
 ## Decision
 
@@ -28,4 +28,5 @@ Option 3, in order:
 - Evaluation numbers must not move when code moves languages: a Go port of the metrics has to reproduce the Python results files before it replaces them.
 - The Python latency numbers stay as references, never on the headline curve.
 - The Phase 2 request-path server reuses the same Go packages, so it starts with working inference.
+- Tokenizers for tiers 2 and 3 are Hayate's own Go code (a Unigram Viterbi and the normalizer chain), with a parity test against the tokenizers library; go-huggingface supplies downloads only.
 - Revisit if GoMLX cannot train a tier at a reasonable speed on the 4070, or a tier has no feasible Go inference path.
