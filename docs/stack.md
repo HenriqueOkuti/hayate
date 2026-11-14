@@ -1,13 +1,14 @@
 # Stack
 
-What the project uses, why, and how to run it. The decision itself is recorded in [decisions/0001-stack.md](decisions/0001-stack.md).
+What the project uses, why, and how to run it. The decisions are [0001](decisions/0001-stack.md) and [0012](decisions/0012-go-first.md), which updates it.
 
 ## In one paragraph
 
-**Python** does all the ML work: data, teacher labeling, training, evaluation and micro-benchmarks. Training libraries, model formats and research code all live there, and fighting that would cost more weekends than it saves. Python code stays **plain**: functions, dataclasses, type hints and small scripts. No frameworks, so it reads like Go. **TypeScript/JavaScript and Go** come in where they fit naturally and match what you know:
+**Go first.** Everything that runs a model at inference time, and every latency number on the trade-off curve, is Go (`go/`), and new training is written in Go with [GoMLX](https://github.com/gomlx/gomlx) from W08. **Python** keeps what already works and what still needs its ML libraries: the teacher labeling driver, splits, evaluation and tier-1 training (PyTorch, scikit-learn). Each Python piece is replaced once a Go version passes the same tests. Python code stays **plain**: functions, dataclasses, type hints and small scripts. **TypeScript/JavaScript** comes in for k6 load tests and the site.
 
-- k6 load tests (JS);
-- the Phase 2 request-path server (Go), which loads the exported model files.
+- Go: tier-1 inference with a parity check against Python (`go/tier1`, `make go-test`, `make go-parity`), the latency benchmark (`make bench-go-local`, `make bench-go-vps`), and the Phase 2 request-path server;
+- Python: `scripts/` and `src/hayate/`, run with `uv run`;
+- JS: k6 load tests.
 
 ## Concepts, mapped to things you know
 
@@ -53,7 +54,7 @@ These are added to `pyproject.toml` when first used, not up front.
 | Tier 3 | `torch` (CUDA), `transformers`, `sentence-transformers` | Fine-tune on the GPU |
 | Export + CPU inference | `optimum`, `onnxruntime` (+ `openvino` to compare) | ONNX int8 for CPU |
 | Evaluation | `scikit-learn` metrics, `numpy`, `matplotlib` | Standard metrics and the trade-off plot |
-| Benchmarks | Own harness (`perf_counter_ns`, raw timings → Parquet), Docker, k6 (JS) | Raw timings give true p99. k6 does open-model load for request benchmarks. |
+| Benchmarks | Own harness in Go (`go/cmd/tier1-bench`) and Python (`scripts/bench_tier1.py`, for reference), Docker, k6 (JS) | Raw timings give true p99; the Go numbers go on the trade-off curve ([decision 0012](decisions/0012-go-first.md)). k6 does open-model load for request benchmarks. |
 
 **Not used, on purpose:**
 

@@ -4,7 +4,7 @@ Snapshot 2026-10-07. Sources and details are in [research/2026-10-07-students-be
 
 | Tier | Candidates | Expected | Role |
 | --- | --- | --- | --- |
-| 1. Hashed n-gram linear | sklearn `HashingVectorizer` + one linear layer ([0007](decisions/0007-tier1-implementation.md)) | Measured: 1.7 ms/page p50 at batch 1 and 3,000 chars, 0.5 ms at batch 128 and 500 chars, one thread ([results](../results/bench-tier1-v1.md)); tokenization is 3/4 of it | The baseline; sub-ms needs a compiled tokenizer |
+| 1. Hashed n-gram linear | Hashed n-grams + one linear layer, trained in Python ([0007](decisions/0007-tier1-implementation.md)), served in Go ([0012](decisions/0012-go-first.md)) | Measured in Go: 0.62 ms/page p50 and 1.75 ms p99 at batch 1 and 3,000 chars, one thread ([results](../results/bench-tier1-go.md)); Python was 1.7 ms ([results](../results/bench-tier1-v1.md)) | The sub-ms baseline |
 | 2. Static embeddings + linear head | Model2Vec `potion-multilingual-128M` (MIT), `static-similarity-mrl-multilingual-v1` (Apache-2.0, includes pt/id/vi/th) | Probably sub-ms; tokenization dominates | **Main bet** for sub-ms *and* good |
 | 3. Small encoder, int8, ONNX/OpenVINO | `multilingual-e5-small` (118M, MIT), `mmBERT-small` (42M non-embedding, MIT) | Several ms/page per core | The accuracy end of the curve |
 

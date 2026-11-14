@@ -1,6 +1,6 @@
 # 0001: Stack
 
-- **Status:** accepted
+- **Status:** accepted, updated by [0012](0012-go-first.md) (Go for serving and latency)
 - **Date:** 2026-10-07
 
 ## Context
