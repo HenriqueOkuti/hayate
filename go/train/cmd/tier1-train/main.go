@@ -175,7 +175,7 @@ func floats(s string) []float64 {
 
 func main() {
 	pagesPath := flag.String("pages", "../../data/pages/pages.parquet", "page sample")
-	splitsPath := flag.String("splits", "../../data/splits/splits-v1.parquet", "split (component column)")
+	splitsPath := flag.String("splits", "../../data/splits/splits-v1.parquet", "split (its split column, the component split)")
 	labelsPath := flag.String("labels", "../../data/labels/bulk-v2/labels.jsonl", "teacher labels")
 	out := flag.String("out", "../../artifacts/tier1-v2/heads", "output directory")
 	lrs := flag.String("lrs", "0.003,0.01,0.03", "learning rates, one candidate each")
@@ -391,7 +391,8 @@ func commit() string {
 		return "unknown"
 	}
 	c := strings.TrimSpace(string(out))
-	if exec.Command("git", "diff", "--quiet", "HEAD", "--", "..").Run() != nil {
+	// any change in the repository, tracked or not, outside data and artifacts (git-ignored)
+	if st, err := exec.Command("git", "status", "--porcelain").Output(); err != nil || len(st) > 0 {
 		c += "-dirty"
 	}
 	return c

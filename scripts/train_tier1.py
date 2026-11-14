@@ -256,8 +256,14 @@ def main() -> None:
         idf_diff = float(np.abs(go_idf - feat.tfidf.idf_).max())
         if idf_diff > 1e-9:
             raise SystemExit(f"the Go IDF differs from this run's by {idf_diff}")
-        go_check = {"idf_max_abs_diff": idf_diff, "heads": []}
+        go_check = {
+            "idf_max_abs_diff": idf_diff,
+            "heads": [],
+            "pytorch_args_ignored": ["weight_decay", "max_epochs", "adam_eps"],
+        }
         dirs = sorted(args.heads.glob("lr-*"), key=lambda d: float(d.name[3:]))
+        if sorted(float(d.name[3:]) for d in dirs) != sorted(args.lrs):
+            raise SystemExit(f"{args.heads}: candidates {[d.name for d in dirs]} are not --lrs")
         for d in dirs:
             meta = json.loads((d / "train.json").read_text())
             if meta["label_ids"] != label_ids or meta["features"] != x_all.shape[1]:
@@ -270,8 +276,11 @@ def main() -> None:
             go_bce = min(meta["val_bce_by_epoch"])
             if abs(bce - go_bce) > 1e-5:
                 raise SystemExit(f"{d}: val BCE {bce} here, {go_bce} in the Go trainer")
-            go_check["heads"].append({"lr": meta["lr"], "val_bce_here": round(bce, 6),
-                                      "val_bce_go": go_bce, "commit": meta["commit"]})  # fmt: skip
+            settings = {k: v for k, v in meta.items()
+                        if k not in ("label_ids", "val_bce_by_epoch", "epoch_s")}  # fmt: skip
+            go_check["heads"].append({"val_bce_here": round(bce, 6), "val_bce_go": go_bce,
+                                      "train_json_sha256": sha256_file(d / "train.json"),
+                                      **settings})  # fmt: skip
             hist = {"val_bce_by_epoch": meta["val_bce_by_epoch"], "best_epoch": meta["best_epoch"],
                     "trainer": meta["trainer"], "optimizer": meta["optimizer"],
                     "backend": meta["backend"]}  # fmt: skip
