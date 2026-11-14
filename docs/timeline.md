@@ -8,6 +8,8 @@ Each step is a GitHub issue on the [Hayate roadmap board](https://github.com/use
 
 Goal by early January 2027: three students on one accuracy vs latency plot, measured locally. Weekends 1 to 3 ran on plan or early; weekends 4 and 5 were then missed, so from weekend 4 on every date moved two weekends on 2026-11-13. That used up the buffer weekend (Dec 19–20) and puts the write-up after the holiday break. Weekend 4 then finished on Friday 2026-11-13, so weekend 5 runs on Nov 14–15 and weekends 5 to 9 moved one weekend earlier; that gives the Dec 19–20 buffer back, and the write-up stays on Jan 9–10.
 
+On 2026-11-14 weekends 5 to 7 all finished in one session, and the project became Go first ([decision 0012](decisions/0012-go-first.md)): serving and every latency number are Go, and new training is Go with GoMLX from weekend 8. A GoMLX fit test (#86) showed every tier has a working Go path. Nov 21–22 is left free; Nov 28–29 takes the follow-ups from that session (7c).
+
 | # | Weekend | Work | Done when | Issue |
 | --- | --- | --- | --- | --- |
 | 1 | Oct 10–11 | Repo setup: git, `uv` env, taxonomy download with SHA/sha256 check. Decide label depth and scope (decision 0002). | `scripts/` fetches and verifies the taxonomy; label set frozen | [#2](https://github.com/HenriqueOkuti/hayate/issues/2) |
@@ -17,8 +19,10 @@ Goal by early January 2027: three students on one accuracy vs latency plot, meas
 | 5 | Nov 14–15 | Bulk labeling (≥ 20k pages, scale toward 100k if cheap), splits by domain | Versioned label set + train/val/test splits | [#6](https://github.com/HenriqueOkuti/hayate/issues/6) |
 | 6 | Nov 21–22 | Evaluation harness (all metrics in [measurement.md](measurement.md)) + **tier-1 student** (hashed n-grams) | First F1 numbers vs teacher and vs the panel reference | [#7](https://github.com/HenriqueOkuti/hayate/issues/7) |
 | 7 | Nov 28–29 | Benchmark harness: micro-benchmarks, Docker "small VPS" profile, raw timings → percentiles | Tier-1 latency p50/p99 at batch 1 and 32 | [#8](https://github.com/HenriqueOkuti/hayate/issues/8) |
-| 8 | Dec 5–6 | **Tier-2 student** (Model2Vec / static embeddings + linear head) | Tier 2 on the plot | [#9](https://github.com/HenriqueOkuti/hayate/issues/9) |
-| 9 | Dec 12–13 | **Tier-3 student**: fine-tune a small encoder on the GPU, export ONNX int8 | Tier 3 on the plot | [#10](https://github.com/HenriqueOkuti/hayate/issues/10) |
+| 7b | Nov 14 | Tier-1 inference in Go with a parity check against Python; Go benchmark; GoMLX fit test for tiers 1 to 3 | Go tier 1 gives Python's labels on every test page, latency committed | [#82](https://github.com/HenriqueOkuti/hayate/issues/82), [#86](https://github.com/HenriqueOkuti/hayate/issues/86) |
+| 7c | Nov 28–29 | Follow-ups: benchmark reference check, Go tier-1 tail and forward pass, tier 1 retrained in Go, custom-tokenizer research for tier 2 | Each issue's "done when" | [#84](https://github.com/HenriqueOkuti/hayate/issues/84), [#85](https://github.com/HenriqueOkuti/hayate/issues/85), [#90](https://github.com/HenriqueOkuti/hayate/issues/90), [#91](https://github.com/HenriqueOkuti/hayate/issues/91) |
+| 8 | Dec 5–6 | **Tier-2 student** (Model2Vec / static embeddings + linear head), trained and served in Go with GoMLX and Hayate's own tokenizer | Tier 2 on the plot | [#9](https://github.com/HenriqueOkuti/hayate/issues/9) |
+| 9 | Dec 12–13 | **Tier-3 student**: fine-tune a small encoder on the GPU in Go (GoMLX with onnx-gomlx), int8 for CPU serving | Tier 3 on the plot | [#10](https://github.com/HenriqueOkuti/hayate/issues/10) |
 | — | Dec 19–20 | Buffer weekend | | |
 | — | Dec 26 – Jan 3 | Holiday break | | |
 | 10 | Jan 9–10 | Write-up v0: the trade-off curve, what broke first as the model shrank, the teacher-noise ceiling | `results/` report + updated README | [#11](https://github.com/HenriqueOkuti/hayate/issues/11) |

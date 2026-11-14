@@ -10,8 +10,9 @@
 </p>
 
 <p align="center">
-  <img alt="Status: planning" src="https://img.shields.io/badge/status-planning-EA580C?style=flat-square">
+  <img alt="Status: phase 1" src="https://img.shields.io/badge/status-phase%201-EA580C?style=flat-square">
   <img alt="Target: under 1 ms per page" src="https://img.shields.io/badge/target-%3C1%20ms%20%2F%20page-0E7490?style=flat-square">
+  <img alt="Go 1.27" src="https://img.shields.io/badge/go-1.27-0F766E?style=flat-square">
   <img alt="Python 3.12" src="https://img.shields.io/badge/python-3.12-0F766E?style=flat-square">
   <img alt="Data: public only" src="https://img.shields.io/badge/data-public%20only-334155?style=flat-square">
   <img alt="Weekend project" src="https://img.shields.io/badge/cadence-weekends-C2410C?style=flat-square">
@@ -51,7 +52,7 @@ A big LLM is accurate but slow and costly. It labels the pages **once**, and sma
 
 | Student | What it is | Expected speed | Role |
 | :--- | :--- | :---: | :--- |
-| **Tier 1** | Hashed word patterns + a linear layer | ≪ 1 ms | The speed floor |
+| **Tier 1** | Hashed word patterns + a linear layer | 0.62 ms (measured p50) | The speed floor |
 | **Tier 2** | Fixed word vectors + a linear layer | ~1 ms | The main bet: fast *and* good |
 | **Tier 3** | A compact transformer, int8 on CPU | a few ms | The accuracy ceiling |
 
@@ -65,8 +66,8 @@ Each one is scored on **quality** (against the teacher LLM *and* against what a 
 
 | Phase | Status | Target | Goal |
 | :--- | :--- | :--- | :--- |
-| **0 · Plan** | In progress | Oct 2026 | Research, docs, stack, scaffolding |
-| **1 · First curve** | Next | Dec 2026 | Three students on one accuracy vs speed plot, measured locally |
+| **0 · Plan** | Done | Oct 2026 | Research, docs, stack, scaffolding |
+| **1 · First curve** | In progress | Dec 2026 | Three students on one accuracy vs speed plot, measured locally |
 | **2 · Realism** | Later | Feb 2027 | End-to-end request latency, a URL-only fast path, noisy-label effects |
 | **3 · Open questions** | Later | 2027 → | Topic drift; Indonesian, Vietnamese and Thai |
 
@@ -80,6 +81,7 @@ These commands set up the dev environment and run the first pipeline step:
 npm install     # Markdown linter (dev tooling)
 uv sync         # Python 3.12 environment
 make lint       # markdownlint + ruff
+make go-test    # gofmt, go vet and the Go tests
 uv run python scripts/fetch_taxonomy.py --config configs/taxonomy.toml   # pinned IAB taxonomy -> data/taxonomy/
 ```
 

@@ -9,11 +9,11 @@ Run date: **2026-11-14**, on the i7-13700F and RTX 4070 SUPER under WSL2. Versio
 | Need | Go path | Result |
 | --- | --- | --- |
 | GPU training at all | GoMLX, XLA CUDA backend | Works under WSL2; a float32 4096 x 4096 product in 4.7 ms (about 29.5 TFLOP/s, TF32) |
-| Tier 1 training (sparse hashed features) | GoMLX: `Gather` + `ScatterSum` embedding bag, AdamW | Works; 1.4 s per epoch, val loss and F1 at least as good as the PyTorch head |
+| Tier 1 training (sparse hashed features) | GoMLX: `Gather` + `ScatterSum` embedding bag, AdamW | Works; 1.4 s per epoch; on val its loss was lower than every PyTorch candidate's, for a reason not yet found |
 | Tier 1 data pipeline | parquet-go, `go/tier1` featurizer | Works; reads the 20k sample in 0.8 s, featurizes it in 4.2 s; IDF equal to Python's to 9e-16 |
 | Tier 2 (Model2Vec static embeddings) | go-huggingface download, own Unigram and normalizer | Exact after two fixes: same token ids on 200/200 texts, embeddings within 3e-8 |
 | Tier 3 (small encoder) inference | onnx-gomlx on multilingual-e5-small | Matches ONNX Runtime: cosine 0.99999994 on CPU, 0.9999999 on GPU |
-| Tier 3 fine-tuning | onnx-gomlx graph inside a GoMLX trainer | Gradients flow; loss falls every step; 75 ms per step for 20 x 256 tokens |
+| Tier 3 fine-tuning | onnx-gomlx graph inside a GoMLX trainer | The trainer compiles and runs at 75 ms per step for 20 x 256 tokens; that the encoder itself learns is not shown yet |
 
 So every tier has a working Go path. The weak spot is not GoMLX itself but go-huggingface's tokenizers, which got the Model2Vec tokenizer wrong in two ways.
 
@@ -33,18 +33,18 @@ So every tier has a working Go path. The weak spot is not GoMLX itself but go-hu
 
 | | GoMLX head | PyTorch head (tier1-v1) |
 | --- | --- | --- |
-| Val binary cross-entropy | 0.01365 | 0.01478 |
+| Val binary cross-entropy | 0.01365 | 0.01478 at the chosen learning rate; 0.01412 for the best PyTorch candidate (learning rate 0.03) |
 | Val micro F1, best global threshold | 0.478 | 0.422 |
 | Epochs, time | 11 (best of 14), 28 s | 3 at the chosen learning rate |
 
-The PyTorch head stopped at epoch 3 at the same learning rate, where GoMLX kept improving to epoch 11, so the gap most likely reflects a difference in Adam defaults or initialization in the PyTorch run, not a Go advantage. It shows that a Go-trained tier 1 is at least as good, and it is a reason to retrain tier 1 in Go rather than port the PyTorch weights.
+The PyTorch head stopped at epoch 3 at the same learning rate, where GoMLX kept improving to epoch 11. The cause is not known: both trainers use zero-initialised weights, a base-rate bias, AdamW at 0.01 with no weight decay, batches of 256 and the same early stopping, so the difference must be in the optimizer implementation or in the PyTorch trainer itself. The F1 row is in-sample (threshold chosen and scored on val, one seed, no interval), and this run's output is not committed. So this is a lead, not a result: #90 retrains tier 1 in Go with the full v1 procedure and finds the cause before anything is claimed.
 
 ## 3. Tier 2, Model2Vec in Go (`cmd/tier2-check`)
 
 Model: `minishlab/potion-multilingual-128M` (one float32 `embeddings` tensor, 500,353 x 256; Unigram tokenizer with a Precompiled normalizer, about 30 Replace rules, Strip and Metaspace). Reference: Python `model2vec` 0.10.0 on 200 test-page inputs of 1,000 characters.
 
 - **go-huggingface's tokenizer as shipped:** 0 of 200 texts tokenized like Python, at 115 ms per text. Two causes:
-  1. Its Unigram model is greedy longest-match, not Viterbi. On "Faith" it picked `▁Fai` + `th` (score -22.74) over `▁F` + `aith` (-21.30).
+  1. Its Unigram model is greedy longest-match, not Viterbi. On one capitalized word in the first test text it picked a longer first piece with a total score of -22.74 over the split Python's tokenizers library picks, which scores -21.30.
   2. It has no `Precompiled` normalizer (SentencePiece's character map) and skips it silently, so for example `™` was not turned into `TM` and became unknown.
 - **Fixes, in `cmd/tier2-check`:** a Viterbi over the vocabulary scores (unknown pieces scored at the minimum minus 10 and fused, as the tokenizers library does), the normalizer chain built from `tokenizer.json` with Precompiled approximated by NFKC and Rust's Unicode `\s` widened for Go's regexp, and Metaspace (prepend `▁`, no split).
 - **After the fixes:** the same token ids on 200 of 200 texts, embeddings within 3e-8. Encoding takes 1.6 ms per 1,000-character text against 0.53 ms for Python's Rust tokenizer; the Viterbi still tries pieces up to 186 characters long from every position, which a trie would cut.
@@ -55,8 +55,8 @@ Model: `minishlab/potion-multilingual-128M` (one float32 `embeddings` tensor, 50
 Model: `intfloat/multilingual-e5-small`, its published `onnx/model.onnx`. Reference: ONNX Runtime (CPU) in Python, 20 test-page inputs of 256 tokens, mean-pooled and normalized.
 
 - **Inference:** the converted graph gives the same embeddings: lowest cosine 0.99999994 and largest difference 1.1e-7 on XLA CPU; 0.9999999 and 8e-5 on the GPU (TF32). A forward pass of 20 x 256 tokens takes 26 ms on the GPU and 535 ms on XLA CPU.
-- **Fine-tuning:** the encoder graph plus a linear head to 317 labels, inside a GoMLX trainer with AdamW on every weight: the loss fell on each of 8 steps (0.713 to 0.650) against fixed pseudo-labels, at 75 ms per step after an 11 s compile, using about 1.6 GB of GPU memory. So W09 can fine-tune in Go.
-- The tokenizer for e5 (XLM-R SentencePiece, Unigram) is the same family as tier 2's, so the fixed Viterbi tokenizer applies; mmBERT-small (Gemma's BPE tokenizer) was not tested.
+- **Fine-tuning:** the encoder graph plus a linear head to 317 labels, inside a GoMLX trainer with AdamW on every weight, ran at 75 ms per step after an 11 s compile, using about 1.6 GB of GPU memory, and the loss fell on each of 8 steps (0.713 to 0.650). That was one 20-page batch with synthetic labels, so the drop fits the head and bias learning that most labels are off; it does not show that the encoder's own weights learn. W09 has to check that first (encoder weights changing, gradients against a reference).
+- This check fed Python's token ids to the converted graph, so it validates the graph, not a Go tokenizer. The tokenizer for e5 (XLM-R SentencePiece, Unigram) is the same family as tier 2's, so the fixed Viterbi tokenizer should apply, but that is untested; mmBERT-small (Gemma's BPE tokenizer) was not tested at all.
 
 ## 5. Not tested, and alternatives
 
@@ -67,4 +67,4 @@ Model: `intfloat/multilingual-e5-small`, its published `onnx/model.onnx`. Refere
 ## Consequences for the plan
 
 - Decision 0012 holds: W08 (tier 2) and W09 (tier 3) can be done in Go with GoMLX, and tier 1 can be retrained in Go.
-- The tokenizer is the part to own: a Go Unigram tokenizer with a Viterbi, the full normalizer chain and a parity test against the tokenizers library, reused by tiers 2 and 3. The two go-huggingface bugs are worth reporting upstream.
+- The tokenizer is the part to own: a Go Unigram tokenizer with a Viterbi, the full normalizer chain and a parity test against the tokenizers library, reused by tiers 2 and 3. The two go-huggingface bugs are fixed in Hayate's own code and were not reported upstream (#91).
