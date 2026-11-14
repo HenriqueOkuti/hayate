@@ -295,3 +295,14 @@ func (m *Model) Decide(prob []float32) []string {
 	}
 	return out
 }
+
+// NewHashing is a featurizer with no trained weights, for training: word 1-2 grams into wordN
+// buckets and char_wb 3-5 grams into charN buckets, like the Python Featurizer. Counts works at
+// once; set IDF (FitIDF on the train pages) before Weigh or Featurize.
+func NewHashing(wordN, charN, maxChars int) *Model {
+	return &Model{
+		WordN: wordN, CharN: charN, WordMin: 1, WordMax: 2, CharMin: 3, CharMax: 5,
+		MaxChars: maxChars, counts: make([]float64, wordN+charN),
+		touched: make([]int32, 0, 8192), buf: make([]byte, 0, 256), offs: make([]int, 0, 256),
+	}
+}

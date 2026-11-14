@@ -4,9 +4,9 @@ What the project uses, why, and how to run it. The decisions are [0001](decision
 
 ## In one paragraph
 
-**Go first.** Everything that runs a model at inference time, and every latency number on the trade-off curve, is Go (`go/`), and new training is written in Go with [GoMLX](https://github.com/gomlx/gomlx) from W08. **Python** keeps what already works and what still needs its ML libraries: the teacher labeling driver, splits, evaluation and tier-1 training (PyTorch, scikit-learn). Each Python piece is replaced once a Go version passes the same tests. Python code stays **plain**: functions, dataclasses, type hints and small scripts. **TypeScript/JavaScript** comes in for k6 load tests and the site.
+**Go first.** Everything that runs a model at inference time, and every latency number on the trade-off curve, is Go (`go/`), and new training is written in Go with [GoMLX](https://github.com/gomlx/gomlx) from W08. **Python** keeps what already works and what still needs its ML libraries: the teacher labeling driver, splits and evaluation (scikit-learn, and the tier-1 tuning and scoring in `scripts/train_tier1.py`). Tier 1 is trained in Go since tier1-v2 ([#90](https://github.com/HenriqueOkuti/hayate/issues/90)). Each Python piece is replaced once a Go version passes the same tests. Python code stays **plain**: functions, dataclasses, type hints and small scripts. **TypeScript/JavaScript** comes in for k6 load tests and the site.
 
-- Go: tier-1 inference with a parity check against Python (`go/tier1`, `make go-test`, `make go-parity`), the latency benchmark (`make bench-go-local`, `make bench-go-vps`), and the Phase 2 request-path server;
+- Go: tier-1 inference with a parity check against Python (`go/tier1`, `make go-test`, `make go-parity`), tier-1 training with GoMLX on the GPU (`go/train`, its own module because GoMLX needs cgo; `make tier1-train-go`), the latency benchmark (`make bench-go-local`, `make bench-go-vps`), and the Phase 2 request-path server;
 - Python: `scripts/` and `src/hayate/`, run with `uv run`;
 - JS: k6 load tests.
 
@@ -49,7 +49,7 @@ These are added to `pyproject.toml` when first used, not up front.
 | Data | `duckdb`, `pyarrow`, `httpx`, `warcio`/`fastwarc`, `trafilatura`, `resiliparse`, `datasets` | DuckDB queries the Common Crawl Parquet index and our own files with SQL. httpx does range reads. Both extractors get compared. |
 | Teacher (local) | **Ollama** for the pilot; **vLLM** only if bulk throughput needs it | Ollama: one-command install, JSON-schema `format`, OpenAI-compatible API. vLLM: much higher batch throughput, xgrammar-constrained decoding. Both run on the 4070 under WSL2. |
 | Teacher (API) | `anthropic` SDK (Message Batches + structured outputs) | 50% batch discount and schema-valid output |
-| Tier 1 | `scikit-learn`, `torch` | `HashingVectorizer` and TF-IDF features; one linear layer over all labels trained on the GPU ([decision 0007](decisions/0007-tier1-implementation.md)) |
+| Tier 1 | `go/tier1`, GoMLX (`go/train`); `scikit-learn`, `torch` for v0 and v1 | Hashed n-gram TF-IDF features; one linear layer over all labels trained on the GPU ([decision 0007](decisions/0007-tier1-implementation.md)). From tier1-v2 the head is trained in Go and tuned and scored by `scripts/train_tier1.py --heads` |
 | Tier 2 | `model2vec`, `sentence-transformers` | Static embedding models and distillation |
 | Tier 3 | `torch` (CUDA), `transformers`, `sentence-transformers` | Fine-tune on the GPU |
 | Export + CPU inference | `optimum`, `onnxruntime` (+ `openvino` to compare) | ONNX int8 for CPU |
@@ -83,7 +83,8 @@ uv run python scripts/<step>.py --config configs/<step>.toml
 uv run pytest
 make lint                    # markdownlint + ruff check + ruff format --check
 make fix                     # auto-fix what can be fixed
-make go-test                 # gofmt, go vet, go test in go/
+make go-test                 # gofmt, go vet, go test in go/ and go/train
+make tier1-train-go          # tier-1 head candidates in Go (GPU), for train_tier1.py --heads
 make go-parity               # Go tier 1 against the Python reference
 make bench-go-local          # Go tier-1 benchmark, pinned local run
 make bench-go-vps            # same in the Docker small-VPS profile

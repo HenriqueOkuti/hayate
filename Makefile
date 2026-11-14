@@ -14,7 +14,7 @@ fix:
 	uvx ruff@0.16.10 check --fix .
 	uvx ruff@0.16.10 format .
 
-.PHONY: site site-build bench-image bench-local bench-vps go-test go-parity bench-go-image bench-go-local bench-go-vps
+.PHONY: site site-build bench-image bench-local bench-vps go-test go-parity tier1-train-go bench-go-image bench-go-local bench-go-vps
 
 # Blog dev server with drafts: http://localhost:4321
 site:
@@ -45,6 +45,13 @@ bench-vps: bench-image
 # Go tier 1 (decision 0012). go-parity needs the bundle and reference from scripts/tier1_reference.py.
 go-test:
 	cd go && gofmt -l . | (! grep .) && go vet ./... && go test ./...
+	cd go/train && go vet ./... && go test ./...
+
+# Tier-1 head in Go on the GPU (#90); score with train_tier1.py --heads (docs/stack.md).
+TIER1_RUN ?= tier1-v2
+tier1-train-go:
+	cd go/train && GOMLX_BACKEND="xla:cuda,preallocate=false" go run ./cmd/tier1-train \
+		-out ../../artifacts/$(TIER1_RUN)/heads
 
 go-parity:
 	cd go && go run ./cmd/tier1-parity -bundle ../$(BENCH_BUNDLE)
