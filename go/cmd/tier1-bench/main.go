@@ -203,6 +203,10 @@ func main() {
 	check(w.Flush())
 	check(rf.Close())
 
+	dtype, quantization := "float32", any(nil)
+	if m.Q != nil {
+		dtype, quantization = "int8", "symmetric per feature row (scripts/quantize_tier1.py)"
+	}
 	report := map[string]any{
 		"step":     "tier1-bench (go)",
 		"commit":   rev,
@@ -215,7 +219,7 @@ func main() {
 		"environment": environment(),
 		"reference":   ref,
 		"model": map[string]any{"bundle_sha256": sha, "labels": len(m.Labels),
-			"features": m.WordN + m.CharN, "dtype": "float32", "quantization": nil,
+			"features": m.WordN + m.CharN, "dtype": dtype, "quantization": quantization,
 			"taxonomy_sha256": taxonomySHA(*outDir)},
 		"inputs":  map[string]any{"pages": len(pages), "split": "test (component split)"},
 		"configs": configs,

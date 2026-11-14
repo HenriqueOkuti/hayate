@@ -61,6 +61,7 @@ def check(
         "threshold": THRESHOLD,
         "status": status,
         "baseline_updated": False,
+        "accept_reference": accept,
     }
     w = worse(before, after)
     if (

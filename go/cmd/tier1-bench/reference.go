@@ -45,6 +45,7 @@ type refCheck struct {
 	Threshold       float64        `json:"threshold"`
 	Status          string         `json:"status"`
 	BaselineUpdated bool           `json:"baseline_updated"`
+	Accepted        bool           `json:"accept_reference"`
 }
 
 func baselineKey(harness, profile, bundleSHA string) string {
@@ -109,6 +110,7 @@ func referenceCheck(path, key string, before, after reading, accept bool, create
 		Slowdown:  slow,
 		Threshold: refThreshold,
 		Status:    status,
+		Accepted:  accept,
 	}
 	w := worse(before, after)
 	if base == nil || accept || (status == "quiet" && w.P50 < base.P50) {
