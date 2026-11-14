@@ -52,15 +52,13 @@ A big LLM is accurate but slow and costly. It labels the pages **once**, and sma
 
 | Student | What it is | Expected speed | Role |
 | :--- | :--- | :---: | :--- |
-| **Tier 1** | Hashed word patterns + a linear layer | 0.62 ms (measured p50) | The speed floor |
-| **Tier 2** | Fixed word vectors + a linear layer | ~1 ms | The main bet: fast *and* good |
+| **Tier 1** | Hashed word patterns + a linear layer | 0.52 ms (measured p50) | The speed floor |
+| **Tier 2** | Fixed word vectors + a linear layer | 0.32 ms (probed p50) | The main bet: fast *and* good |
 | **Tier 3** | A compact transformer, int8 on CPU | a few ms | The accuracy ceiling |
 
 Each one is scored on **quality** (against the teacher LLM *and* against what a panel of three LLMs agrees on), **latency** (p50/p99) and **cost per million pages**.
 
-> **Why so fast?** Ad platforms categorize pages ahead of time and cache the
-> answer, so serving it is just a lookup. At web scale every millisecond is
-> money, and a near-free model can cover the pages the cache missed.
+> **Why so fast?** Systems that categorize the web usually label pages ahead of time and cache the answer, so serving it is just a lookup. At web scale every millisecond is money, and a near-free model can cover the pages the cache missed.
 
 ## Progress
 
