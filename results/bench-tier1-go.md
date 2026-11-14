@@ -36,6 +36,6 @@ Per-page numbers at batch 8 and above are per-call times divided by the batch si
 
 ## What next
 
-- **Forward pass:** fewer hashed features or int8 weights would shrink the matrix and its cache misses.
-- **Tail:** measure with `GOGC=off` or a memory limit to see how much of p99 is the garbage collector.
+- **Forward pass:** fewer hashed features or int8 weights would shrink the matrix and its cache misses. Done in #85: 2^17 + 2^17 features cut the forward pass by about 14% at the same F1, and int8 in plain Go was slower ([bench-tier1-go-v2.md](bench-tier1-go-v2.md)).
+- **Tail:** measure with `GOGC=off` or a memory limit to see how much of p99 is the garbage collector. Done in [#85](https://github.com/HenriqueOkuti/hayate/issues/85): no GC runs while timing; the tail is a few heavy pages ([bench-tier1-go-v2.md](bench-tier1-go-v2.md)).
 - **Reference check:** each run should first time one fixed configuration and compare it with the last quiet run (decision 0008). Done in [#84](https://github.com/HenriqueOkuti/hayate/issues/84); the runs here seeded `results/bench-reference.json`.

@@ -61,9 +61,9 @@ bench-go-image:
 
 # The Go benchmark times GO_BUNDLE; its busy-machine check always times GO_REF_BUNDLE, so runs
 # of different bundles share one baseline (decision 0008). GO_BENCH_TAG names the result.
-GO_BUNDLE ?= artifacts/tier1-v2/cpu
+GO_BUNDLE ?= artifacts/tier1-v2-17/cpu
 GO_REF_BUNDLE ?= artifacts/tier1-v2/cpu
-GO_BENCH_TAG ?= v2
+GO_BENCH_TAG ?= v2-17
 bench-go-local:
 	cd go && go build -o ../artifacts/tier1-bench ./cmd/tier1-bench
 	cd go && GOMAXPROCS=1 taskset -c 2 ../artifacts/tier1-bench -name bench-tier1-go-$(GO_BENCH_TAG)-local \
