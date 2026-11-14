@@ -1,0 +1,68 @@
+{
+ "step": "quantize_tier1",
+ "commit": "efdecae5589339deeaf055d464d39ab555ed82e9",
+ "created": "2026-11-14T13:39:12+00:00",
+ "config": {
+  "name": "tier1-v2"
+ },
+ "bundle": {
+  "source": "artifacts/tier1-v2/cpu",
+  "int8": "artifacts/tier1-v2/cpu-int8",
+  "int8_sha256": "afba260296bb85965d0511126ae20a28b660e618ebee0ce31ad99fbe4d8e068e",
+  "weights_mb": {
+   "float32": 664.8,
+   "int8": 166.2
+  },
+  "max_abs_weight_error": 0.011897742748260498,
+  "zero_rows": 3646
+ },
+ "same_thresholds": "temperature, thresholds and floor of the float bundle, not retuned",
+ "val": {
+  "pages": 1933,
+  "max_abs_prob_diff": 0.0011114776134490967,
+  "same_labels": 1929,
+  "float_tier2_f1": 0.4995,
+  "int8_tier2_f1": 0.4988,
+  "int8_minus_float": {
+   "pages": 1933,
+   "tier2": {
+    "value": -0.001,
+    "ci95": [
+     -0.002,
+     0.0
+    ]
+   },
+   "tier1": {
+    "value": -0.001,
+    "ci95": [
+     -0.002,
+     0.0
+    ]
+   }
+  }
+ },
+ "test": {
+  "pages": 1875,
+  "max_abs_prob_diff": 0.00124281644821167,
+  "same_labels": 1872,
+  "float_tier2_f1": 0.4812,
+  "int8_tier2_f1": 0.4807,
+  "int8_minus_float": {
+   "pages": 1875,
+   "tier2": {
+    "value": -0.0,
+    "ci95": [
+     -0.001,
+     0.0
+    ]
+   },
+   "tier1": {
+    "value": -0.0,
+    "ci95": [
+     -0.001,
+     0.0
+    ]
+   }
+  }
+ }
+}

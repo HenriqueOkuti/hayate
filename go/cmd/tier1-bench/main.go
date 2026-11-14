@@ -99,6 +99,7 @@ func main() {
 	rawDir := flag.String("raw-dir", "../artifacts/bench", "raw timings directory")
 	cpu := flag.Int("cpu", -1, "pin the benchmark thread to this logical CPU")
 	refPath := flag.String("reference", "", "reference readings (default <out-dir>/"+refFile+")")
+	refBundle := flag.String("reference-bundle", "", "time the reference on this bundle (default -bundle), so runs of different bundles share one machine check")
 	accept := flag.Bool("accept-reference", false, "store this run's reference reading even if busy")
 	flag.BoolVar(&reuse, "reuse", true, "reuse buffers (FeaturizeInto, DecideInto); false: allocating path")
 	flag.Parse()
@@ -120,7 +121,16 @@ func main() {
 	pages := readParts(filepath.Join(*bundle, "reference-test.jsonl"))
 	var raw []call
 	var configs []map[string]any
-	before := timeReference(m, pages, *warmup)
+	refModel := m
+	if *refBundle == "" {
+		*refBundle = *bundle
+	}
+	if *refBundle != *bundle {
+		refModel, err = tier1.Load(*refBundle)
+		check(err)
+	}
+	refSHA := bundleSHA(*refBundle)
+	before := timeReference(refModel, pages, *warmup)
 	fmt.Printf("reference (chars %d batch %d) before: per page p50 %.1f us p99 %.1f us\n",
 		refMaxChars, refBatch, before.P50, before.P99)
 	for _, maxChars := range ints(*lengths) {
@@ -158,7 +168,7 @@ func main() {
 		}
 	}
 
-	after := timeReference(m, pages, *warmup)
+	after := timeReference(refModel, pages, *warmup)
 	fmt.Printf("reference (chars %d batch %d) after:  per page p50 %.1f us p99 %.1f us\n",
 		refMaxChars, refBatch, after.P50, after.P99)
 	if *refPath == "" {
@@ -166,7 +176,7 @@ func main() {
 	}
 	created, rev, sha := time.Now().UTC().Format(time.RFC3339), commit(), bundleSHA(*bundle)
 	check(os.MkdirAll(*outDir, 0o755))
-	ref, err := referenceCheck(*refPath, baselineKey("go", *profile, sha), before, after, *accept,
+	ref, err := referenceCheck(*refPath, baselineKey("go", *profile, refSHA), before, after, *accept,
 		created, rev, *name+".json")
 	check(err)
 	switch ref.Status {
@@ -201,7 +211,7 @@ func main() {
 		"profile":  *profile,
 		"config": map[string]any{"batches": ints(*batches), "max_chars": ints(*lengths),
 			"trials": *trials, "pages_per_config": *perConfig, "min_calls": *minCalls,
-			"warmup": *warmup, "bundle": *bundle, "reuse": reuse},
+			"warmup": *warmup, "bundle": *bundle, "reuse": reuse, "reference_bundle": *refBundle},
 		"environment": environment(),
 		"reference":   ref,
 		"model": map[string]any{"bundle_sha256": sha, "labels": len(m.Labels),
