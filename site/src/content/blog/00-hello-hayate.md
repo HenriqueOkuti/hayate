@@ -17,7 +17,7 @@ A big LLM (the *teacher*) is accurate, but slow and expensive. It labels a pile 
 
 ## Why bother being that fast?
 
-Ad platforms categorize pages ahead of time and cache the answer, so serving it is just a lookup. At web scale, every millisecond is money. And a near-free model can cover the pages the cache hasn't seen yet. That's the job I'm after.
+Systems that categorize the web usually label pages ahead of time and cache the answer, so serving it is just a lookup. At web scale, every millisecond is money. And a near-free model can cover the pages the cache hasn't seen yet. That's the job I'm after.
 
 ## Things we learned before writing a line of code
 

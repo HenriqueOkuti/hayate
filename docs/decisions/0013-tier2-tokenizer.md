@@ -9,14 +9,14 @@ Tier 2 (W08, [#9](https://github.com/HenriqueOkuti/hayate/issues/9)) is static e
 
 ## Options considered
 
-1. **Stock potion, fit-test Go tokenizer:** val Tier-2 F1 0.500, but 2.3 ms per page to tokenize in Go. Too slow to be the sub-millisecond tier.
+1. **Stock potion, fit-test Go tokenizer:** val Tier-2 F1 0.500, but 2.2 ms per page to tokenize in Go. Too slow to be the sub-millisecond tier.
 2. **Stock potion, Go trie tokenizer:** the same tokens and F1, 0.32 ms p50 and 0.98 ms p99 per page end to end, 512 MB table. Best quality; needs the precompiled character map for exact parity (499 of 500 pages now).
 3. **Train-page words only:** 54,166 words distilled from bge-m3, unknown words dropped, a hash-map tokenizer. Val F1 0.480 (paired -0.020, -0.033 to -0.007, against option 2), 0.05 ms p50 and 0.16 ms p99, 55 MB.
-4. **Train-page words with a subword fallback:** between the two on speed (0.08 ms) but below option 3 on F1 (0.474) and six times its table; dominated.
+4. **Train-page words with a subword fallback:** between the two on speed (0.08 ms) but below option 3 on F1 (0.474) and 5.4 times its table; dominated.
 
 ## Decision
 
-W08 builds tier 2 on **option 2**, stock `potion-multilingual-128M` with Hayate's Go trie tokenizer, since it is the best on val and already sub-millisecond at p50. **Option 3** goes on the trade-off curve as a second, cheaper tier-2 point: it matches tier1-v2-17's quality at a tenth of its latency. Before W08 settles, it tries Tokenlearn on the train-page vocabulary, which is what lifts potion over a plain distillation (5.5 points); if that brings the words-only table within val noise of potion, it becomes the main tier-2 build.
+W08 builds tier 2 on **option 2**, stock `potion-multilingual-128M` with Hayate's Go trie tokenizer, since it is the best on val and already sub-millisecond at p50. **Option 3** goes on the trade-off curve as a second, cheaper tier-2 point: it comes close to tier1-v2-17's val F1 (0.480 against 0.483, unpaired) at roughly a tenth of its latency on the same local thread. Before W08 settles, it tries Tokenlearn on the train-page vocabulary, which is what lifts potion over a plain distillation (5.5 points); if that brings the words-only table within val noise of potion, it becomes the main tier-2 build.
 
 ## Consequences
 
