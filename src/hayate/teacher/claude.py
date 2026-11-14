@@ -48,6 +48,15 @@ def check_env() -> None:
         raise SystemExit(f"refusing to run: {', '.join(found)} is set (labeling runs on the plan)")
 
 
+def text_sql(inp: dict) -> str:
+    """SQL for the page text a teacher is sent: the main field, or the fallback when it is short."""
+    field, fallback = inp["text_field"], inp["fallback_field"]
+    return (
+        f"case when length(coalesce({field}, '')) >= {int(inp['min_chars'])} "
+        f"then {field} else coalesce({fallback}, '') end"
+    )
+
+
 def load_labels(labels_json: dict) -> list[Label]:
     return [Label(n["id"], n["parent"], tuple(n["path"])) for n in labels_json["labels"]]
 

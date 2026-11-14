@@ -6,24 +6,23 @@ Each step is a GitHub issue on the [Hayate roadmap board](https://github.com/use
 
 ## Phase 1: first trade-off curve (PT + EN)
 
-Goal by mid-December 2026: three students on one accuracy vs latency plot, measured locally.
+Goal by early January 2027: three students on one accuracy vs latency plot, measured locally. Weekends 1 to 3 ran on plan or early; weekends 4 and 5 were then missed, so from weekend 4 on every date moved two weekends on 2026-11-13. That used up the buffer weekend (Dec 19–20) and puts the write-up after the holiday break.
 
 | # | Weekend | Work | Done when | Issue |
 | --- | --- | --- | --- | --- |
 | 1 | Oct 10–11 | Repo setup: git, `uv` env, taxonomy download with SHA/sha256 check. Decide label depth and scope (decision 0002). | `scripts/` fetches and verifies the taxonomy; label set frozen | [#2](https://github.com/HenriqueOkuti/hayate/issues/2) |
 | 2 | Oct 17–18 | Page sample: DuckDB query on the CC index (PT + EN, per-domain cap), WARC range fetch, extraction with trafilatura **and** resiliparse | ~20k pages with URL, HTML pointer and both texts in `data/` | [#3](https://github.com/HenriqueOkuti/hayate/issues/3) |
 | 3 | Oct 24–25 | Teacher pilot: prompt + JSON schema; 500 pages on a local open model (4070) and one API model; measure tokens, cost, agreement, repeat consistency. Decide the teacher (0003). | Pilot report in `results/`; teacher chosen | [#4](https://github.com/HenriqueOkuti/hayate/issues/4) |
-| 4 | Oct 31–Nov 1 | Human-checked sample: a simple review tool; check ~300 pages (with a blind subset) | Gold sample v0 saved, teacher-vs-human F1 known | [#5](https://github.com/HenriqueOkuti/hayate/issues/5) |
-| 5 | Nov 7–8 | Bulk labeling (≥ 20k pages, scale toward 100k if cheap), splits by domain | Versioned label set + train/val/test splits | [#6](https://github.com/HenriqueOkuti/hayate/issues/6) |
-| 6 | Nov 14–15 | Evaluation harness (all metrics in [measurement.md](measurement.md)) + **tier-1 student** (hashed n-grams) | First F1 numbers vs teacher and vs human | [#7](https://github.com/HenriqueOkuti/hayate/issues/7) |
-| 7 | Nov 21–22 | Benchmark harness: micro-benchmarks, Docker "small VPS" profile, raw timings → percentiles | Tier-1 latency p50/p99 at batch 1 and 32 | [#8](https://github.com/HenriqueOkuti/hayate/issues/8) |
-| 8 | Nov 28–29 | **Tier-2 student** (Model2Vec / static embeddings + linear head) | Tier 2 on the plot | [#9](https://github.com/HenriqueOkuti/hayate/issues/9) |
-| 9 | Dec 5–6 | **Tier-3 student**: fine-tune a small encoder on the GPU, export ONNX int8 | Tier 3 on the plot | [#10](https://github.com/HenriqueOkuti/hayate/issues/10) |
-| 10 | Dec 12–13 | Write-up v0: the trade-off curve, what broke first as the model shrank, the teacher-noise ceiling | `results/` report + updated README | [#11](https://github.com/HenriqueOkuti/hayate/issues/11) |
-| — | Dec 19–20 | **Buffer** | | |
+| 4 | Nov 14–15 | Reference sample: a panel of three models from two vendors labels the 300 holdout pages; no hand labeling ([decision 0010](decisions/0010-reference-sample.md)) | Panel reference v0 saved, teacher-vs-panel agreement known | [#5](https://github.com/HenriqueOkuti/hayate/issues/5) |
+| 5 | Nov 21–22 | Bulk labeling (≥ 20k pages, scale toward 100k if cheap), splits by domain | Versioned label set + train/val/test splits | [#6](https://github.com/HenriqueOkuti/hayate/issues/6) |
+| 6 | Nov 28–29 | Evaluation harness (all metrics in [measurement.md](measurement.md)) + **tier-1 student** (hashed n-grams) | First F1 numbers vs teacher and vs the panel reference | [#7](https://github.com/HenriqueOkuti/hayate/issues/7) |
+| 7 | Dec 5–6 | Benchmark harness: micro-benchmarks, Docker "small VPS" profile, raw timings → percentiles | Tier-1 latency p50/p99 at batch 1 and 32 | [#8](https://github.com/HenriqueOkuti/hayate/issues/8) |
+| 8 | Dec 12–13 | **Tier-2 student** (Model2Vec / static embeddings + linear head) | Tier 2 on the plot | [#9](https://github.com/HenriqueOkuti/hayate/issues/9) |
+| 9 | Dec 19–20 | **Tier-3 student**: fine-tune a small encoder on the GPU, export ONNX int8 | Tier 3 on the plot | [#10](https://github.com/HenriqueOkuti/hayate/issues/10) |
 | — | Dec 26 – Jan 3 | Holiday break | | |
+| 10 | Jan 9–10 | Write-up v0: the trade-off curve, what broke first as the model shrank, the teacher-noise ceiling | `results/` report + updated README | [#11](https://github.com/HenriqueOkuti/hayate/issues/11) |
 
-## Phase 2: making it realistic (Jan–Feb 2027)
+## Phase 2: making it realistic (mid-Jan to early Mar 2027)
 
 Rough order. Each item takes one or two weekends.
 
@@ -34,7 +33,7 @@ Rough order. Each item takes one or two weekends.
 - **Calibration and per-category thresholds.** ([#16](https://github.com/HenriqueOkuti/hayate/issues/16))
 - Optional cloud calibration run (personal account) to fix the cost axis. ([#17](https://github.com/HenriqueOkuti/hayate/issues/17))
 
-## Phase 3: open questions (Mar 2027 →)
+## Phase 3: open questions (mid-Mar 2027 →)
 
 - **Drift:** relabel a newer CC crawl, measure decay, and try incremental updates (online linear models, refreshed head) against full retraining. ([#18](https://github.com/HenriqueOkuti/hayate/issues/18))
 - **Southeast Asian languages:** Indonesian, Vietnamese and Thai with little data. Zero-shot transfer first (SIB-200 for checks), then small teacher- labeled sets. ([#19](https://github.com/HenriqueOkuti/hayate/issues/19))
