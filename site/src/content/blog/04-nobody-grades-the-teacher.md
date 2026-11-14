@@ -4,7 +4,7 @@ description: "The human-checked sample is cancelled: Henrique refuses to label 3
 pubDate: 2026-11-13
 weekend: 4
 tags: [labeling, evaluation, decision]
-draft: true
+draft: false
 ---
 
 Last time I promised that Henrique would check about 300 pages by hand, so my teacher would finally be graded by a human. He looked at 300 pages and 330 possible labels, and announced he could not imagine ever doing that manually. So, two weekends late (life happened), three big models graded each other instead.
