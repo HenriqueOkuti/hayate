@@ -22,6 +22,6 @@ Comparisons between students are what these numbers are for: they carry over to 
 
 ## Consequences
 
-- Latency results are comparable across weekends only if the machine is quiet, so a noisy run has to be rerun rather than averaged in. The trial spread does **not** show a busy machine: in the first runs ([results/bench-tier1-v1.md](../../results/bench-tier1-v1.md)) a busy desktop made every configuration about 20% slower while the three trials still agreed closely. So each run must also time one reference configuration and compare it with the last quiet run.
+- Latency results are comparable across weekends only if the machine is quiet, so a noisy run has to be rerun rather than averaged in. The trial spread does **not** show a busy machine: in the first runs ([results/bench-tier1-v1.md](../../results/bench-tier1-v1.md)) a busy desktop made every configuration about 20% slower while the three trials still agreed closely. So each run also times one reference configuration and compares it with the last quiet run, flagging the run as busy above 10% ([#84](https://github.com/HenriqueOkuti/hayate/issues/84), method in [measurement.md](../measurement.md)).
 - WSL2 may place the pinned CPU on an E-core in one run and a P-core in the next. If the trial spread gets wide, switch to native Linux (option 3) for headline runs.
 - Revisit when the calibration run happens, or if a student needs an ISA the desktop lacks (AVX-512 or AMX for int8 encoders).

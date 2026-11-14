@@ -8,6 +8,11 @@
 // Inputs are the test pages in the bundle's reference-test.jsonl (their parts, rebuilt into an
 // input string at each length). Writes the raw timings to <raw-dir>/<name>.csv and a summary to
 // <out-dir>/<name>.json.
+//
+// Before and after the grid it times one fixed reference configuration and compares it with the
+// last quiet reading in <out-dir>/bench-reference.json; a run more than 10% slower is marked busy
+// (see reference.go). -accept-reference stores the reading anyway, for when the code or machine
+// changed on purpose.
 package main
 
 import (
@@ -17,6 +22,7 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
+	"math"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -92,6 +98,8 @@ func main() {
 	outDir := flag.String("out-dir", "../results", "summary directory")
 	rawDir := flag.String("raw-dir", "../artifacts/bench", "raw timings directory")
 	cpu := flag.Int("cpu", -1, "pin the benchmark thread to this logical CPU")
+	refPath := flag.String("reference", "", "reference readings (default <out-dir>/"+refFile+")")
+	accept := flag.Bool("accept-reference", false, "store this run's reference reading even if busy")
 	flag.Parse()
 	if *cpu >= 0 {
 		// the timing loop runs on this goroutine, so lock it to one OS thread and pin that thread
@@ -111,7 +119,9 @@ func main() {
 	pages := readParts(filepath.Join(*bundle, "reference-test.jsonl"))
 	var raw []call
 	var configs []map[string]any
-	prob := make([]float32, 0, len(m.Labels))
+	before := timeReference(m, pages, *warmup)
+	fmt.Printf("reference (chars %d batch %d) before: per page p50 %.1f us p99 %.1f us\n",
+		refMaxChars, refBatch, before.P50, before.P99)
 	for _, maxChars := range ints(*lengths) {
 		docs := make([]string, len(pages))
 		for i, p := range pages {
@@ -119,43 +129,7 @@ func main() {
 		}
 		for _, batch := range ints(*batches) {
 			calls := max(*minCalls, *perConfig/batch)
-			var trialP50, trialP99 []float64
-			var pooled []call
-			for trial := 0; trial < *trials; trial++ {
-				start := trial * 997
-				var timed []call
-				for c := -*warmup; c < calls; c++ {
-					k := start + (c+*warmup)*batch
-					xs := make([]tier1.Sparse, batch)
-					probs := make([][]float32, batch)
-					t0 := time.Now()
-					for i := range batch {
-						xs[i] = m.Featurize(docs[(k+i)%len(docs)])
-					}
-					t1 := time.Now()
-					for i := range batch {
-						prob = m.Forward(xs[i], prob)
-						probs[i] = slices.Clone(prob)
-					}
-					t2 := time.Now()
-					for i := range batch {
-						_ = m.Decide(probs[i])
-					}
-					t3 := time.Now()
-					if c >= 0 {
-						timed = append(timed, call{maxChars, batch, trial, c,
-							t1.Sub(t0).Nanoseconds(), t2.Sub(t1).Nanoseconds(),
-							t3.Sub(t2).Nanoseconds(), t3.Sub(t0).Nanoseconds()})
-					}
-				}
-				tot := make([]float64, len(timed))
-				for i, t := range timed {
-					tot[i] = float64(t.total) / 1000
-				}
-				trialP50 = append(trialP50, percentile(tot, 50)/float64(batch))
-				trialP99 = append(trialP99, percentile(tot, 99)/float64(batch))
-				pooled = append(pooled, timed...)
-			}
+			pooled, trialP50, trialP99 := timeConfig(m, docs, maxChars, batch, *trials, calls, *warmup)
 			raw = append(raw, pooled...)
 			series := map[string][]float64{}
 			for _, t := range pooled {
@@ -183,6 +157,29 @@ func main() {
 		}
 	}
 
+	after := timeReference(m, pages, *warmup)
+	fmt.Printf("reference (chars %d batch %d) after:  per page p50 %.1f us p99 %.1f us\n",
+		refMaxChars, refBatch, after.P50, after.P99)
+	if *refPath == "" {
+		*refPath = filepath.Join(*outDir, refFile)
+	}
+	created, rev, sha := time.Now().UTC().Format(time.RFC3339), commit(), bundleSHA(*bundle)
+	check(os.MkdirAll(*outDir, 0o755))
+	ref, err := referenceCheck(*refPath, baselineKey("go", *profile, sha), before, after, *accept,
+		created, rev, *name+".json")
+	check(err)
+	switch ref.Status {
+	case "busy":
+		fmt.Fprintf(os.Stderr, "WARNING: reference %.0f%% slower than the last quiet run (%s, %s): "+
+			"the machine looks busy; this result is marked busy. Close heavy apps and rerun.\n",
+			*ref.Slowdown*100, ref.Baseline.Source, ref.Baseline.Created)
+	case "no-baseline":
+		fmt.Fprintln(os.Stderr, "note: no quiet reference stored for this profile and bundle yet; "+
+			"this run's reading is now the baseline")
+	default:
+		fmt.Printf("reference check: quiet (%+.1f%% against %s)\n", *ref.Slowdown*100, ref.Baseline.Source)
+	}
+
 	check(os.MkdirAll(*rawDir, 0o755))
 	rf, err := os.Create(filepath.Join(*rawDir, *name+".csv"))
 	check(err)
@@ -197,15 +194,16 @@ func main() {
 
 	report := map[string]any{
 		"step":     "tier1-bench (go)",
-		"commit":   commit(),
-		"created":  time.Now().UTC().Format(time.RFC3339),
+		"commit":   rev,
+		"created":  created,
 		"measures": "inference: extracted text to labels (no extraction, no fetch)",
 		"profile":  *profile,
 		"config": map[string]any{"batches": ints(*batches), "max_chars": ints(*lengths),
 			"trials": *trials, "pages_per_config": *perConfig, "min_calls": *minCalls,
 			"warmup": *warmup, "bundle": *bundle},
 		"environment": environment(),
-		"model": map[string]any{"bundle_sha256": bundleSHA(*bundle), "labels": len(m.Labels),
+		"reference":   ref,
+		"model": map[string]any{"bundle_sha256": sha, "labels": len(m.Labels),
 			"features": m.WordN + m.CharN, "dtype": "float32", "quantization": nil,
 			"taxonomy_sha256": taxonomySHA(*outDir)},
 		"inputs":  map[string]any{"pages": len(pages), "split": "test (component split)"},
@@ -213,8 +211,61 @@ func main() {
 	}
 	b, err := json.MarshalIndent(report, "", " ")
 	check(err)
-	check(os.MkdirAll(*outDir, 0o755))
 	check(os.WriteFile(filepath.Join(*outDir, *name+".json"), append(b, '\n'), 0o644))
+}
+
+// timeConfig times trials of calls batches (after warmup untimed calls) and returns the pooled
+// calls and each trial's p50 and p99 per page in microseconds.
+func timeConfig(m *tier1.Model, docs []string, maxChars, batch, trials, calls, warmup int) ([]call, []float64, []float64) {
+	var trialP50, trialP99 []float64
+	var pooled []call
+	prob := make([]float32, 0, len(m.Labels))
+	for trial := 0; trial < trials; trial++ {
+		start := trial * 997
+		var timed []call
+		for c := -warmup; c < calls; c++ {
+			k := start + (c+warmup)*batch
+			xs := make([]tier1.Sparse, batch)
+			probs := make([][]float32, batch)
+			t0 := time.Now()
+			for i := range batch {
+				xs[i] = m.Featurize(docs[(k+i)%len(docs)])
+			}
+			t1 := time.Now()
+			for i := range batch {
+				prob = m.Forward(xs[i], prob)
+				probs[i] = slices.Clone(prob)
+			}
+			t2 := time.Now()
+			for i := range batch {
+				_ = m.Decide(probs[i])
+			}
+			t3 := time.Now()
+			if c >= 0 {
+				timed = append(timed, call{maxChars, batch, trial, c,
+					t1.Sub(t0).Nanoseconds(), t2.Sub(t1).Nanoseconds(),
+					t3.Sub(t2).Nanoseconds(), t3.Sub(t0).Nanoseconds()})
+			}
+		}
+		tot := make([]float64, len(timed))
+		for i, t := range timed {
+			tot[i] = float64(t.total) / 1000
+		}
+		trialP50 = append(trialP50, percentile(tot, 50)/float64(batch))
+		trialP99 = append(trialP99, percentile(tot, 99)/float64(batch))
+		pooled = append(pooled, timed...)
+	}
+	return pooled, trialP50, trialP99
+}
+
+// timeReference times the fixed reference configuration once (see reference.go).
+func timeReference(m *tier1.Model, pages []parts, warmup int) reading {
+	docs := make([]string, len(pages))
+	for i, p := range pages {
+		docs[i] = tier1.PageInput(p.URL, p.Title, p.Description, p.Text, refMaxChars)
+	}
+	_, p50, p99 := timeConfig(m, docs, refMaxChars, refBatch, 1, refCalls, warmup)
+	return reading{math.Round(p50[0]*100) / 100, math.Round(p99[0]*100) / 100}
 }
 
 func readParts(path string) []parts {

@@ -41,4 +41,4 @@ Closing heavy apps made every configuration faster: by 12 to 27% at p50 (median 
 
 - **Tokenization:** a compiled hashing tokenizer (Rust or Go, or a vectorized NumPy one) is the obvious win, since the model itself is cheap. The Go request path in Phase 2 needs one anyway.
 - **Forward pass:** fewer hashed features, or int8 weights, would shrink the matrix and the cache misses.
-- **Method:** each benchmark run should first time one reference configuration and compare it with the last quiet run, so a busy machine is caught (decision 0008).
+- **Method:** each benchmark run should first time one reference configuration and compare it with the last quiet run, so a busy machine is caught (decision 0008). Done in [#84](https://github.com/HenriqueOkuti/hayate/issues/84); the quiet runs here seeded `results/bench-reference.json`.

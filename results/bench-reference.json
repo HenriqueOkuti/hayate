@@ -1,0 +1,30 @@
+{
+ "go/local-1thread/e12a016e5b4241ae": {
+  "p50_us_per_page": 613.86,
+  "p99_us_per_page": 1743.05,
+  "created": "2026-11-14T11:24:49Z",
+  "commit": "6162ac9270af90b36a5a7476e16a57957503906c",
+  "source": "bench-tier1-go-local.json (3000 chars, batch 1 of the grid; seeded)"
+ },
+ "go/vps-docker-2vcpu/e12a016e5b4241ae": {
+  "p50_us_per_page": 621.53,
+  "p99_us_per_page": 1746.49,
+  "created": "2026-11-14T11:25:59Z",
+  "commit": "6162ac9270af90b36a5a7476e16a57957503906c",
+  "source": "bench-tier1-go-vps.json (3000 chars, batch 1 of the grid; seeded)"
+ },
+ "python/local-1thread/e12a016e5b4241ae": {
+  "p50_us_per_page": 1627.09,
+  "p99_us_per_page": 3234.29,
+  "created": "2026-11-14T11:01:44+00:00",
+  "commit": "a787b0eb4167e8b2c88b1bc6f06eb1efabfc910c",
+  "source": "bench-tier1-v1-local-quiet.json (3000 chars, batch 1 of the grid; seeded)"
+ },
+ "python/vps-docker-2vcpu/e12a016e5b4241ae": {
+  "p50_us_per_page": 1668.77,
+  "p99_us_per_page": 3431.32,
+  "created": "2026-11-14T11:04:13+00:00",
+  "commit": "a787b0eb4167e8b2c88b1bc6f06eb1efabfc910c",
+  "source": "bench-tier1-v1-vps-quiet.json (3000 chars, batch 1 of the grid; seeded)"
+ }
+}

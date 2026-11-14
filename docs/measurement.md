@@ -46,6 +46,7 @@ Three numbers are **never merged**:
 - Fix threads explicitly (`OMP_NUM_THREADS`, ORT `intra_op_num_threads`) and pin CPUs.
 - Sweep the batch size (1, 8, 32, 128) and the input length.
 - Run several trials and report the spread.
+- **Reference check** ([decision 0008](decisions/0008-reference-hardware.md)): the spread does not show a busy machine, so both tier-1 harnesses time one fixed configuration (3,000 characters, batch 1, 2,000 calls) before and after the grid and compare the slower p50 with the last quiet reading of the same harness, profile and model bundle in `results/bench-reference.json`. A run more than 10% slower prints a warning, is marked `"status": "busy"` under `reference` in its result and does not replace the stored reading; rerun it with heavy apps closed. Every result records both readings and the baseline it was judged against. After a deliberate change to the code or machine, `-accept-reference` (Go) or `--accept-reference` (Python) stores the new reading.
 
 **Request benchmarks:**
 
